@@ -44,6 +44,9 @@ _Per Credit Manager (each CM is a separate risk envelope, a pool can have many)_
 **RWA extension.** If any CM accepts tokenised securities, three additional loss vectors enter the picture:
 
 - Frozen account bad debt (Securitize can freeze individual CAs; frozen accounts cannot be liquidated; debt grows silently and eventually socialises).
+  
+  ==note: add more info about quota limits / collaterals==
+  
 - Liquidator scarcity (only whitelisted addresses can liquidate RWA positions; small whitelist = slow liquidation = more bad debt).
 - Off-chain asset risk (underlying issuer/fund-manager/redemption mechanism is outside on-chain control).
 
