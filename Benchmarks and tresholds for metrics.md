@@ -1,0 +1,42 @@
+# Pool-related
+
+### Ongoing ownership criteria — green / yellow / red
+
+The user is holding a "good" Pool position when all of the following are true. Any single item flipping to yellow or red changes the session type from monitoring to analysis.
+
+| Criterion                                    | Green                                      | Yellow                     | Red                                                      |
+| -------------------------------------------- | ------------------------------------------ | -------------------------- | -------------------------------------------------------- |
+| Organic APY vs user floor                    | At or above floor                          | Within 10 % of floor       | Below floor                                              |
+| Composite APY 30d trend                      | Flat or positive                           | Slight decline (< 10 %)    | > 10 % decline vs entry baseline                         |
+| Utilisation                                  | < 80 %                                     | 80–90 %                    | > 90 %                                                   |
+| Utilisation 30d trend                        | Flat or declining                          | Slow rise                  | Structural rise to new high                              |
+| Share price (bad-debt canary)                | No change                                  | Minor decline (< 0.1 %)    | Any sudden drop                                          |
+| Insurance fund                               | Stable or growing                          | Minor decline              | Material decline or approaching zero                     |
+| Pending governance affecting user's exposure | None                                       | Non-material change queued | Material change queued within monitoring window          |
+| Quota composition vs entry                   | Same top-3 collaterals and similar weights | New top-3 entrant          | Dominant collateral changed                              |
+| RWA frozen accounts (if applicable)          | Zero or stable count                       | Slow rise                  | Total debt in frozen accounts approaching insurance fund |
+| Curator change log                           | Quiet                                      | Moderate activity          | Frequent, material changes                               |
+|                                              |                                            |                            |                                                          |
+
+# CA-related
+### Ongoing ownership criteria — green / yellow / red
+
+| Criterion                             | Green                | Yellow                                                                                       | Red                                                                                               |
+| ------------------------------------- | -------------------- | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| HF                                    | > 1.3                | 1.1–1.3                                                                                      | < 1.1 <br><br>==note: depends, could be adjusted based on Credora scores or other external info== |
+| HF 30d trend (at flat prices)         | Stable               | Slow decline <br><br>==note: what is slow and fast? is it the same or unique per strategy?== | Fast decline — LT ramp or interest drag                                                           |
+| Net APY vs hurdle                     | Above hurdle         | Within 10 % of hurdle                                                                        | Below hurdle                                                                                      |
+| Borrow rate vs collateral APY         | Comfortable spread   | Spread narrowing                                                                             | Inverted — position bleeds on flat prices                                                         |
+| LT ramp status on held tokens         | None active          | Ramp active but finishes before user's horizon                                               | Ramp will cross HF floor within horizon                                                           |
+| Forbidden-token overlap               | None                 | Flag raised but the user can exit                                                            | A held token is forbidden and safe pricing is pulling HF                                          |
+| Oracle freshness on held tokens       | All tokens fresh     | One token approaching staleness window                                                       | A token past or near staleness window                                                             |
+| Main-vs-reserve oracle divergence     | Small                | Moderate — exit HF will be lower than snapshot                                               | Large — exit HF materially lower                                                                  |
+| Price-impact at position size         | Within tolerance     | Rising over 90d history                                                                      | Above tolerance                                                                                   |
+| CM expiration (if expirable)          | > horizon remaining  | < 30 days                                                                                    | Past expiration                                                                                   |
+| CM pause status                       | Live                 | Not paused but emergency-liquidator flagged<br><br>==note: real-world scenario?==            | Paused                                                                                            |
+| Parameter change log (30d)            | Quiet                | Moderate                                                                                     | Frequent, material                                                                                |
+| Pending governance affecting position | None                 | Non-material queued                                                                          | Material queued within horizon                                                                    |
+| RWA own-frozen status (if applicable) | Unfrozen             | N/A                                                                                          | Frozen — no action possible                                                                       |
+| RWA KYC validity (if applicable)      | Valid                | Expiring<br><br>==note: kyc has expiry?==                                                    | Expired / revoked                                                                                 |
+| Pending delayed withdrawals           | None, or on schedule | Approaching maturity                                                                         | Past maturity, unclaimed                                                                          |
+|                                       |                      |                                                                                              |                                                                                                   |
