@@ -53,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "note",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -74,7 +74,8 @@
               "title": "Bookmarks"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -186,13 +187,15 @@
   },
   "active": "615a86fd195276d2",
   "lastOpenFiles": [
+    "Assets/Screenshot 2026-04-21 at 16.33.44.png",
+    "Assets/Screenshot 2026-04-21 at 15.59.20.png",
+    "Benchmarks and tresholds for metrics.md",
+    "User flows/Credit Account - User flow (CA operator).md",
     "JTBDs/Credit Account management - JTBD.md",
     "User flows/Pool deposit - User flow (LP).md",
     "JTBDs/Pool deposit — JTBD.md",
     "JTBDs/Multi-position & portfolio-level - JTBD.md",
-    "User flows/Credit Account - User flow (CA operator).md",
     "README.md",
-    "Benchmarks and tresholds for metrics.md",
     "JTBDs/Credit Account (Opening) — JTBD.md",
     "JTBDs/Pool position management - JTBD.md",
     "Data requirements and to-dos.md",
