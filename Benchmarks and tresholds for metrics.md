@@ -1,24 +1,26 @@
-# Pool-related
+# Benchmarks and tresholds for metrics
+
+## Pool-related
 
 ### Ongoing ownership criteria — green / yellow / red
 
 The user is holding a "good" Pool position when all of the following are true. Any single item flipping to yellow or red changes the session type from monitoring to analysis.
 
-| Criterion                                    | Green                                      | Yellow                     | Red                                                      |
-| -------------------------------------------- | ------------------------------------------ | -------------------------- | -------------------------------------------------------- |
-| Organic APY vs user floor                    | At or above floor                          | Within 10 % of floor       | Below floor                                              |
-| Composite APY 30d trend                      | Flat or positive                           | Slight decline (< 10 %)    | > 10 % decline vs entry baseline                         |
-| Utilisation                                  | < 80 %                                     | 80–90 %                    | > 90 %                                                   |
-| Utilisation 30d trend                        | Flat or declining                          | Slow rise                  | Structural rise to new high                              |
-| Share price (bad-debt canary)                | No change                                  | Minor decline (< 0.1 %)    | Any sudden drop                                          |
-| Insurance fund                               | Stable or growing                          | Minor decline              | Material decline or approaching zero                     |
-| Pending governance affecting user's exposure | None                                       | Non-material change queued | Material change queued within monitoring window          |
-| Quota composition vs entry                   | Same top-3 collaterals and similar weights | New top-3 entrant          | Dominant collateral changed                              |
-| RWA frozen accounts (if applicable)          | Zero or stable count                       | Slow rise                  | Total debt in frozen accounts approaching insurance fund |
-| Curator change log                           | Quiet                                      | Moderate activity          | Frequent, material changes                               |
-|                                              |                                            |                            |                                                          |
+| Criterion | Green | Yellow | Red |
+| --- | --- | --- | --- |
+| Organic APY vs user floor | At or above floor | Within 10 % of floor | Below floor |
+| Composite APY 30d trend | Flat or positive | Slight decline (< 10 %) | > 10 % decline over the 30d window |
+| Utilisation | < 80 % | 80–90 % | > 90 % |
+| Utilisation 30d trend | Flat or declining | Slow rise | Structural rise to new high |
+| Share price (bad-debt canary) | No change | Minor decline (< 0.1 %) | Any sudden drop |
+| Insurance fund | Stable or growing | Minor decline | Material decline or approaching zero |
+| Pending governance affecting user's exposure | None | Non-material change queued | Material change queued within monitoring window |
+| Quota composition since last check | Same top-3 collaterals and similar weights | New top-3 entrant | Dominant collateral changed |
+| RWA frozen accounts (if applicable) | Zero or stable count | Slow rise | Total debt in frozen accounts approaching insurance fund |
+| Curator change log | Quiet | Moderate activity | Frequent, material changes |
 
-# CA-related
+## CA-related
+
 ### Ongoing ownership criteria — green / yellow / red
 
 | Criterion                                                          | Green                | Yellow                                                                                                                                                                        | Red                                                                                               | Overview or advanced |
