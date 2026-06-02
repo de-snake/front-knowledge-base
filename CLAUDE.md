@@ -187,9 +187,9 @@ Keep drill names flow-agnostic where possible.
 
 Human-readable implementation handoff compiled from canonical runtime docs. This is an exhaust from flow docs, not an input to runtime agent reasoning.
 
-Use `Data requirements and to-dos.md` as the single implementation map. It should stay readable by a product owner: scenario → user asks/clicks → agent checks → user gets Glance / Analyze / Action / Preview / Receipt / Alert format → build order.
+Use `Data requirements and to-dos.md` as the single implementation map. It should stay readable by a product owner: scenario → user asks/clicks → agent checks → user gets back → build order.
 
-Keep detailed schemas, field dictionaries, or database architecture out of this vault unless the user explicitly asks for them.
+Do not add taxonomies of card names, field dictionaries, schemas, or database architecture unless the user explicitly asks for them.
 
 Rows and fields should separate protocol facts, indexer facts, issuer / compliance facts, product judgment, and user / agent policy when that detail is needed.
 

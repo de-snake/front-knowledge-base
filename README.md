@@ -50,6 +50,6 @@ Standalone tokenized-security leverage is not a canonical flow. Tokenized securi
 
 | Path | Description |
 | --- | --- |
-| [Data requirements and to-dos](dev/implementation/Data%20requirements%20and%20to-dos.md) | Human-readable scenario map: what the user asks in each scenario, what the agent checks, what card/preview/receipt the user gets, and the build order implied by that flow. |
+| [Data requirements and to-dos](dev/implementation/Data%20requirements%20and%20to-dos.md) | Human-readable scenario map: what the user asks in each scenario, what the agent checks, what the user gets back, and the build order implied by that flow. |
 | [UI primitives](dev/ui-primitives/) | Word-based component drafts. These follow the canonical flow docs; they do not define product logic independently. |
 | [Foundation planning archive](dev/planning/foundation/) | Historical planning and merge artifacts. These may mention old folders, fixed benchmark tables, or standalone tokenized-security leverage; they are not current canonical docs. |

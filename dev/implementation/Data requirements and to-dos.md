@@ -1,88 +1,14 @@
 # User scenario map
 
-This is the human implementation handoff.
+This is the single human implementation handoff.
 
 It answers one question:
 
-> When the user arrives in a scenario, what do they ask for, what must the agent check, and what format should the user get back?
+> When the user is in a scenario, what do they ask or click, what must the agent check, and what should the user get back?
 
-This file is not a database schema. It is the product contract that backend, frontend, and agent work should serve.
+This file is not a schema, glossary, or UI taxonomy. It is a scenario map for product, frontend, backend, and agent work.
 
-## Output formats
-
-Use these names consistently.
-
-**Glance card**
-
-The first answer. One screen. No deep tables.
-
-Contains:
-
-- plain answer: `good`, `watch`, `review`, `act now`, or `blocked`
-- 2–4 reasons
-- top missing / stale data, if any
-- next best action
-
-**Analyze panel**
-
-Expandable evidence behind the Glance card.
-
-Contains:
-
-- what changed
-- current facts
-- why the agent believes the answer
-- what is unknown
-- source timestamps
-
-**Action card**
-
-A non-transactional proposal.
-
-Contains:
-
-- action type
-- amount / target
-- route, if relevant
-- why this action
-- what policy or user approval is still missing
-
-**Preview card**
-
-The transaction safety screen. This is required before any Execute.
-
-Contains:
-
-- exact transaction package
-- before → after state
-- gas / price-impact / slippage warnings
-- blocking warnings
-- expiry time
-- approval mode: human click, Safe signing, or scoped bot
-
-**Receipt card**
-
-Post-execution result.
-
-Contains:
-
-- tx hash / status
-- what changed
-- any failure reason
-- new monitoring baseline
-
-**Alert card**
-
-Monitoring ping.
-
-Contains:
-
-- what changed
-- severity
-- affected position
-- recommended next step
-
-## Scenario diagram
+## Scenario map
 
 ```text
 USER HAS NO POSITION
@@ -98,15 +24,27 @@ USER HAS NO POSITION
 │    collateral exposure, oracle setup, curator track record,
 │    pending governance / parameter changes, existing portfolio overlap.
 │
-│  User gets:
-│    1. Glance card: ranked pool options + top reason to pick / avoid each.
-│    2. Analyze panel: evidence for selected pools.
-│    3. Action card: deposit / split / skip / keep reserve.
-│    4. Preview card: exact deposit transaction and before → after state.
-│    5. Receipt card: tx result and new LP monitoring baseline.
+│  User gets back:
+│    1. Ranked pool list:
+│       pool name, expected return, main reason to choose / avoid,
+│       visible watch flags, and missing data if any.
 │
-│  Main user-facing format:
-│    ranked opportunity cards → selected opportunity detail → transaction preview.
+│    2. Selected pool detail:
+│       why this pool fits or does not fit, current utilization / liquidity,
+│       collateral exposure, curator notes, oracle notes, pending changes.
+│
+│    3. Deposit proposal:
+│       deposit this pool / split between pools / skip / keep reserve.
+│
+│    4. Transaction preview before signing:
+│       exact deposit transaction, before → after position state,
+│       warnings, approval method, expiry.
+│
+│    5. Execution result:
+│       transaction status and new position baseline for monitoring.
+│
+│  Main response shape:
+│    ranked pool list → pool detail → deposit proposal → transaction preview.
 │
 └─ Scenario B: user wants to open a Credit Account
 
@@ -117,17 +55,31 @@ USER HAS NO POSITION
    Agent checks:
      strategy economics, leverage range, liquidation risk, exit route,
      Credit Manager rules, oracle setup, allowed collateral,
-     route / swap quote, pending governance changes, issuer-controlled asset branch if relevant.
+     route / swap quote, pending governance changes,
+     issuer-controlled asset branch if relevant.
 
-   User gets:
-     1. Glance card: best strategy candidates + risk label.
-     2. Analyze panel: economics, safety, exit, manager/rule checks.
-     3. Action card: open_ca / skip / reserve, with leverage and route.
-     4. Preview card: exact open + borrow + swap multicall before execution.
-     5. Receipt card: tx result and new Credit Account monitoring baseline.
+   User gets back:
+     1. Ranked strategy list:
+        strategy name, expected return, leverage range, main risk,
+        visible watch flags, and missing data if any.
 
-   Main user-facing format:
-     strategy cards → selected strategy detail → multicall preview.
+     2. Selected strategy detail:
+        economics, liquidation safety, exit feasibility,
+        Credit Manager limits, oracle notes, route notes.
+
+     3. Open-position proposal:
+        strategy, size, target leverage, route, reserve amount, skip reason if skipped.
+
+     4. Transaction preview before signing:
+        exact open + borrow + swap multicall,
+        before → after HF / debt / equity / collateral,
+        warnings, approval method, expiry.
+
+     5. Execution result:
+        transaction status and new Credit Account baseline for monitoring.
+
+   Main response shape:
+     ranked strategy list → strategy detail → open-position proposal → multicall preview.
 ```
 
 ```text
@@ -144,15 +96,24 @@ USER ALREADY HAS A POSITION
 │    withdrawal conditions, collateral exposure, oracle changes,
 │    curator / governance changes, issuer-controlled branch if relevant.
 │
-│  User gets:
-│    1. Glance card: hold / watch / review / exit signal.
-│    2. Analyze panel: what changed since baseline.
-│    3. Action card if needed: top up / partial exit / full exit / hold.
-│    4. Preview card before any top-up or exit transaction.
-│    5. Receipt card after execution.
+│  User gets back:
+│    1. Short position status:
+│       hold / watch / review / exit, with the top reasons.
 │
-│  Main user-facing format:
-│    position health card → change explanation → optional action preview.
+│    2. Change explanation:
+│       what changed since the original thesis or last monitoring baseline.
+│
+│    3. Proposed next step if needed:
+│       hold, top up, partial exit, full exit, or review missing data.
+│
+│    4. Transaction preview before any top-up or exit:
+│       exact transaction, before → after position state, warnings, approval method, expiry.
+│
+│    5. Execution result after action:
+│       transaction status and updated monitoring baseline.
+│
+│  Main response shape:
+│    position status → change explanation → optional action → transaction preview.
 │
 └─ Scenario D: user monitors a Credit Account
 
@@ -166,15 +127,26 @@ USER ALREADY HAS A POSITION
      delayed withdrawals / claims, Credit Manager rules,
      pending governance changes, issuer / KYC / freeze / redemption state when relevant.
 
-   User gets:
-     1. Glance card: safe / watch / review / act now / blocked.
-     2. Analyze panel: safety, return, rule, oracle, and issuer-state explanation.
-     3. Action card: add collateral / reduce leverage / increase leverage / claim / partial exit / full exit.
-     4. Preview card: exact multicall and before → after HF, debt, equity, collateral.
-     5. Receipt card after execution.
+   User gets back:
+     1. Short account status:
+        safe / watch / review / act now / blocked, with the top reasons.
 
-   Main user-facing format:
-     Credit Account health card → reasoned action card → multicall preview.
+     2. Change explanation:
+        safety, return, rule, oracle, and issuer-state changes since baseline.
+
+     3. Proposed next step:
+        add collateral, reduce leverage, increase leverage, claim, partial exit,
+        full exit, hold, or review missing data.
+
+     4. Transaction preview before signing:
+        exact multicall, before → after HF / leverage / debt / equity / collateral,
+        warnings, approval method, expiry.
+
+     5. Execution result after action:
+        transaction status and updated monitoring baseline.
+
+   Main response shape:
+     account status → reasoned next step → multicall preview.
 ```
 
 ```text
@@ -193,14 +165,20 @@ SPECIAL BRANCHES
 │    current HF / debt / collateral, user safety floor, available collateral,
 │    repay route, price impact, bot permissions, and whether action improves safety.
 │
-│  User gets:
-│    1. Glance card: emergency summary.
-│    2. One Action card only: usually add collateral or reduce leverage.
-│    3. Preview card: required before execution, even in emergency.
-│    4. Receipt card after execution.
+│  User gets back:
+│    1. Emergency status:
+│       what is unsafe and why.
 │
-│  Main user-facing format:
-│    emergency card → one stabilizing action → preview.
+│    2. One stabilizing proposal:
+│       usually add collateral or reduce leverage, with exact amount / target.
+│
+│    3. Transaction preview before execution:
+│       required even in emergency.
+│
+│    4. Execution result after action.
+│
+│  Main response shape:
+│    emergency status → one stabilizing proposal → transaction preview.
 │
 └─ Issuer-controlled / tokenized-security asset branch
 
@@ -214,40 +192,45 @@ SPECIAL BRANCHES
      transfer restrictions, redemption / claim readiness,
      eligible-liquidator depth, and whether automation is allowed.
 
-   User gets:
-     1. Glance card: ordinary / restricted / human-review / blocked.
-     2. Analyze panel: exact issuer or eligibility reason.
-     3. Action card only if the required issuer state is known.
-     4. Preview card before execution.
+   User gets back:
+     1. Visible issuer / eligibility status:
+        ordinary / restricted / human-review / blocked.
 
-   Main user-facing format:
-     compliance / issuer-state banner inside the normal LP or Credit Account flow.
+     2. Reason:
+        exact issuer, KYC, freeze, transferability, redemption, or liquidation-depth issue.
+
+     3. Proposed next step only if required issuer state is known.
+
+     4. Transaction preview before execution.
+
+   Main response shape:
+     issuer-state warning inside the normal LP or Credit Account flow.
 ```
 
-## Build order that follows from the diagram
+## Build order implied by the scenario map
 
-1. **Preview card first**
+1. **Transaction preview first**
    - Every state-changing action depends on it.
-   - If Preview is weak, Execute is unsafe.
+   - If the preview is weak, execution is unsafe.
 
-2. **Unknown / stale / source labels**
-   - The agent must show when data is missing instead of pretending the position is safe.
+2. **Missing / stale / source-state visibility**
+   - The user must see when data is missing or stale instead of getting a fake safe answer.
 
-3. **Monitoring cards**
-   - LP and Credit Account users need a clear “is this still okay?” answer.
+3. **Monitoring answers**
+   - LP and Credit Account users need a clear “is this still okay?” answer before polished discovery matters.
 
 4. **Issuer-controlled asset branch**
    - Tokenized-security / KYC / freeze / redemption state must block or route actions correctly.
 
-5. **Opportunity cards**
-   - Ranking pools and strategies is useful, but less urgent than safe Preview and monitoring.
+5. **Opportunity discovery**
+   - Ranking pools and strategies is useful, but less urgent than safe preview and monitoring.
 
-6. **Receipts and history**
+6. **Execution history**
    - Needed for continuity and reporting after actions happen.
 
 ## What this PR does and does not do
 
-This PR defines the product-facing contract above.
+This PR defines the scenario map above.
 
 It does **not** implement:
 
@@ -259,4 +242,4 @@ It does **not** implement:
 
 A builder should be able to read this file and say:
 
-> “These are the screens/cards we need, these are the checks behind each scenario, and this is the order we should build them in.”
+> “For each user scenario, I understand what the user asks, what the agent must check, what response the user receives, and what should be built first.”
