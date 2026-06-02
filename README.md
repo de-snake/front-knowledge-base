@@ -50,12 +50,6 @@ Standalone tokenized-security leverage is not a canonical flow. Tokenized securi
 
 | Path | Description |
 | --- | --- |
-| [Data requirements and to-dos](dev/implementation/Data%20requirements%20and%20to-dos.md) | Backend implementation hub and gap register compiled from the canonical product flows. Routes to the formal data specs below. |
-| [Data read spec](dev/implementation/data-read-spec.md) | Snapshots, histories, event logs, read models, provenance, freshness, and unknown-state behavior. |
-| [Data write spec](dev/implementation/data-write-spec.md) | Propose / Preview / Execute command contracts, transaction-package integrity, bot policy, errors, and receipts. |
-| [Data dictionary](dev/implementation/data-dictionary.md) | Logical fields, types, source classes, temporal shapes, validation rules, unknown-state behavior, and requirement coverage. |
-| [Data architecture](dev/implementation/data-architecture.md) | Source-of-truth map, bounded contexts, storage / projection shape, ingestion cadence, APIs, data quality controls, and failure modes. |
-| [Traceability matrix](dev/implementation/traceability-matrix.md) | Product source → requirement → data/artifact coverage → verification, with backward trace by artifact. |
-| [Implementation slices](dev/implementation/implementation-slices.md) | Ordered backend/data build slices by decision impact and safety. |
+| [Data requirements and to-dos](dev/implementation/Data%20requirements%20and%20to-dos.md) | Human-readable scenario map: what the user asks in each scenario, what the agent checks, what card/preview/receipt the user gets, and the build order implied by that flow. |
 | [UI primitives](dev/ui-primitives/) | Word-based component drafts. These follow the canonical flow docs; they do not define product logic independently. |
 | [Foundation planning archive](dev/planning/foundation/) | Historical planning and merge artifacts. These may mention old folders, fixed benchmark tables, or standalone tokenized-security leverage; they are not current canonical docs. |

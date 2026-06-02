@@ -45,12 +45,6 @@ front-knowledge-base/
   dev/
     implementation/
       Data requirements and to-dos.md
-      data-read-spec.md
-      data-write-spec.md
-      data-dictionary.md
-      data-architecture.md
-      traceability-matrix.md
-      implementation-slices.md
     ui-primitives/
       *.docx
     planning/foundation/
@@ -191,19 +185,13 @@ Keep drill names flow-agnostic where possible.
 
 ### `dev/implementation/`
 
-Backend-facing implementation specs compiled from canonical runtime docs. These are an exhaust from flow docs, not an input to runtime agent reasoning.
+Human-readable implementation handoff compiled from canonical runtime docs. This is an exhaust from flow docs, not an input to runtime agent reasoning.
 
-Use this routing:
+Use `Data requirements and to-dos.md` as the single implementation map. It should stay readable by a product owner: scenario → user asks/clicks → agent checks → user gets Glance / Analyze / Action / Preview / Receipt / Alert format → build order.
 
-- `Data requirements and to-dos.md` — implementation hub and gap register.
-- `data-read-spec.md` — snapshots, histories, event logs, read models, provenance, freshness, and unknown-state behavior.
-- `data-write-spec.md` — Propose / Preview / Execute command contracts, transaction-package integrity, bot policy, errors, and receipts.
-- `data-dictionary.md` — logical fields, types, source classes, temporal shapes, validation rules, unknown-state behavior, and requirement coverage.
-- `data-architecture.md` — source-of-truth map, bounded contexts, storage / projection shape, ingestion cadence, APIs, data quality controls, and failure modes.
-- `traceability-matrix.md` — product source → requirement → data/artifact coverage → verification, with backward trace by artifact.
-- `implementation-slices.md` — ordered backend/data build slices by decision impact and safety.
+Keep detailed schemas, field dictionaries, or database architecture out of this vault unless the user explicitly asks for them.
 
-Rows and fields should separate protocol facts, indexer facts, issuer / compliance facts, product judgment, and user / agent policy.
+Rows and fields should separate protocol facts, indexer facts, issuer / compliance facts, product judgment, and user / agent policy when that detail is needed.
 
 ### `dev/ui-primitives/*.docx`
 
