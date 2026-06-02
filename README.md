@@ -9,7 +9,7 @@ The vault now separates runtime user / agent knowledge from development context:
 - `user/` contains the canonical material an agent needs to reason about user funds and position management.
 - `dev/` contains product/design lineage, implementation gaps, UI primitive drafts, and archived planning material.
 
-Standalone RWA leverage is not a canonical flow. Tokenized securities, issuer-controlled assets, redemption-window assets, and compliance-gated assets are handled as conditional branches inside Credit Account opening and Credit Account management.
+Standalone tokenized-security leverage is not a canonical flow. Tokenized securities, issuer-controlled assets, redemption-window assets, and compliance-gated assets are handled as conditional branches inside Credit Account opening and Credit Account management.
 
 ## User / runtime knowledge
 
@@ -50,6 +50,12 @@ Standalone RWA leverage is not a canonical flow. Tokenized securities, issuer-co
 
 | Path | Description |
 | --- | --- |
-| [Data requirements and to-dos](dev/implementation/Data%20requirements%20and%20to-dos.md) | Backend-facing punch list for feeds, endpoints, stage handoff artifacts, implementation hints, and unresolved data gaps. |
+| [Data requirements and to-dos](dev/implementation/Data%20requirements%20and%20to-dos.md) | Backend implementation hub and gap register compiled from the canonical product flows. Routes to the formal data specs below. |
+| [Data read spec](dev/implementation/data-read-spec.md) | Snapshots, histories, event logs, read models, provenance, freshness, and unknown-state behavior. |
+| [Data write spec](dev/implementation/data-write-spec.md) | Propose / Preview / Execute command contracts, transaction-package integrity, bot policy, errors, and receipts. |
+| [Data dictionary](dev/implementation/data-dictionary.md) | Logical fields, types, source classes, temporal shapes, validation rules, unknown-state behavior, and requirement coverage. |
+| [Data architecture](dev/implementation/data-architecture.md) | Source-of-truth map, bounded contexts, storage / projection shape, ingestion cadence, APIs, data quality controls, and failure modes. |
+| [Traceability matrix](dev/implementation/traceability-matrix.md) | Product source → requirement → data/artifact coverage → verification, with backward trace by artifact. |
+| [Implementation slices](dev/implementation/implementation-slices.md) | Ordered backend/data build slices by decision impact and safety. |
 | [UI primitives](dev/ui-primitives/) | Word-based component drafts. These follow the canonical flow docs; they do not define product logic independently. |
-| [Foundation planning archive](dev/planning/foundation/) | Historical planning and merge artifacts. These may mention old folders, fixed benchmark tables, or standalone RWA leverage; they are not current canonical docs. |
+| [Foundation planning archive](dev/planning/foundation/) | Historical planning and merge artifacts. These may mention old folders, fixed benchmark tables, or standalone tokenized-security leverage; they are not current canonical docs. |

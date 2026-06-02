@@ -45,6 +45,12 @@ front-knowledge-base/
   dev/
     implementation/
       Data requirements and to-dos.md
+      data-read-spec.md
+      data-write-spec.md
+      data-dictionary.md
+      data-architecture.md
+      traceability-matrix.md
+      implementation-slices.md
     ui-primitives/
       *.docx
     planning/foundation/
@@ -183,11 +189,21 @@ Sibling drill files. Use flat `## Drill — <topic>` headings. Main flow tables 
 
 Keep drill names flow-agnostic where possible.
 
-### `dev/implementation/Data requirements and to-dos.md`
+### `dev/implementation/`
 
-Backend-facing gap register and artifact vocabulary. It is an exhaust from flow docs, not an input to runtime agent reasoning.
+Backend-facing implementation specs compiled from canonical runtime docs. These are an exhaust from flow docs, not an input to runtime agent reasoning.
 
-Rows should separate protocol facts, indexer facts, issuer / compliance facts, product judgment, and user / agent policy.
+Use this routing:
+
+- `Data requirements and to-dos.md` — implementation hub and gap register.
+- `data-read-spec.md` — snapshots, histories, event logs, read models, provenance, freshness, and unknown-state behavior.
+- `data-write-spec.md` — Propose / Preview / Execute command contracts, transaction-package integrity, bot policy, errors, and receipts.
+- `data-dictionary.md` — logical fields, types, source classes, temporal shapes, validation rules, unknown-state behavior, and requirement coverage.
+- `data-architecture.md` — source-of-truth map, bounded contexts, storage / projection shape, ingestion cadence, APIs, data quality controls, and failure modes.
+- `traceability-matrix.md` — product source → requirement → data/artifact coverage → verification, with backward trace by artifact.
+- `implementation-slices.md` — ordered backend/data build slices by decision impact and safety.
+
+Rows and fields should separate protocol facts, indexer facts, issuer / compliance facts, product judgment, and user / agent policy.
 
 ### `dev/ui-primitives/*.docx`
 
@@ -195,7 +211,7 @@ Word-based UI component drafts. They follow the canonical user flows; they do no
 
 ### `dev/planning/foundation/`
 
-Historical planning archive. These files may mention old folder names, fixed benchmark tables, or standalone RWA leverage. Treat them as historical source state, not current canonical guidance.
+Historical planning archive. These files may mention old folder names, fixed benchmark tables, or standalone tokenized-security leverage. Treat them as historical source state, not current canonical guidance.
 
 ## Flow doc conventions
 
