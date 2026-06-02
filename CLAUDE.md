@@ -185,11 +185,11 @@ Keep drill names flow-agnostic where possible.
 
 ### `dev/implementation/`
 
-Human-readable implementation handoff compiled from canonical runtime docs. This is an exhaust from flow docs, not an input to runtime agent reasoning.
+Human-readable implementation handoff compiled from canonical runtime docs. This is the backend / MCP data-architecture layer derived from product flows, not the runtime agent reasoning layer.
 
-Use `Data requirements and to-dos.md` as the single implementation map. It should stay readable by a product owner: scenario → user asks/clicks → agent checks → user gets back → build order.
+Use `Data requirements and to-dos.md` as the single backend / MCP architecture map. It should stay readable by a product owner and useful to backend builders: product flow → repeated user / agent question → deterministic facts → entities / methods → missing data → build order.
 
-Do not add taxonomies of card names, field dictionaries, schemas, or database architecture unless the user explicitly asks for them.
+Do not add UI-card taxonomies or agent verdict schemas here. Backend / MCP methods should expose deterministic facts, histories, event feeds, source/freshness envelopes, previews, and receipts. Agent-specific verdicts, threshold interpretation, recommendations, and final user copy stay in the agent / product layer.
 
 Rows and fields should separate protocol facts, indexer facts, issuer / compliance facts, product judgment, and user / agent policy when that detail is needed.
 
