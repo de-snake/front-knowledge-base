@@ -1,6 +1,6 @@
 # Tier 2 promotion — gap research
 
-> **Archive note.** This is a pre-merge planning artifact. References to deleted `JTBDs/`, `User flows/`, Tier 4 user-flow, Tier 5 UI-primitive, `Multi-position`, or placeholder RWA structures are historical source-state references. Current canonical navigation lives in `../../README.md`, `../../CLAUDE.md`, and `../../user-flows/`.
+> **Archive note.** This is a pre-merge planning artifact. References to deleted `JTBDs/`, `User flows/`, Tier 4 user-flow, Tier 5 UI-primitive, `Multi-position`, or placeholder RWA structures are historical source-state references. Current canonical navigation lives in `../../README.md`, `../../CLAUDE.md`, and `../../user/flows/`.
 
 Read-only research artefact. Inputs for two follow-up changes:
 
@@ -323,16 +323,16 @@ Each runs through `Stage 3 · Propose (CA)` → `Stage 4 · Preview (CA)` →
 `Stage 5 · Execute (CA)` with a before/after preview component (called
 out at `Data requirements and to-dos.md:11`).
 
-### 3.3 Hypothesis check — are the Benchmarks rows the canonical Glance?
+### 3.3 Hypothesis check — are the Position risk and monitoring rows the canonical Glance?
 
 The hypothesis: the green / yellow / red rows in
-`Benchmarks and tresholds for metrics.md` are the canonical Glance content.
+`Position risk and monitoring.md` are the canonical Glance content.
 
-**Pool side.** `Benchmarks…:5-20` lists ten ongoing-ownership criteria.
+**Pool side.** `Position risk and monitoring…:5-20` lists ten ongoing-ownership criteria.
 Mapping to the five Glance / ownership questions in
 `Pool position management - JTBD.md:11-17`:
 
-| Benchmarks row | Maps to Glance / Analyze question |
+| Position risk and monitoring row | Maps to Glance / Analyze question |
 | --- | --- |
 | Organic APY vs user floor (line 11) | Q1 yield |
 | Composite APY 30d trend (line 12) | Q1 yield |
@@ -345,20 +345,20 @@ Mapping to the five Glance / ownership questions in
 | RWA frozen accounts (line 19) | RWA Q6 compliance drift |
 | Curator change log (line 20) | Q4 governance |
 
-Every JTBD ownership question has at least one Benchmarks row. So
-**confirmed for Pool LP**: the Benchmarks rows are the Glance verdict
+Every JTBD ownership question has at least one Position risk and monitoring row. So
+**confirmed for Pool LP**: the Position risk and monitoring rows are the Glance verdict
 inputs — each row reduces to a green / yellow / red token; ten tokens
 together answer the five ownership questions in one screen.
 
-Caveat: the Benchmarks rows are denser than the JTBD's "five glance
+Caveat: the Position risk and monitoring rows are denser than the JTBD's "five glance
 questions." A literal Glance UI that surfaced ten chips would be too
 heavy for a 30-second session. The likely render: collapse the ten
-Benchmarks rows under the five JTBD questions — Glance shows five
-verdicts; tapping each opens the contributing Benchmarks rows in Analyze.
+Position risk and monitoring rows under the five JTBD questions — Glance shows five
+verdicts; tapping each opens the contributing Position risk and monitoring rows in Analyze.
 
-**CA side.** `Benchmarks…:22-44` lists fifteen criteria. The doc itself
+**CA side.** `Position risk and monitoring…:22-44` lists fifteen criteria. The doc itself
 has an "Overview or advanced" column to pre-classify them
-(`Benchmarks…:26`):
+(`Position risk and monitoring…:26`):
 
 - HF (line 28) — column says **overall** → Glance.
 - HF 30d trend (line 29) — column says **advanced** → Analyze.
@@ -367,7 +367,7 @@ has an "Overview or advanced" column to pre-classify them
 Mapping to the CA management ownership questions
 (`Credit Account management - JTBD.md:11-15`):
 
-| Benchmarks row | Maps to Glance Q1/Q2 / Analyze |
+| Position risk and monitoring row | Maps to Glance Q1/Q2 / Analyze |
 | --- | --- |
 | HF (line 28) | Glance Q1 (overall) |
 | HF 30d trend (line 29) | Analyze (advanced) |
@@ -388,20 +388,20 @@ Mapping to the CA management ownership questions
 
 So **partial confirmation, partial refute** for CA:
 
-- The Benchmarks doc's own "Overview or advanced" classification at
-  `Benchmarks…:26` already separates Glance-tier rows (HF, marked
+- The Position risk and monitoring doc's own "Overview or advanced" classification at
+  `Position risk and monitoring…:26` already separates Glance-tier rows (HF, marked
   "overall") from Analyze-tier rows (HF 30d trend, marked "advanced").
-- Most rows are empty in that column. The hypothesis "Benchmarks rows ARE
+- Most rows are empty in that column. The hypothesis "Position risk and monitoring rows ARE
   the Glance content" only holds for those rows explicitly tagged
   "overall." The rest belong in Analyze.
 - A clean refute: **HF 30d trend is explicitly NOT a Glance row**
-  (`Benchmarks…:29` column = "advanced"), so the Benchmarks file is
+  (`Position risk and monitoring…:29` column = "advanced"), so the Position risk and monitoring file is
   already encoding a Glance / Analyze split via that column. The targeted
   edit should formalise this column rather than restate the hypothesis.
 
 Recommendation for the Tier-2 edit: Glance content per persona is
 **the two named "Glance at …" sub-jobs** (Pool LP) / **Q1 + Q2 ownership
-questions** (CA operator). Benchmarks rows feed those Glance verdicts
+questions** (CA operator). Position risk and monitoring rows feed those Glance verdicts
 but don't ARE them — most rows are Analyze-tier evidence.
 
 ---

@@ -1,6 +1,6 @@
 # Gearbox Front Knowledge Base — Deep Analysis Report
 
-> **Archive note.** This is a pre-merge planning artifact. References to deleted `JTBDs/`, `User flows/`, Tier 4 user-flow, Tier 5 UI-primitive, `Multi-position`, or placeholder RWA structures are historical source-state references. Current canonical navigation lives in `../../README.md`, `../../CLAUDE.md`, and `../../user-flows/`.
+> **Archive note.** This is a pre-merge planning artifact. References to deleted `JTBDs/`, `User flows/`, Tier 4 user-flow, Tier 5 UI-primitive, `Multi-position`, or placeholder RWA structures are historical source-state references. Current canonical navigation lives in `../../README.md`, `../../CLAUDE.md`, and `../../user/flows/`.
 
 Date: 2026-04-29
 Scope: `projects/front-knowledge-base/`
@@ -50,7 +50,7 @@ Root-level shared concepts:
   - Main personas: Pool LP and CA operator.
   - Each persona includes an Agent / LLM acting on behalf of the user.
 
-- `Benchmarks and tresholds for metrics.md`
+- `Position risk and monitoring.md`
   - Green / yellow / red thresholds for pool and CA monitoring.
   - Intended to be the source for Glance verdicts.
 
@@ -125,7 +125,7 @@ This is a good product model: it prevents over-researching when only parameters 
 
 ### Tier 5 — UI primitives
 
-Stored as `.docx` files in `ui-primitives/`:
+Stored as `.docx` files in `dev/ui-primitives/`:
 
 - `Opportunity.docx`
 - `LenderDetails.docx`
@@ -225,7 +225,7 @@ Main example: HF thresholds drift across docs:
 
 Why it matters: an agent or UI could make materially different recommendations depending on which doc it reads.
 
-Corrective action: make `Benchmarks and tresholds for metrics.md` the canonical threshold source and classify threshold types:
+Corrective action: make `Position risk and monitoring.md` the canonical threshold source and classify threshold types:
 
 | Threshold type | Example |
 | --- | --- |
@@ -256,7 +256,7 @@ The vault references many fields but has no central registry:
 
 Why it matters: future frontend/backend/agent implementation will diverge.
 
-Corrective action: add `Data contracts.md` or `Schema.md` with type, field, meaning, source, freshness, used-by, and availability status.
+Corrective action: maintain canonical stage-handoff / schema requirements with type, field, meaning, source, freshness, used-by, and availability status.
 
 ### 3. RWA is important but not fully integrated
 
@@ -314,7 +314,7 @@ Open questions remain:
 
 Why it matters: agentic financial products need hard execution boundaries.
 
-Corrective action: add `Agent execution boundaries.md`:
+Corrective action: document execution boundaries in the entry-point layer:
 
 | Layer | Can do | Cannot do |
 | --- | --- | --- |
@@ -415,7 +415,7 @@ status: draft/internal
 
 ## Top 5 recommended fixes
 
-1. Create `Data contracts.md` for all `Opportunity`, `Position`, `TransactionPreview`, RWA, governance, and PnL fields.
+1. Keep canonical stage-handoff vocabulary for all `Opportunity`, `Position`, `TransactionPreview`, RWA, governance, and PnL fields.
 2. Resolve the HF / threshold model into one canonical benchmark source with threshold types.
 3. Define `TransactionPreview` fully as the trust boundary for all actions.
 4. Write the missing Multi-position user flow because portfolio, emergency, and reallocation are core differentiators.
@@ -425,4 +425,4 @@ status: draft/internal
 
 The vault is an excellent product-architecture base. It is stronger than normal product docs because it has a real decision loop, a monitoring-first model, a UI-agent bridge, and deep Gearbox risk understanding.
 
-It is not yet an implementation-grade source of truth. To become one, it needs tighter schema ownership, canonical thresholds, a formal Preview contract, resolved agent/bot boundaries, and deterministic validation.
+It is not yet an implementation-grade source of truth. To become one, it needs tighter schema ownership, canonical thresholds, a formal Preview gate, resolved agent/bot boundaries, and deterministic validation.

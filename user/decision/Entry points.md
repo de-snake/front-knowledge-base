@@ -35,13 +35,41 @@ Cross-position ownership is intentionally not represented by a placeholder flow.
 
 Agents and humans consume the same data schema; only ranking, surface, and tone diverge. [[Personas and audience]] names the agent as a profile sub-type for both Pool LP and CA operator, and [[Three-layer progressive disclosure]] specifies that agents follow the same Glance / Analyze / Act hierarchy.
 
-Default traversal: **Monitoring**. Agents answer the ownership questions on every monitoring call and either end in "no change" or escalate to Analyze (the back-edge contract in [[Pool monitoring]] and [[Credit Account monitoring]]).
+Default traversal: **Monitoring**. Agents answer the ownership questions on every monitoring call and either end in "no change" or escalate to Analyze (the back-edge contract in [[Pool monitoring]] and [[Credit Account management]]).
 
 Hand-off line: **Execute**, configurable by action class. High-value or first-time actions require a human signature; routine actions can be executed by a scoped on-chain bot signer — a separate primitive: the bot is a deterministic on-chain helper, not the LLM agent.
 
 User preference / thesis state is outside the Gearbox-side persistence boundary. Values such as floor APY, HF floor, hold horizon, accepted oracle methodologies, concentration caps, and notification preferences are supplied by the user or the user's representative agent as `userThesis` / policy input. Gearbox-side product docs can depend on those inputs; they should not assume Gearbox stores or owns them.
 
 Agents may enter **Decision sessions** autonomously when their user mandate allows it: for example, when new capital arrives, a campaign appears, or an existing monitoring session escalates to a full reallocation search. The Gearbox-side requirement is to support both user-triggered and agent-triggered Decision traversal, while keeping Preview / Execute boundaries explicit.
+
+## Execution boundary
+
+The agent can read, analyze, monitor, explain, and prepare proposals without changing user state. Any state-changing action follows the same hard boundary:
+
+`Propose → Preview → Execute`
+
+Approval modes:
+
+| Mode | Agent may do | Approval requirement |
+| --- | --- | --- |
+| **Read-only.** | Discover, Analyze, Monitor, explain current state, classify alerts. | No approval required. |
+| **Propose-only.** | Build a proposed action and explain why it fits the user's stated constraints. | User approval required before Preview / Execute. |
+| **Preview-without-execute.** | Simulate a proposed action and show before/after state, warnings, unknowns, and pass/fail verdict. | User or scoped-policy approval required before Execute. |
+| **Human-in-the-loop Execute.** | Prepare the exact transaction package for user signature or explicit submission approval. | Human approval required. |
+| **Scoped bot Execute.** | Execute pre-authorized maintenance actions inside configured limits. | Prior standing approval required. |
+| **Blocked.** | Stop and explain why no action can be prepared, previewed, automated, or submitted. | New user decision or missing data resolution required. |
+
+Human approval is the default for Execute. Bot execution is an explicit exception and must be bounded by allowed action classes, per-action and aggregate sizing limits, safety floors, slippage / price-impact limits, cooldown, expiry, stop conditions, and notification rules.
+
+Default action-class split:
+
+- first-time deposits, first-time Credit Account openings, leverage increases, strategy changes, bot-policy changes, and issuer / eligibility-gated actions are human-in-the-loop by default;
+- side-effect-limited maintenance such as reward claims, pre-approved top-ups, or pre-approved de-risking may be bot-eligible only inside a narrow policy envelope;
+- missing issuer, eligibility, freeze, oracle, or execution-package integrity data blocks automation and may block Preview or Execute entirely;
+- Emergency mode can shorten Analyze, but it cannot skip Preview.
+
+Whenever the agent refuses to execute or automate, the user-facing explanation should state what action was intended, which boundary blocked it, what data or approval is needed next, and whether the user can still run the action manually after Preview.
 
 ## Emergency scenario
 
@@ -52,10 +80,10 @@ Examples:
 - Credit Account HF enters the danger band or projected HF crosses the user's floor under an active LT ramp;
 - a forbidden-token / safe-pricing condition would make ordinary exit unsafe;
 - a Credit Manager, facade, or pool enters an abnormal operating state that blocks normal action paths;
-- RWA issuer state changes: own account frozen, KYC revoked / expired, redemption path blocked, or liquidator depth collapses;
+- issuer-controlled collateral state changes: own account frozen, eligibility / KYC revoked or expired, redemption path blocked, or eligible-liquidator depth collapses;
 - pool-side bad-debt or utilisation signals imply elevated risk of socialised loss or blocked exit.
 
-Emergency mode may skip broad Analyze and move directly from Monitor to a safety proposal, but it still goes through Preview and the approval boundary in [[Agent execution boundaries]].
+Emergency mode may skip broad Analyze and move directly from Monitor to a safety proposal, but it still goes through Preview and the approval boundary above.
 
 ## Agent policy filter vs on-chain bot signer
 

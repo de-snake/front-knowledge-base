@@ -9,6 +9,6 @@ Current canonical navigation lives in:
 - `../../README.md`
 - `../../CLAUDE.md`
 - `../../Entry points.md`
-- `../../user-flows/`
+- `../../user/flows/`
 
 Use these archive files to understand why the merge happened, not to determine the current product-doc structure.

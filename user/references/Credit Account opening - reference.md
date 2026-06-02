@@ -2,7 +2,7 @@
 
 Drill sections referenced from [[Credit Account opening]] table rows. Each drill is a self-contained explanatory unit; the calling row carries only the verdict-level summary plus a wikilink. Topic names are flow-agnostic where possible — flow-agnostic curator and oracle drills live in [[Pool deposit - reference]] and are wikilinked from CA opening directly.
 
-**Source boundary.** These drills deliberately separate observable protocol mechanics from product judgement and external diligence. IRM, debt limits, quotas, LT, expiration, and safe-pricing are protocol-observable inputs. Yield projections, leverage comfort, RWA issuer calendars, liquidity assumptions, and accept/reject thresholds are product or external-data judgements and should be labelled that way in the calling row.
+**Source boundary.** These drills deliberately separate observable protocol mechanics from product judgement and external diligence. IRM, debt limits, quotas, LT, expiration, and safe-pricing are protocol-observable inputs. Yield projections, leverage comfort, issuer calendars, liquidity assumptions, and accept/reject thresholds are product, user-policy, or external-data judgements and should be labelled that way in the calling row.
 
 ## Drill — IRM curve sensitivity
 
@@ -29,7 +29,7 @@ Drill sections referenced from [[Credit Account opening]] table rows. Each drill
 
 ## Drill — Deriving safe HF margin from asset-specific risk
 
-**At Stage 2 Q2 (Gearbox config lens).** The user's default `hfFloor = 1.3` is a conservative cross-asset baseline. For per-candidate sizing, the agent should derive an **asset-specific recommended floor** that absorbs the candidate's actual tail-risk profile — then gate HF feasibility against the larger of (user-default, asset-specific recommended).
+**At Stage 2 Q2 (Gearbox config lens).** The user or mandate should provide the binding HF floor. If it is missing, the agent derives an **asset-specific recommended floor** from the candidate's actual tail-risk profile and routes it for review before Preview / Execute.
 
 This is a reasoning task, not a formula. The agent looks at the inputs below, applies the reasoning directions, and produces a recommendation per candidate. Specific numerical weights are the agent's call — they depend on the candidate's properties, current market regime, and user risk context.
 
@@ -40,13 +40,13 @@ This is a reasoning task, not a formula. The agent looks at the inputs below, ap
 **Asset class.** Different classes have different tail behaviours that vol alone doesn't capture:
 - **LSTs** carry de-peg history (e.g., stETH June 2022; smaller events on cbETH / rETH). The agent considers prior depeg magnitude, whether the validator-set or slashing surface has changed since, and weights the floor wider when those signals indicate latent tail risk.
 - **LP tokens** compose risks of their underlying components — the agent uses the worst component's vol, not the average, and adds margin for impermanent-loss and depeg-of-component-vs-component risk.
-- **RWAs** carry freeze-probability and redemption-window-mismatch risk — un-liquidatable freeze risk requires extra margin because the user can't exit reactively. Tighter redemption windows imply more margin; wider windows or active secondary markets imply less.
+- **Issuer-controlled / tokenized-security collateral** carries freeze-probability and redemption-window-mismatch risk — un-liquidatable freeze risk requires extra margin because the user cannot exit reactively. Tighter redemption windows imply more margin; wider windows or active secondary markets imply less.
 - **Stablecoins** carry a de-peg tail; algo-stable or yield-bearing wrappers add further tail risk.
 - **Synthetics** inherit risks of all upstream components; the floor is conservatively set above the worst of them.
 
 **Liquidation premium + discount.** Already baked into `LT`, but informs how far HF can fall before a liquidator captures premium beyond the user's collateral. A higher premium means more user value taken at liquidation, which justifies a wider buffer.
 
-**User risk tolerance.** Session config; default conservative for retail, may be tighter for institutional. The agent never silently overrides the user's stated tolerance — see "When to override" below.
+**User risk tolerance.** Session or mandate config. The agent never silently overrides the user's stated tolerance — see "When to override" below.
 
 ### Cross-checks the agent applies
 
@@ -56,26 +56,26 @@ This is a reasoning task, not a formula. The agent looks at the inputs below, ap
 
 ### Output
 
-Per-candidate `recommended_hf_floor` is carried into the `ResearchMemo.constraints.hf_floor_required` field. Stage 3 sizes target leverage against `max(user_default, recommended)`. The agent should also surface its reasoning trail (which factors drove the recommendation, with raw values where available) in the memo — not just the number.
+Per-candidate `recommended_hf_floor` is carried into the `ResearchMemo.constraints.hf_floor_required` field when the user floor is missing or the asset profile suggests more headroom than the mandate supplied. Stage 3 sizes target leverage against the reviewed floor. The agent should also surface its reasoning trail (which factors drove the recommendation, with raw values where available) in the memo — not just the number.
 
 ### When to override
 
 If the user explicitly accepts a tighter floor for a high-confidence asset (e.g., institutional running a USDC carry with deep adapter liquidity), the recommended floor may be relaxed below the agent default. Surface as an explicit override gate at Stage 3 — never silently below the recommendation.
 
-## Drill — RWA compliance layers
+## Drill — issuer-controlled collateral branch
 
-**At Stage 2 Q2 (RWA extension).** Compliance risks per RWA token in the CM:
+**At Stage 2 Q2 (conditional branch).** Issuer / eligibility risks per tokenized-security or issuer-controlled token in the CM:
 
 | Risk | Description |
 | --- | --- |
 | **Transfer restriction type** | DS Token Protocol, ERC-3643, or custom — a compliance layer that can block transactions based on whitelist / KYC state. |
-| **Freeze capability** | If the CM uses a compliance-gated RWA path, the issuer/admin can freeze the user's Credit Account. When frozen: no deposits, no withdrawals, no borrowing, no repaying, no liquidation. The position is effectively suspended. |
+| **Freeze capability** | If the CM uses a compliance-gated path, the issuer/admin can freeze the user's Credit Account. When frozen: no deposits, no withdrawals, no borrowing, no repaying, no liquidation. The position is effectively suspended. |
 | **Freeze authority** | The specific address / entity that holds the freeze power. The user must identify and accept this authority before opening. |
-| **Investor reassignment risk** | The RWA investor registry can reassign the CA to a different investor (intended for estate settlement / lost keys, but structurally the capability exists and could be misused). |
-| **Whitelisted-liquidator count** | From the CA perspective: few liquidators = the user may sit in a liquidatable state longer (no timely third-party liquidation). The threshold lives in [[Data requirements and to-dos]] · "RWA whitelisted-liquidator threshold." |
-| **Redemption windows + secondary-market liquidity** | When can the user actually convert RWA back to cash. Affects exit planning at Q3. |
+| **Investor reassignment risk** | The issuer / investor registry can reassign the CA to a different investor (intended for estate settlement / lost keys, but structurally the capability exists and could be misused). |
+| **Eligible-liquidator depth** | From the CA perspective: few eligible liquidators mean the user may sit in a liquidatable state longer. The feed lives in [[Data requirements and to-dos]]; interpretation depends on user / product policy, not a universal threshold. |
+| **Redemption windows + secondary-market liquidity** | When can the user actually convert the asset back to cash. Affects exit planning at Q3. |
 
-**Failure modes (cross-reference Edge cases in [[Credit Account monitoring]]).** RWA freeze cascade, KYC revocation mid-position, redemption-window mismatch with hold horizon.
+**Failure modes (cross-reference Edge cases in [[Credit Account management]]).** Issuer freeze cascade, KYC revocation mid-position, redemption-window mismatch with hold horizon.
 
 ## Drill — Adapter routing constraints
 
@@ -100,7 +100,7 @@ If the user explicitly accepts a tighter floor for a high-confidence asset (e.g.
 
 ## Drill — KYC-gated execution path
 
-**At Stage 2 Q4 + Stage 5.** Some RWA CMs route actions through a compliance wallet/factory layer before the Credit Account operation is accepted.
+**At Stage 2 Q4 + Stage 5.** Some CMs route actions through a compliance wallet/factory layer before the Credit Account operation is accepted.
 
 - **Operation routing.** The action must clear KYC validity, freeze status, and investor-registry checks before it reaches the Credit Account. Product copy should show this as **compliance-gated execution**, not as a normal one-click CA operation.
 - **Bot delegation blocked.** Scoped bot signers cannot manage these positions; the user must remain in a human-in-the-loop execution path.
@@ -122,7 +122,7 @@ If the user explicitly accepts a tighter floor for a high-confidence asset (e.g.
 
 **Route-selection sub-decisions per non-skip action.**
 - **Adapter set.** Which CM-approved adapters route the entry swap (or the rebalance swap). Pick the set with best price-at-size from Q3 retrieval.
-- **Slippage tolerance.** Default 50 bps; user can widen for fragile / thin-route assets, narrow for atomic-swap assets.
+- **Slippage tolerance.** User- or mandate-supplied. The user can widen for fragile / thin-route assets or narrow for atomic-swap assets; the agent should not apply a hidden default.
 - **Max price-impact budget.** A hard cap that aborts the multicall in Stage 4 Preview if exceeded. Distinct from slippage (which absorbs noise) — price-impact budget caps the structural cost of entering at this size.
 
 **Invariant.** `total_deployed_usd + reserve_usd = available capital`. Skipped candidates do not consume capital and are not counted in either side of the equation.
@@ -134,7 +134,7 @@ If the user explicitly accepts a tighter floor for a high-confidence asset (e.g.
 1. **Multicall assembly.** Concatenate: `openCA` (mint CA NFT) + `addCollateral` (deposit underlying) + `borrow` (mint debt) + `swapExactInput` (entry swap leg, via adapter set + slippage from Stage 3) into a single atomic batch.
 2. **Pre-state read.** Borrowable liquidity, current oracle prices (main + reserve), per-CM debt-limit utilisation, active LT-ramps.
 3. **Simulation.** Apply the multicall against pre-state; compute post-state HF using `min(main, reserve)` for forbidden / safe-priced tokens.
-4. **Gate checks.** HF > user floor; actual leverage within ±5 % of target; swap impact ≤ Analyze estimate × tolerance multiplier; no deviation flags.
+4. **Gate checks.** HF exceeds the user-approved floor; actual leverage remains inside the Stage 3 tolerance; swap impact is within the approved budget; no material deviation flags.
 5. **Calldata bundling.** Output ready-to-sign multicall bytes. Stage 5 must verify hash equality post-signing.
 
 **Failure modes.** Stage 4 typically fails not because the thesis is wrong but because chain state shifted between Stage 2 (Analyze) and Stage 4 (Preview): borrowable liquidity dropped, utilisation rose, oracle drifted. Loop returns to Stage 3 (re-size or re-route), not Stage 2 (re-analyze).

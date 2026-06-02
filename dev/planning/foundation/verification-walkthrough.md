@@ -1,6 +1,6 @@
 # Verification walkthrough — auditing the vault from foundations down
 
-> **Archive note.** This is a pre-merge planning artifact. References to deleted `JTBDs/`, `User flows/`, Tier 4 user-flow, Tier 5 UI-primitive, `Multi-position`, or placeholder RWA structures are historical source-state references. Current canonical navigation lives in `../../README.md`, `../../CLAUDE.md`, and `../../user-flows/`.
+> **Archive note.** This is a pre-merge planning artifact. References to deleted `JTBDs/`, `User flows/`, Tier 4 user-flow, Tier 5 UI-primitive, `Multi-position`, or placeholder RWA structures are historical source-state references. Current canonical navigation lives in `../../README.md`, `../../CLAUDE.md`, and `../../user/flows/`.
 
 ## When to use this
 
@@ -23,7 +23,7 @@ TIER 1 — Foundations (top-level .md)
 │   └── Pool vocabulary  (insurance fund, bad-debt canary, organic vs incentive APY,
 │         concentration cap, whitelisted-liquidator count)
 ├── Personas and audience.md  (Pool LP, CA operator, loss-vector tables, agent sub-profile)
-├── Benchmarks and tresholds for metrics.md  (green/yellow/red bands per persona)
+├── Position risk and monitoring.md  (green/yellow/red bands per persona)
 └── Data requirements and to-dos.md  (EXHAUST — aggregates ==note:== gaps from downstream)
         │
         ▼
@@ -50,7 +50,7 @@ TIER 4 — User flows (Stage 1 → Stage 6 traversal)
 └── rwa-leverage.md  (empty stub)
         │
         ▼
-TIER 5 — UI primitives (.docx in ui-primitives/)
+TIER 5 — UI primitives (.docx in dev/ui-primitives/)
 ├── Opportunity            (both personas, Stage 1)
 ├── LenderDetails          (LP, Stages 1–4)
 ├── StrategyDetails        (CA operator, Stages 1–4)
@@ -66,7 +66,7 @@ TIER 5 — UI primitives (.docx in ui-primitives/)
 - Multi-position matrix → `Entry points#Mapping…`; → all four sibling ownership JTBDs by section
 - CA Opening sub-jobs 8, 9 → CA management (handoffs)
 - CA management → Data requirements (strategy description, virtual liquidations)
-- CA management sub-job 5 → Benchmarks (borrow-rate spread)
+- CA management sub-job 5 → Position risk and monitoring (borrow-rate spread)
 - Pool position management → Basic info Pool vocabulary, Canonical loop, Data requirements (entry baseline, oracle feed)
 - Pool deposit → Basic info Pool vocabulary, Data requirements (curator threshold, RWA threshold, concentration cap)
 
@@ -83,7 +83,7 @@ TIER 5 — UI primitives (.docx in ui-primitives/)
 |---|---|---|
 | 1 | `Basic info and definitions.md` | Literal vocabulary. Notice the **two vocab tables** (CA + Pool). These are the definitions any downstream doc must conform to. |
 | 2 | `Personas and audience.md` | Two personas + loss-vector tables. The risk inventory every downstream JTBD must address. Agent sub-profile lives here. |
-| 3 | `Benchmarks and tresholds for metrics.md` | Numeric thresholds. Every "alert when X" or "good when Y" claim downstream must cite a row here, not invent a new band. |
+| 3 | `Position risk and monitoring.md` | Numeric thresholds. Every "alert when X" or "good when Y" claim downstream must cite a row here, not invent a new band. |
 | 4 | `Data requirements and to-dos.md` | What's missing. Read **last** — it's exhaust, not input. Tells you which downstream gaps are known and which are silent. |
 
 ### Step 2 — Read the two Tier 2 scaffolding docs
@@ -103,11 +103,11 @@ This is the load-bearing step. Pick a concept, trace it through the dependency e
 |---|---|---|
 | Tier 1 | `Basic info and definitions#Credit Account vocabulary` | HF = TWV / debt; drift drivers listed |
 | Tier 1 | `Personas and audience` (CA operator loss vectors) | HF appears as a Priority-1 loss vector |
-| Tier 1 | `Benchmarks and tresholds for metrics` | Green > 1.3, yellow 1.1–1.3, red < 1.1 |
+| Tier 1 | `Position risk and monitoring` | Green > 1.3, yellow 1.1–1.3, red < 1.1 |
 | Tier 3 | `CA Opening JTBD` criterion 2 | **Currently struck through with no replacement** ← gap (deferred item 4 in 2026-04-29 plan) |
-| Tier 3 | `CA management JTBD` Q1 + Emergency-path contract | Cites HF < 1.1 as danger zone — agrees with Benchmarks ✓ |
+| Tier 3 | `CA management JTBD` Q1 + Emergency-path contract | Cites HF < 1.1 as danger zone — agrees with Position risk and monitoring ✓ |
 | Tier 3 | `CA management JTBD` translation table | "HF 1.036 / Low — your position liquidates if HF drops below 1.0" — agrees ✓ |
-| Tier 4 | `CA user flow` Stage 4 Preview | Hard floor cited as **`HF > 1.07`** ← **contradicts** Benchmarks (red < 1.1) and CA mgmt (danger < 1.1). **Three docs, two numbers — known unresolved.** |
+| Tier 4 | `CA user flow` Stage 4 Preview | Hard floor cited as **`HF > 1.07`** ← **contradicts** Position risk and monitoring (red < 1.1) and CA mgmt (danger < 1.1). **Three docs, two numbers — known unresolved.** |
 | Tier 5 | `StrategyPosition.docx` | Verify HF surface treats label/numeric pair per CA management Q1 contract |
 
 **Verdict for HF**: definition in Tier 1 ✓; downstream propagation mostly consistent except the **1.07 vs 1.1 floor contradiction** in the user flow. Editorial decision needed: is 1.07 a Preview-time hard reject and 1.1 a Monitor alert band, or is one wrong?
@@ -118,7 +118,7 @@ This is the load-bearing step. Pick a concept, trace it through the dependency e
 |---|---|---|
 | Tier 1 | `Basic info and definitions#Pool vocabulary` | Pool-level loss-absorption pot, first hit on bad debt |
 | Tier 1 | `Personas and audience` (LP loss vectors) | "bad debt absorption" listed |
-| Tier 1 | `Benchmarks` | "Material decline or approaching zero" threshold row |
+| Tier 1 | `Position risk and monitoring` | "Material decline or approaching zero" threshold row |
 | Tier 1 | `Data requirements` | "Insurance-fund balance delta feed" row ✓ |
 | Tier 3 | `Pool deposit JTBD` sub-job 4 | Wikilinks `[[Basic info and definitions#Pool vocabulary]]` ✓ |
 | Tier 3 | `Pool position management JTBD` Q5 | Wikilinks `[[Basic info and definitions#Pool vocabulary]]` ✓ |
@@ -238,6 +238,6 @@ Other known gaps surfaced by the audit but deferred:
 - `.planning/codebase/ARCHITECTURE.md` — full conceptual model.
 - `.planning/codebase/STRUCTURE.md` — full directory tree with per-file annotations.
 - `.planning/codebase/CONCERNS.md` — content-concern register.
-- `.planning/foundation/glossary-inventory.md` — what was in the glossary before the 2026-04-29 expansion.
-- `.planning/foundation/plan.md` — the foundation-building implementation plan.
-- `.planning/foundation/tier-2-gap-research.md` — Tier 2 research that informed the Decision-making loop folder relocation.
+- `dev/planning/foundation/glossary-inventory.md` — what was in the glossary before the 2026-04-29 expansion.
+- `dev/planning/foundation/plan.md` — the foundation-building implementation plan.
+- `dev/planning/foundation/tier-2-gap-research.md` — Tier 2 research that informed the Decision-making loop folder relocation.

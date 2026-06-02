@@ -1,13 +1,13 @@
 # Foundation completion plan
 
-> **Archive note.** This is a pre-merge planning artifact. References to deleted `JTBDs/`, `User flows/`, Tier 4 user-flow, Tier 5 UI-primitive, `Multi-position`, or placeholder RWA structures are historical source-state references. Current canonical navigation lives in `../../README.md`, `../../CLAUDE.md`, and `../../user-flows/`.
+> **Archive note.** This is a pre-merge planning artifact. References to deleted `JTBDs/`, `User flows/`, Tier 4 user-flow, Tier 5 UI-primitive, `Multi-position`, or placeholder RWA structures are historical source-state references. Current canonical navigation lives in `../../README.md`, `../../CLAUDE.md`, and `../../user/flows/`.
 
 Status: archived pre-merge draft. The current post-merge canonical structure is documented in `../../README.md` and `../../CLAUDE.md`.
 
 Inputs:
 
-- `.planning/foundation/glossary-inventory.md` — 49 concept terms (47 foundation-relevant) + 21 data-contract field references + 10 inconsistencies.
-- `.planning/foundation/tier-2-gap-research.md` — 3-mode ↔ 6-row mapping (2 ambiguities), agent-reader synthesis (4 silent points), Glance/Analyze/Act per persona, file-move reference inventory (5 references, 4 break).
+- `dev/planning/foundation/glossary-inventory.md` — 49 concept terms (47 foundation-relevant) + 21 data-contract field references + 10 inconsistencies.
+- `dev/planning/foundation/tier-2-gap-research.md` — 3-mode ↔ 6-row mapping (2 ambiguities), agent-reader synthesis (4 silent points), Glance/Analyze/Act per persona, file-move reference inventory (5 references, 4 break).
 
 Locked-by-user decisions feeding this plan:
 
@@ -64,7 +64,7 @@ For terms also in risk-configuration-dictionary.md:
 > See also: [risk-configuration-dictionary.md](path)#`<param>`.
 
 For terms with thresholds:
-> See also: [Benchmarks](Benchmarks%20and%20tresholds%20for%20metrics.md) — green/yellow/red rows.
+> See also: [Position risk and monitoring](Position risk and monitoring%20and%20tresholds%20for%20metrics.md) — green/yellow/red rows.
 ```
 
 ### 1.4 Out of scope
@@ -106,7 +106,7 @@ Reference inventory: 4 of 5 references break (README:18, README:19, CLAUDE.md:47
 
 **T1. Per-persona Glance content tables.** Two tables (LP and CA) listing what content surfaces in each layer, drawn from `tier-2-gap-research.md` §3.1 and §3.2. The LP Glance is the 5 ownership questions (with the 2 named "Glance at …" sub-jobs as the strongest); the CA Glance is Q1 (HF, < 3 s) and Q2 (Net APY, < 5 s).
 
-**T2. Benchmarks ↔ Glance/Analyze relationship.** Note that the Benchmarks file is the source of Glance verdict inputs, but most rows are Analyze-tier evidence. The "Overview or advanced" column at `Benchmarks…:26` already encodes the Glance / Analyze split for CA — formalise the convention here so it propagates.
+**T2. Position risk and monitoring ↔ Glance/Analyze relationship.** Note that the Position risk and monitoring file is the source of Glance verdict inputs, but most rows are Analyze-tier evidence. The "Overview or advanced" column at `Position risk and monitoring…:26` already encodes the Glance / Analyze split for CA — formalise the convention here so it propagates.
 
 **T3. Agent vs human surfacing.** Add the divergence note: same hierarchy (verdict first, then analysis, then action), different format (raw values + verdict for agents; plain-language translation for humans). Cite `JTBDs/Credit Account management - JTBD.md:17` for the plain-language principle.
 
@@ -172,7 +172,7 @@ Numbered for quick stamping. Recommendations marked.
 - DA.1 — Add explicit agent-reader paragraph in Entry points (§3.1.E4)? *(recommend: yes)*
 - DA.2 — Mark the 4 silent points (persistent state, autonomous Decisions, Emergency protocol, agent-whitelist vs bot-signer) with `==note:==` as open questions? *(recommend: yes — they're real gaps, the marker is the project's grep-test)*
 
-**DB · Benchmarks ↔ Three-layer**
+**DB · Position risk and monitoring ↔ Three-layer**
 
 - DB.1 — Formalise the "Overview or advanced" column convention in the Three-layer doc (§3.2.T2)? *(recommend: yes — pulls the implicit split into Tier 1 where it belongs)*
 

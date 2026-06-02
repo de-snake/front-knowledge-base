@@ -20,7 +20,7 @@ Q6 (oracle freshness / divergence / methodology) is excluded from the Pool LP Gl
 
 - **Q5 canary fires** — share-price drop or insurance-fund delta. Oracle is the prime suspect for the upstream cause; Q6 runs to identify whether a stale or methodology-shifted feed caused the realised loss.
 - **Q3 detects a new top-3 collateral** — the new token's oracle is suspect by default until verified against the LP's accepted-methodology list.
-- **LP is sophisticated** — institutional, structured-product desk, or RWA-aware. Persistent T2 coverage on every monitoring call.
+- **LP is sophisticated** — institutional, structured-product desk, or issuer-controlled-asset-aware. Persistent T2 coverage on every monitoring call.
 - **Known structural oracle risk on dominant collateral** — pool has a dominant collateral on a NAV / hardcoded / hybrid feed. The cascade-vs-trap shape ([[Pool deposit - reference#Drill — Oracle types and LP risk shapes|drill ↗]]) makes oracle drift a non-cosmetic concern.
 
 When none fire, Q6 is skipped and the `MonitoringSnapshot.verdicts.q6_oracle` field is absent.

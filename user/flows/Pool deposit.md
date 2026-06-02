@@ -75,7 +75,7 @@ A 1–3 `Opportunity.id[]` shortlist (each with `title` for human-readable label
 
 ### Compute (agent-side)
 
-Per candidate, run Q1 → Q5 below. Each Q has its own retrieval, reasoning, and exit gate. The agent's tolerances (for RWA exposure, curator trust, monitoring cadence, etc.) are derived during analysis — they emerge from each pool's properties rather than being pre-set user inputs.
+Per candidate, run Q1 → Q5 below. Each Q has its own retrieval, reasoning, and exit gate. The agent's tolerances (for issuer-controlled collateral exposure, curator trust, monitoring cadence, etc.) are derived during analysis — they emerge from each pool's properties rather than being pre-set user inputs.
 
 Across candidates, compare verdicts side-by-side and pick a winner — or explicitly abort. Surface a reasoning trail (which Qs cleared, which had caveats, why this winner).
 
@@ -123,7 +123,7 @@ Q1–Q5 deep-dives below.
 | Maximum potential exposure per token | T1 | `min(pool max debt; token quota limit; sum over CMs where it has nonzero LT (CM debt limit))` — the upper bound on how much pool capital could ride on this single token's collateral if utilisation grows to caps. | `Pool.totalDebtLimit`; `Pool.quotedTokens[].{quotaLimit, quotaRate, quotaUsed}`; `Pool.insuranceFundBalance`; per CM accepting the token: CM identity, debt limit, pause status, expiration, collateral LT/enabled/forbidden status, and LT-ramp schedule. |
 | Live oracle sanity at entry | T1 | Feed not stale (`now - lastUpdate > stalenessWindow`); `mainOracle` and `reserveOracle` agreeing within tolerance. A broken feed at entry fails the gate. | Oracle last-update timestamp, staleness window, and main/reserve prices per quoted token. |
 | Oracle type → risk shape | T2 | Map oracle category to LP failure mode: market = liquidity-cascade; NAV / fundamental = liquidity-trap; hardcoded = silent trap. [[Pool deposit - reference#Drill — Oracle types and LP risk shapes\|drill ↗]] | Oracle category and methodology per quoted token (`market`, `nav`, `hardcoded`, or `hybrid`; derived from methodology if not exposed directly). |
-| Per-token 3-layer risk profile | T2 | T1 surface for this Q is a single per-token verdict; T2 surfaces per-pillar evidence behind it via the [Steakhouse Layers, Pillars and Criteria](https://www.steakhouse.financial/docs/risk-management/collateral/layers-pillars-and-criteria) framework. [[Pool deposit - reference#Drill — Per-token 3-layer risk profile (Steakhouse)\|drill ↗]] | RWA-collateral presence flag. External (no pre-computed token risk profile): curator-published ratings; Credora / [Steakhouse](https://www.steakhouse.financial/docs/markets/readme/morpho-v1) reports; issuer attestations (USDC monthly, USDT semi-annual, etc.); audit reports; governance forums; token-specific docs (Lido for stETH, Securitize for RWAs, Curve / Convex / Balancer for LP tokens). |
+| Per-token 3-layer risk profile | T2 | T1 surface for this Q is a single per-token verdict; T2 surfaces per-pillar evidence behind it via the [Steakhouse Layers, Pillars and Criteria](https://www.steakhouse.financial/docs/risk-management/collateral/layers-pillars-and-criteria) framework. [[Pool deposit - reference#Drill — Per-token 3-layer risk profile (Steakhouse)\|drill ↗]] | Issuer-controlled collateral presence flag. External (no pre-computed token risk profile): curator-published ratings; Credora / [Steakhouse](https://www.steakhouse.financial/docs/markets/readme/morpho-v1) reports; issuer / reserve attestations. |
 | **Synthesis** | — | Per-token verdict for each quoted token; the dominant-exposure token's worst-case failure mode (cascade vs trap) is the gate. Insurance fund net of **current** exposure sets the LP's loss surface today; **max** exposure sets the ceiling under fully-utilised conditions. | — |
 
 ==note: the per-token max-exposure aggregate (the `min(...)` above) is a derived field. Decide whether it computes MCP-side and returns per-token, or backend returns raw fields and the agent computes. Either is acceptable; product surface is the same==
@@ -292,10 +292,10 @@ For each `decision` with `action: "deposit"`:
 
 - **Expected shares** at the deposit amount via `ERC-4626 previewDeposit`. A large deviation from the model means pool state changed since Analyze.
 - **Share price / exchange rate** vs Analyze-time snapshot. A drop indicates a possible bad-debt event between memo and execution.
-- **Projected pool TVL after deposit** + the resulting concentration percentage. If the user becomes >10% of the pool, they may want to reduce.
-- **Deviation flags** — explicit checks: APY changed >10%, utilisation changed >5pp, TVL changed >20% since the action was proposed.
+- **Projected pool TVL after deposit** + the resulting concentration percentage. If the projected concentration exceeds the user / mandate concentration policy, the user may reduce size or route to review.
+- **Deviation flags** — APY, utilisation, TVL, and share-price changes since the action was proposed, evaluated against user / mandate tolerance or product guardrails rather than hidden defaults.
 - **Gas estimate** (USD).
-- **Warnings array** — free-text UX strings (e.g., "pool utilisation will exceed 95% after deposit").
+- **Warnings array** — free-text UX strings (e.g., "pool utilisation will exceed the configured utilisation ceiling after deposit").
 
 ### Outputs (the hand-off to Stage 5)
 

@@ -1,7 +1,7 @@
 # Credit Account opening (CA × Entry)
 
 **Persona:** [[Personas and audience#CA operator (leveraged user)]]
-**Lifecycle scope:** Entry. Stages 1–5 of the canonical loop. Stage 6 (ongoing) is owned by [[Credit Account monitoring]].
+**Lifecycle scope:** Entry. Stages 1–5 of the canonical loop. Stage 6 (ongoing) is owned by [[Credit Account management]].
 **Session mode:** [[Entry points|Decision]] (full traversal Discover → Execute).
 
 ## Job statement
@@ -53,7 +53,7 @@ Backend hard filters on `chain`, `access` (`permissionless` / `kycRequired` / `a
 
 ==resolved_note: bestBaseYield — useful when the same strategy aggregates multiple CMs / curators; surface the spread to let the user pick the best CM at Stage 2.==
 
-==resolved_note: 0 strategies / pools available on the user's chain — agent surfaces a bridge-or-swap suggestion at Analyze stage (only for same-asset bridging via partner; "Press the button — bridge through {partner}. Note that we are not responsible for this 3rd-party service").==
+==resolved_note: 0 strategies / pools available on the user's chain — agent surfaces a bridge-or-swap suggestion at Analyze stage (only for same-asset bridging via a partner protocol; "Bridge through {partner}. Note that Gearbox does not operate this partner protocol service.").==
 
 ### Outputs (the hand-off to Stage 2)
 
@@ -65,9 +65,9 @@ A 1–3 candidate shortlist (mix of `PoolOpportunity.id[]` and `StrategyOpportun
 
 **Sub-jobs satisfied here:**
 - **Validate net economics** — net yield clears hurdle, breakeven < horizon, IRM curve not fragile to utilisation drift. _(Q1)_
-- **Validate collateral safety + oracle** — asset properties, Gearbox params (LT / LT-ramp / forbidden / quota), oracle methodology, safe-pricing exit HF, structural-risk disclosure, RWA compliance layer (when RWA). _(Q2)_
+- **Validate collateral safety + oracle** — asset properties, Gearbox params (LT / LT-ramp / forbidden / quota), oracle methodology, safe-pricing exit HF, structural-risk disclosure, issuer-controlled collateral branch when applicable. _(Q2)_
 - **Verify exit feasibility** — price impact at size, iterative-unwind feasibility, borrowable-liquidity headroom, delayed-withdrawal compatibility, adapter routing constraints. _(Q3)_
-- **Assess curator + CM envelope** — curator identity / track record, CM operational envelope (paused, expiration, debt-limit), KYC-gated routing if RWA, LT calibration discipline. _(Q4)_
+- **Assess curator + CM envelope** — curator identity / track record, CM operational envelope (paused, expiration, debt-limit), compliance-gated routing when applicable, LT calibration discipline. _(Q4)_
 - **Classify pending changes** — what's queued in governance, recent change pace; LT ramps and oracle changes carry the highest priority. _(Q5)_
 
 **Exit gate:** every Q below answers Yes (or "acceptable to me"). The user has chosen a winner from the shortlist, or explicitly aborts.
@@ -80,7 +80,7 @@ A 1–3 candidate shortlist (mix of `PoolOpportunity.id[]` and `StrategyOpportun
 | --- | --- |
 | Candidate identifiers | 1–3 `StrategyOpportunity.id[]` from Stage 1's hand-off. |
 | Floor APY | Carried from Stage 1; gates Q1's net-APY check. |
-| Risk / return tolerance | Session-level config (agent-derived defaults if not user-set): `hfFloor` default `1.3`, `holdHorizon` default open-ended, max acceptable LT-ramp velocity, accepted oracle methodologies. The agent uses these to **derive target leverage per candidate** at Q1 / Q2 (not asked of the user). |
+| Risk / return tolerance | User- or mandate-supplied policy: `hfFloor`, `holdHorizon`, accepted oracle methodologies, and how much LT-ramp / leverage / liquidity risk the user is willing to carry. If policy is missing, the agent records a recommended policy and routes the decision to user review; it does not silently apply a default. |
 | Available capital | The amount the user wants to deploy this session — feeds Q3 exit-price-impact at the candidate-specific position size. Per [[Personas and audience#CA operator (leveraged user)|Personas]] preference for minimalist user input, position size is normally `available capital` directly; sub-allocation across multiple strategies happens at Stage 3. |
 
 ### Compute (agent-side)
@@ -112,25 +112,25 @@ Q1–Q5 deep-dives below.
 
 ### Q2 · How safe is my collateral? What could force liquidation?
 
-**Exit gate:** "Post-open HF clears floor at target leverage; no LT ramp crosses floor within hold horizon; oracle methodology fits the asset's market structure; safe-pricing exit HF acceptable; RWA compliance layer (if applicable) clears trust."
+**Exit gate:** "Post-open HF clears floor at target leverage; no LT ramp crosses floor within hold horizon; oracle methodology fits the asset's market structure; safe-pricing exit HF acceptable; issuer-controlled collateral branch (if applicable) clears trust."
 
-**Why this matters.** Multiple P1 CA loss vectors converge here: liquidation (HF drift, LT ramp, oracle move), collateral exposure (token-specific properties), RWA issuer intervention (freeze, KYC, redemption). Oracle is P2 standalone but is the upstream cause when liquidation fires unexpectedly.
+**Why this matters.** Multiple P1 CA loss vectors converge here: liquidation (HF drift, LT ramp, oracle move), collateral exposure (token-specific properties), issuer intervention (freeze, eligibility / KYC, redemption). Oracle is P2 standalone but is the upstream cause when liquidation fires unexpectedly.
 
 **What the agent computes — four lenses:**
 
 | Dimension | Lens | Tier | What the agent does | Data retrieved |
 | --- | --- | --- | --- | --- |
-| Asset properties | Asset | T1 | Issuer, asset type (native / wrapped / LST / LP / RWA / stablecoin / synthetic), native lock-up / withdrawal queue, underlying yield source, ==90d volatility==. | Per-token metadata; external (issuer docs, project pages); price history (90d daily). |
-| HF + LT feasibility at target leverage | Gearbox config | T1 | Compute post-open HF at target leverage; verify HF > **asset-specific recommended `hfFloor`** (not just user default 1.3 — derive per asset class via drill). `maxLeverage = 1 / (1 − LT)`. [[Credit Account opening - reference#Drill — Deriving safe HF margin from asset-specific risk\|drill ↗]] | Per-CM `LT`; user target leverage; asset-specific recommended `hfFloor` from drill. |
+| Asset properties | Asset | T1 | Issuer, asset type (native / wrapped / LST / LP / tokenized security / issuer-controlled / stablecoin / synthetic), native lock-up / withdrawal queue, underlying yield source, ==90d volatility==. | Per-token metadata; external (issuer docs, project pages); price history (90d daily). |
+| HF + LT feasibility at target leverage | Gearbox config | T1 | Compute post-open HF at target leverage; compare it to the user-approved floor or mandate. If no floor exists, derive a recommended floor from asset properties and route the decision to review before Preview / Execute. `maxLeverage = 1 / (1 − LT)`. [[Credit Account opening - reference#Drill — Deriving safe HF margin from asset-specific risk\|drill ↗]] | Per-CM `LT`; user target leverage; user-approved or recommended `hfFloor`. |
 | LT ramp horizon check | Gearbox config | T1 | If the LT schedule is moving downward: project final LT and the date HF would cross user floor at flat prices. Gate fails if cross-date < hold horizon. | Per-CM LT-ramp schedule: start, end, final LT. |
 | Forbidden mask + delayed-withdrawal coverage | Gearbox config | T1 | Forbidden-tokens (current + pending) over the user's intended collateral set; delayed-withdrawal support per token as available withdrawal paths, expected queue time, and claim readiness. | Forbidden-token status (current + governance queue); product withdrawal-status feed. |
 | Oracle methodology fit | Oracle | T1 | Per-token methodology fit (no oracle type is "good" or "bad" in isolation — market on liquid token = fine, market on thin token = manipulation; hardcoded = safe from manipulation but blocks liquidation on real divergence); freshness vs staleness window; main-vs-reserve divergence within tolerance. [[Pool deposit - reference#Drill — Oracle types and LP risk shapes\|drill ↗]] | Oracle methodology, freshness, staleness window, and main/reserve prices. |
 | Safe-pricing exit HF | Oracle | T1 | Compute exit HF under `min(main, reserve)` per held / planned-held token. Gate fails if exit HF < user floor — this is the worst-case exit valuation per [[Basic info and definitions#Credit Account vocabulary\|Safe pricing]] and applies anytime a held token becomes forbidden, has delayed-withdrawal disabled, or close happens at the curator's discretion. | Main/reserve oracle prices per held token; per-CM safe-pricing rule. |
 | Oracle 90d history | Oracle | T2 | Recent anomalies, historical main + reserve daily — main for most cases, check main + reserve on partial withdrawal. ==note: showing oracle-based price might be a bad idea. we do not collect real market price. In Collateral details we might show real market price vs oracle price.== | External daily oracle history. |
 | Structural risk disclosure | Structural | T2 | Bad-debt-socialisation note, withdrawal-queue mechanics, expiration mechanic per CM. Borrow-rate-history from Q1 also a liquidation signal — extreme rate spikes can liquidate via interest accrual. [[Credit Account opening - reference#Drill — Structural risk taxonomy\|drill ↗]] | Per-CM expiration + delayed-withdrawal config; cross-ref Q1 `borrowApy.90dSeries`. |
-| RWA compliance layer | Platform (RWA only) | T1 | Transfer restriction type (DS Token Protocol / ERC-3643 / custom); freeze authority + capability; investor reassignment risk; whitelisted-liquidator count above the threshold tracked in [[Data requirements and to-dos]] · "RWA whitelisted-liquidator threshold"; **next redemption window compatible with hold horizon** (gate fails if hold-horizon end falls in a no-redemption gap); secondary-market liquidity. [[Credit Account opening - reference#Drill — RWA compliance layers\|drill ↗]] | RWA-platform endpoint per CM (Securitize, etc.). |
+| Issuer-controlled collateral branch | Platform (conditional) | T1 | If the collateral is a tokenized security, issuer-controlled asset, redemption-window asset, or otherwise compliance-gated asset, check transfer restrictions, freeze authority + capability, eligibility state, investor reassignment risk, eligible-liquidator depth, redemption / claim timing, and secondary-market liquidity. If issuer or eligibility state is missing, do not treat the collateral as ordinary liquid collateral. [[Credit Account opening - reference#Drill — issuer-controlled collateral branch\|drill ↗]] | Issuer / platform endpoint per CM or asset program; product data feed for eligible-liquidator depth and redemption state. |
 | Per-token 3-layer risk profile | Steakhouse | T2 | Asset / Platform / Market layer pillar grades. [[Pool deposit - reference#Drill — Per-token 3-layer risk profile (Steakhouse)\|drill ↗]] | Curator / Credora / Steakhouse external publications; per-token issuer attestations. |
-| **Synthesis** | — | — | T1 across the four lenses gates the open: HF feasibility, LT-ramp horizon, oracle methodology fit + safe-pricing exit HF, RWA compliance (when RWA). T2 adds structural-historical context for sophisticated users or when a T1 verdict is borderline. The dominant-risk lens varies per asset class — for LSTs it's oracle methodology + de-peg history; for RWAs it's compliance layer; for LP tokens it's underlying-component risk + DEX liquidity. | — |
+| **Synthesis** | — | — | T1 across the lenses gates the open: HF feasibility, LT-ramp horizon, oracle methodology fit + safe-pricing exit HF, and any collateral-specific branch. T2 adds structural-historical context for sophisticated users or when a T1 verdict is borderline. The dominant-risk lens varies per asset class — for LSTs it is oracle methodology + depeg history; for issuer-controlled collateral it is eligibility / freeze / redemption state; for LP tokens it is underlying-component risk + DEX liquidity. | — |
 
 ### Q3 · Can I exit at size when I need to?
 
@@ -151,7 +151,7 @@ Q1–Q5 deep-dives below.
 
 ### Q4 · Who manages this CM, and is the envelope stable?
 
-**Exit gate:** "Curator clears default trust; CM not paused; not near expiration; no hostile pending governance; new-debt-per-block cap non-zero; KYC-gated routing (if RWA-KYC) is acceptable to the user."
+**Exit gate:** "Curator clears the user's trust criteria; CM not paused; not near expiration for the user's horizon; no hostile pending governance; new-debt-per-block cap non-zero; compliance-gated routing, if present, is acceptable to the user."
 
 **Why this matters.** Silent curator changes (P1) and expiration (P1) are two distinct loss vectors that converge at the curator + CM envelope level. The curator chose the parameters; the CM is the immediate operational container that can become un-borrowable, expirable, or paused.
 
@@ -162,7 +162,7 @@ Q1–Q5 deep-dives below.
 | Curator identity & governance | best-of | T1 | Identity & legitimacy; decentralisation of authority; technical surface. ==note: add more info about the curator, e.g. from DefiLlama and info about bad debt — check other aggregators; maybe ChatGPT with weekly updates about incidents and bad debt.== [[Pool deposit - reference#Drill — Curator identity & governance\|drill ↗]] | `Curator.identity`; `Curator.governanceMechanism`; external (DefiLlama / GitHub / X / governance forums). |
 | CM operational envelope | worst-of | T1 | Paused status, per-block borrow capacity (zero means no new borrows allowed → skip), current debt-limit utilisation, facade pause. [[Credit Account opening - reference#Drill — CM operational envelope\|drill ↗]] | CM operational state: pause status, per-block borrow capacity, current debt, debt limit, and facade pause. |
 | CM expiration horizon | n/a | T1 (expirable CMs only) | For expirable CMs: `expirationTimestamp − now` vs `userThesis.holdHorizon + buffer`. Gate fails if expiration falls before horizon — forced exit at reduced premium is a known failure mode. The legacy decision-criterion 5 carries this as a top-level "good open" gate, and so does this row. | CM expiration timestamp; user hold horizon. |
-| KYC-gated CM operational | conditional | T1 (RWA-KYC) | Operations require compliance-gated execution; bot delegation is blocked; the user must remain in a human-in-the-loop management path. [[Credit Account opening - reference#Drill — KYC-gated execution path\|drill ↗]] | Per-CM compliance-gated execution flag; bot-delegation policy. |
+| KYC-gated CM operational | conditional | T1 (compliance-gated) | Operations require compliance-gated execution; bot delegation is blocked; the user must remain in a human-in-the-loop management path. [[Credit Account opening - reference#Drill — KYC-gated execution path\|drill ↗]] | Per-CM compliance-gated execution flag; bot-delegation policy. |
 | Operational track record | worst-of | T2 | Lindy, process maturity, transparency (`cumulativeBadDebtUsd`, `totalAumUsd`, prior incidents). [[Pool deposit - reference#Drill — Curator operational track record\|drill ↗]] | `Curator.{firstOperationDate, cumulativeBadDebtUsd, badDebtIncidents[]}`. |
 | LT calibration discipline | n/a | T2 | Does curator's per-token LT match observable risk? Does `maxLeverage = 1 / (1 − LT)` align with the asset's true depeg / liquidation-cascade exposure? [[Pool deposit - reference#Drill — Curator design discipline\|drill ↗]] | `Pool.parameters` per-token LT; cross-ref Q2 per-token risk profiles. |
 | **Synthesis** | — | — | T1 gates on identity (best-of pillar), CM operational envelope (worst-of), and KYC-gated routing (if applicable). T2 fires for sophisticated LPs or when a T1 verdict is borderline. The CM expiration check is binary for non-expirable CMs and a horizon-comparison for expirable ones. | — |
@@ -188,7 +188,7 @@ Q1–Q5 deep-dives below.
 | Liquidation-premium / -discount changed | material | [[#Q2 · How safe is my collateral? What could force liquidation?\|Q2]] liquidation haircut — affects worst-case loss size. | T2 | Liquidation-terms update |
 | LT raised | info-only | not gated | info | LT-parameter change signal |
 | Curator metadata updates | info-only | not gated | info | Curator-profile update |
-| **Synthesis** | — | Two lenses. **Pace** — frequency of material changes (≤1/quarter = quiet; multiple/month = busy). **Queue** — pending changes evaluated against thesis. LT ramps and oracle changes carry the highest CA-specific severity (direct HF impact, no price movement required). ==note: could add our severity position on each point — is it critical or not?== | — | — |
+| **Synthesis** | — | Two lenses. **Pace** — frequency and clustering of material changes relative to the user's horizon and change-tolerance policy. **Queue** — pending changes evaluated against thesis. LT ramps and oracle changes carry the highest CA-specific severity because they can affect HF without price movement. ==note: severity should be policy-backed, not a universal fixed threshold.== | — | — |
 
 > Все это непонятно и требует пояснений на примере
 
@@ -204,7 +204,7 @@ ResearchMemo {
   recommendation: "strong" | "acceptable" | "risky" | "reject",
   one_liner,
   profit: { net_apy, apy_decomposition, breakeven_days, irm_sensitivity_score },
-  risk: { summary, hf_at_target_leverage, lt_ramp_horizon, oracle_health, exit_feasibility, curator_trust, pending_changes, rwa_compliance? },
+  risk: { summary, hf_at_target_leverage, lt_ramp_horizon, oracle_health, exit_feasibility, curator_trust, pending_changes, issuer_controls? },
   constraints: { min_position_usd, max_position_usd, max_leverage, hf_floor_required },
 }
 ```
@@ -246,8 +246,8 @@ The agent acts as an Investment Committee with a **route-selection mandate** abs
 | Per-candidate fund / skip | T1 | Classify each `ResearchMemo` → `open_ca` / `skip` based on risk verdict + capital availability + user's already-open positions. | `ResearchMemo[]`; available capital; current portfolio state. |
 | Sizing per funded candidate | T1 | Within `[minDebt, maxDebt]`, available capital, and per-CM concentration cap. ==note: add info about credit manager potential / suggested== | Per-candidate `min_position_usd` / `max_position_usd` / `max_leverage` from memo; available capital. |
 | Target-leverage selection | T1 | Below `maxLeverage(LT)`; post-open HF > user floor; check that net APY at chosen leverage still clears hurdle. | Per-candidate `max_leverage`, `hf_floor_required`; user thesis. |
-| Route selection | T1 | Adapter set, slippage tolerance, max-price-impact budget for the entry swap (underlying → target collateral). Stage 3 sets the budget; Stage 4 gates on `simulated swap impact ≤ budget`. [[Credit Account opening - reference#Drill — IC decision palette + route selection\|drill ↗]] | Available adapters per CM; price-impact estimates from Q3 retrieval; user-config slippage tolerance (default 50 bps). |
-| Cross-candidate diversification | T2 | Concentration / correlation budgets across the funded set. | Agent-derived thresholds. |
+| Route selection | T1 | Adapter set, slippage tolerance, max-price-impact budget for the entry swap (underlying → target collateral). Stage 3 sets the user-approved budget; Stage 4 gates on `simulated swap impact ≤ budget`. [[Credit Account opening - reference#Drill — IC decision palette + route selection\|drill ↗]] | Available adapters per CM; price-impact estimates from Q3 retrieval; user / mandate slippage tolerance. |
+| Cross-candidate diversification | T2 | Concentration / correlation budgets across the funded set. If the user has not supplied these budgets, surface the proposed budget for review instead of applying a hidden threshold. | User / mandate concentration policy; current portfolio state. |
 | Existing-portfolio dedup | T2 | Reduce / skip candidates whose exposure overlaps existing positions. | Cross-position retrieval. |
 | **Synthesis** | — | Output `AllocationDecision[]` per candidate with `route` field. Palette extends Pool deposit's IC palette with snake_case action values: `open_ca`, `adjust_leverage` (existing CA), `rebalance` (within-position composition shift), `skip`, `no_op`. Invariant: `total_deployed_usd + reserve_usd = available capital`. [[Credit Account opening - reference#Drill — IC decision palette + route selection\|drill ↗]] | — |
 
@@ -283,7 +283,7 @@ AllocationDecision {
 
 **Sub-job (part 2 of Commit position):** validate the `AllocationDecision` against current chain state by simulating the exact multicall — open CA + borrow + entry swap.
 
-**Exit gate:** "Simulation matches proposal: HF after open ≥ user floor (default user-configurable, with 1.07 as the conventional default flag — see [[Benchmarks and tresholds for metrics#CA-related|Benchmarks]] HF row); actual leverage within ±5 % of target; swap impact ≤ Stage 3 max-price-impact budget; no deviation flags fire (`borrowableLiquidity dropped > 40 % since Analyze`, etc.); gas acceptable."
+**Exit gate:** "Simulation matches proposal: HF after open ≥ the approved user floor; actual leverage remains inside the user-approved tolerance; swap impact ≤ Stage 3 max-price-impact budget; no material deviation flags fire; gas acceptable." If no user-approved safety floor or execution tolerance exists, Preview may simulate but cannot mark the package ready to execute.
 
 **User's goal:** "Will this exact multicall produce the position I expect, against current chain state?"
 
@@ -298,12 +298,12 @@ AllocationDecision {
 
 For each `decision` with active `action`, simulate the multicall via SDK router and collect:
 
-- **Simulated HF after open** — gate: HF > user floor; default fallback 1.07.
+- **Simulated HF after open** — gate: HF exceeds the user-approved floor. If the floor is missing, Preview reports the simulated HF but requires user review before Execute.
 - **Position value (USD)** — sanity check against proposal sizing.
-- **Actual leverage** — may differ from target due to swap impact. 5 → 5.2× acceptable; 5 → 6.1× concerning. Slippage tolerance + max-price-impact from Stage 3 are the binding parameters.
+- **Actual leverage** — may differ from target due to swap impact. Compare the result to the Stage 3 leverage tolerance and max-price-impact budget; do not classify it against a hidden default.
 - **Swap impact (bps)** — compare to entry-cost estimate from Analyze. Significantly worse = abort.
 - **Token balances after open** — full composition post-open.
-- **Deviation flags** — `borrowableLiquidity dropped > 40 % since Analyze`, `HF below user floor`, `swap impact > X bps worse than estimate`.
+- **Deviation flags** — material drops in borrowable liquidity since Analyze, HF below user floor, or swap impact worse than the Stage 3 budget.
 - **Gas estimate (USD).**
 - **Warnings array** — free-text UX strings.
 - **Multicall data** — ready to sign.
@@ -370,8 +370,8 @@ TransactionConfirmation {
 }
 ```
 
-**Hand-off to Stage 6.** A `TransactionConfirmation[]` per executed open. Stage 6 ([[Credit Account monitoring]]) picks up monitoring from these confirmations. The agent records the post-open state as the initial `agentLog.previousCheck` for the new CA.
+**Hand-off to Stage 6.** A `TransactionConfirmation[]` per executed open. Stage 6 ([[Credit Account management]]) picks up monitoring from these confirmations. The agent records the post-open state as the initial `agentLog.previousCheck` for the new CA.
 
 ## Stage 6 · Monitor (handoff)
 
-Ongoing monitoring is a separate, recurring job. See [[Credit Account monitoring]].
+Ongoing monitoring is a separate, recurring job. See [[Credit Account management]].

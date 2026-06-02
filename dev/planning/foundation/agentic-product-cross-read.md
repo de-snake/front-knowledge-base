@@ -1,6 +1,6 @@
 # Cross-read: Gearbox Agentic Product vs Front Knowledge Base
 
-> **Archive note.** This is a pre-merge planning artifact. References to deleted `JTBDs/`, `User flows/`, Tier 4 user-flow, Tier 5 UI-primitive, `Multi-position`, or placeholder RWA structures are historical source-state references. Current canonical navigation lives in `../../README.md`, `../../CLAUDE.md`, and `../../user-flows/`.
+> **Archive note.** This is a pre-merge planning artifact. References to deleted `JTBDs/`, `User flows/`, Tier 4 user-flow, Tier 5 UI-primitive, `Multi-position`, or placeholder RWA structures are historical source-state references. Current canonical navigation lives in `../../README.md`, `../../CLAUDE.md`, and `../../user/flows/`.
 
 Date: 2026-04-29
 
@@ -8,7 +8,7 @@ Date: 2026-04-29
 
 Primary project reviewed: `projects/gearbox-agentic-product/`
 
-Primary comparison target: `projects/front-knowledge-base/.planning/foundation/deep-analysis-report.md`
+Primary comparison target: `projects/front-knowledge-base/dev/planning/foundation/deep-analysis-report.md`
 
 Key files read from the agentic product project:
 
@@ -68,7 +68,7 @@ This answers the earlier uncertainty around whether the front vault is only prod
 
 **Status: partially answered.**
 
-The agentic project gives a better Preview contract than the front vault, but still marks the concrete backend type as missing.
+The agentic project gives stronger Preview rules than the front vault, but still marks the concrete backend type as missing.
 
 Canonical preview rule:
 
@@ -117,7 +117,7 @@ Stage-specific preview fields are also listed:
 
 **Remaining gap:** `TransactionPreview`, `PreviewAction`, `BalanceChange`, `PreviewRoute`, `ExitInfo`, `RawTx`, and `ExecutionReadyAction` are still marked missing in `types_.ts`.
 
-**Implication for front vault:** The earlier recommendation to create `Data contracts.md` is confirmed, but the starting content can be lifted from the agentic project rather than invented from scratch.
+**Implication for front vault:** The stage-handoff and Preview details should be folded into the canonical loop, execution boundary, and backend requirements rather than invented from scratch.
 
 ### 3. Is the agent/bot boundary clarified?
 
@@ -149,7 +149,7 @@ Boundaries established:
 
 Important RWA-specific answer: the CA due-diligence doc says SecuritizeWallet blocks bot permissions and KYC-gated CMs route operations through SecuritizeKYCFactory → SecuritizeWallet → CreditFacade. That means RWA/KYC products cannot be treated as ordinary bot-managed positions.
 
-**Implication for front vault:** `Agent execution boundaries.md` is still needed, but it should start from the agentic project's execution modes and add product-policy rows.
+**Implication for front vault:** The execution-boundary rules should start from the agentic project's execution modes and add product-policy rows in the session / entry-point layer.
 
 ### 4. Are schemas/data contracts clarified?
 
@@ -202,7 +202,7 @@ Next layer:
 - `ClaimableWithdrawal`
 - `BotPermissionState`
 
-**Implication for front vault:** The `Data contracts.md` recommendation should not be a blank rewrite. It should import this stage mapping and turn it into a frontend-readable contract table with status, source, freshness, owner, and used-by surfaces.
+**Implication for front vault:** The stage-handoff vocabulary should import this stage mapping and turn it into frontend-readable requirements with status, source, freshness, owner, and used-by surfaces.
 
 ### 5. Are RWA/KYC specifics clearer?
 
@@ -331,15 +331,15 @@ The agentic project organizes data by stage and by agent question. This is more 
 
 The practical slice model should become:
 
-1. Discover contracts — opportunity scan types.
-2. Analyze contracts — due diligence facts, history, curator, governance, oracle, RWA profiles.
-3. Propose contracts — `ProposedAction`, `RawTx`, route result.
-4. Preview contracts — `TransactionPreview`, deltas, warnings, route, calldata, execution-ready handoff.
-5. Execute contracts — execution mode, verifier/reviewer payload, bot permission state.
-6. Monitor contracts — position state, attribution, alerts, emergency state, delayed withdrawals.
+1. Discover handoff — opportunity scan types.
+2. Analyze handoff — due diligence facts, history, curator, governance, oracle, RWA profiles.
+3. Propose handoff — `ProposedAction`, `RawTx`, route result.
+4. Preview handoff — `TransactionPreview`, deltas, warnings, route, calldata, execution-ready handoff.
+5. Execute handoff — execution mode, verifier/reviewer payload, bot permission state.
+6. Monitor handoff — position state, attribution, alerts, emergency state, delayed withdrawals.
 7. RWA/KYC extensions — compliance profile, asset profile, account state, redemption schedule.
 
-This directly answers the earlier weakness: `Data requirements and to-dos.md` should be split by vertical stage contracts, not by loose backlog themes.
+This directly answers the earlier weakness: `Data requirements and to-dos.md` should be organized by vertical stage handoffs, not by loose backlog themes.
 
 ## Net change to the previous front analysis
 
@@ -354,15 +354,15 @@ This directly answers the earlier weakness: `Data requirements and to-dos.md` sh
 | Are RWA risks concrete? | Yes. Freeze, liquidator whitelist, off-chain asset, redemption, reassignment, KYC expiry, blocked bot permissions. | Dedicated RWA user flow still missing in front vault. |
 | How should monitoring explain Health Factor changes? | Use raw components and define `HealthFactorAttribution`. | Type missing; frontend explanation format missing. |
 | Are thresholds canonical? | No. Only examples exist. | Need canonical threshold taxonomy and owner. |
-| Are data contracts listed? | Yes, via backend datatype stage mapping. | Need frontend-readable `Data contracts.md`. |
+| Are stage handoffs listed? | Yes, via backend datatype stage mapping. | Need frontend-readable stage-handoff vocabulary in the canonical docs. |
 
 ## Recommended next edits to `projects/front-knowledge-base/`
 
-1. Create `Data contracts.md` from `projects/gearbox-agentic-product/synthesis/backend-datatype-stage-mapping.md`.
+1. Fold stage-handoff vocabulary from `projects/gearbox-agentic-product/synthesis/backend-datatype-stage-mapping.md` into the canonical loop and backend requirements.
 
-2. Create `Preview contract.md` or a `Preview` section in `Data contracts.md` using the agentic project's `TransactionPreview` shape plus the LP/CA preview-specific fields.
+2. Define the Preview gate using the agentic project's `TransactionPreview` shape plus the LP/CA preview-specific fields.
 
-3. Create `Agent execution boundaries.md` from the agentic execution-mode model, adding product-policy rows for human approval, bot permission scope, emergency behavior, and KYC/RWA restrictions.
+3. Define execution-boundary rules in the entry-point layer from the agentic execution-mode model, adding product-policy rows for human approval, bot permission scope, emergency behavior, and KYC/RWA restrictions.
 
 4. Fill `User flows/rwa-leverage.md` as a CA operator variant:
    - Analyze: RWA asset/compliance profile.

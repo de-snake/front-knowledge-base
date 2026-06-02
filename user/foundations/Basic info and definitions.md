@@ -35,18 +35,30 @@ utilization = borrowed amount / supply
 
 `Discover → Analyze → Propose → Preview → Execute → Monitor`
 
-The same six stages apply to both Pool and Credit Account flows. This is the organising spine of the rest of the document.
+The same six stages apply to both Pool and Credit Account flows. This is the organising spine of the rest of the vault.
 
-| # | Stage | Description |
-| --- | --- | --- |
-| 1 | **Discover** | the user scans a **unified opportunity surface — `PoolOpportunity` and `StrategyOpportunity` together** — and narrows to 1–3 candidates. The candidate type (pool vs strategy) determines which downstream flow doc continues at Stage 2. |
-| 2 | **Analyze** | the user does due diligence on each finalist and forms an evidence-backed ranking. |
-| 3 | **Propose** | the user commits to a specific action: amount, collateral, leverage, route. Or explicitly decides to do nothing. |
-| 4 | **Preview** | the exact transaction package is simulated against current chain state; pass/fail gate. |
-| 5 | **Execute** | the previewed bytes are signed (human-in-the-loop or bot) and submitted. |
-| 6 | **Monitor** | periodic checks that thesis still holds; meaningful deviation loops back to Analyze, failed preview loops back to Propose. |
+This section defines the shared purpose and handoff shape only. The canonical flow docs in `user/flows/` own the exact `Inputs / Compute / Outputs` for each stage and action class.
+
+| # | Stage | Purpose | Expected input | Expected output |
+| --- | --- | --- | --- | --- |
+| 1 | **Discover** | Find candidate pools and strategies that satisfy coarse user filters. | User mandate, asset class / chain / access filters, size, and the current opportunity universe. | 1–3 `PoolOpportunity` / `StrategyOpportunity` candidates with stable ids and reasons for inclusion. |
+| 2 | **Analyze** | Decide whether each candidate is viable and why. | Discover candidates, user thesis / constraints, protocol state, market history, and labelled external data. | Evidence-backed ranking or keep / reject verdict, with caveats and missing-data labels. |
+| 3 | **Propose** | Convert the selected thesis or monitoring drift into a concrete action. | Selected candidate or existing position, user constraints, current drift reason, and action-class palette. | Specific action intent: amount, target, route class, constraints, fallback, or explicit no-op. |
+| 4 | **Preview** | Simulate the exact action package and classify whether it can proceed. | Proposed action plus fresh protocol, backend, issuer / compliance, and user-policy inputs needed for that action class. | Pass / fail verdict, before/after state, warning list, approval mode, and the exact execution package. |
+| 5 | **Execute** | Submit only the approved previewed package. | Approved Preview handoff, signer or scoped bot authorization, and matching execution package. | Transaction status, failure reason, or post-action state handed to Monitor. |
+| 6 | **Monitor** | Check whether the position thesis still holds and route material drift. | Existing position, current state, user thesis / policy, and user / agent-side continuity log. | No-op, focused Analyze rerun, ProposedAction, Emergency path, or alert. |
 
 **Stage 1 unification.** The user's Discover question is "find me yield"; the agent searches across both `PoolOpportunity` and `StrategyOpportunity` with the same hard filters (asset class, chain, access) and the same ranking surface (composite or maxLeverage yield, operational health, sizing fit). Coarse reasoning may differ slightly between the two surfaces (strategies have a leverage axis; pools do not), but the candidate filtering is mostly identical. Stage 2 is where the path forks — pool candidates flow into [[Pool deposit]]'s LP due-diligence Q-set; strategy candidates flow into [[Credit Account opening]]'s CA due-diligence Q-set.
+
+**Shared handoff rules.**
+
+- Each stage owns its handoff and passes the minimum object needed by the next stage, not a full data dump.
+- Protocol-readable facts, indexer facts, issuer / compliance facts, product judgment, and user / agent policy inputs must be labelled separately.
+- External data such as rewards, issuer state, governance history, curator history, oracle methodology labels, and user policy must not be silently treated as protocol state.
+- Unknown or unavailable data must surface as an unknown or blocking condition when it affects the verdict.
+- Every state-changing action must pass Preview before Execute. Execute may only submit the package that Preview produced and the user or scoped bot policy approved.
+- If a material input changes between Preview and Execute, the action returns to Preview or Propose.
+- Issuer-controlled collateral fields are extensions to the Pool / Credit Account flow contracts, not a separate universe: issuer, eligibility, freeze, redemption, and liquidation fields attach to the same stage handoffs where relevant.
 
 ## Credit Account vocabulary
 

@@ -1,6 +1,6 @@
-# Credit Account monitoring — reference
+# Credit Account management — reference
 
-Drill sections referenced from [[Credit Account monitoring]]. Each drill is a self-contained explanatory unit; the calling row carries only the verdict-level summary plus a wikilink. Topic names are flow-agnostic where possible; flow-agnostic curator and oracle drills live in [[Pool deposit - reference]].
+Drill sections referenced from [[Credit Account management]]. Each drill is a self-contained explanatory unit; the calling row carries only the verdict-level summary plus a wikilink. Topic names are flow-agnostic where possible; flow-agnostic curator and oracle drills live in [[Pool deposit - reference]].
 
 ## Drill — CA action-class palette
 
@@ -9,7 +9,7 @@ The CA Action Committee chooses among **8 first-class action types plus Emergenc
 | Action class | Trigger | Sizing logic | Route? |
 | --- | --- | --- | --- |
 | **add_collateral** | HF below user floor but thesis holds; user wants to fix safety without changing leverage exposure direction. | Amount needed to reach `hf_target = userThesis.hfFloor + safety_margin`. | No swap leg — direct collateral add. |
-| **reduce_leverage** | HF eroding (yellow band); thesis weakened; or borrow-vs-yield spread compressing on flat prices. | Amount to repay to reach `userThesis.targetLeverage` or `safe_target_leverage`. | Optional — swap leg only if collateral has to be sold to repay. |
+| **reduce_leverage** | HF eroding relative to the user floor; thesis weakened; or borrow-vs-yield spread compressing on flat prices. | Amount to repay to reach `userThesis.targetLeverage` or `safe_target_leverage`. | Optional — swap leg only if collateral has to be sold to repay. |
 | **increase_leverage** | Thesis holds; user wants more exposure; HF clears floor with room. | Additional borrow under `maxLeverage(LT)` and `userThesis.hfFloor`. | Yes — entry-swap from underlying to target collateral. |
 | **partial_exit** | Capital need or thesis weakened; user reduces position size without closing. | Largest size that doesn't cross `userThesis.hfFloor` at every step of the unwind multicall (intermediate HF check is non-trivial). | Yes — exit-swap on the withdrawn collateral fraction. |
 | **full_exit** | Thesis broken or full reallocation. | Full unwind. | Yes — exit-swap on entire collateral. |
@@ -17,8 +17,8 @@ The CA Action Committee chooses among **8 first-class action types plus Emergenc
 | **rebalance** | Within-position composition shift (e.g., USDe → USDC inside the same CA) without closing. | Source amount + destination token. | Yes — internal swap. |
 | **claim_rewards** | Money-on-the-table push from Q2; matured `claimableAt` on delayed-withdrawal claims. | Claimable amount + matured timestamps. | No swap leg — direct claim. |
 | **enable_bot** / **disable_bot** / **adjust_bot_threshold** | User wants automated management (partial-liquidation bot, deleverage bot) — or wants to disable / retune existing automation. | Bot-permission update — no funds movement. | No. |
-| **emergency_add_collateral** | HF < 1.1 — danger zone. | Pre-filled amount to bring HF above floor + δ; ≤ 2-clicks contract. | No swap leg. |
-| **emergency_reduce_leverage** | HF < 1.1 — danger zone, no available collateral to add. | Pre-filled amount to repay; ≤ 2-clicks contract. | Optional swap leg if collateral has to be sold. |
+| **emergency_add_collateral** | User emergency floor or projected floor breach. | Pre-filled amount to bring HF above the user-approved safety target; fast safety contract. | No swap leg. |
+| **emergency_reduce_leverage** | User emergency floor or projected floor breach, no available collateral to add. | Pre-filled amount to repay; fast safety contract. | Optional swap leg if collateral has to be sold. |
 
 **No Pool-monitoring-style "no Emergency" rule.** CA has Emergency. The closest analogue on the LP side (sudden bad-debt event detected via Q5) escalates to Partial / Full exit but still without Emergency's ≤ 2-clicks contract; CA Emergency does have the ≤ 2-clicks contract because liquidation is real-time and binary.
 
@@ -36,7 +36,7 @@ These composite / fallback flows aren't first-class action classes in the `Actio
 
 ## Drill — Emergency mode contract
 
-**When fires.** Stage 6 Q1 verdict on HF crosses into the danger zone — HF < 1.1 per [[Benchmarks and tresholds for metrics#CA-related|Benchmarks]]. `MonitoringSnapshot.is_emergency = true`.
+**When fires.** Stage 6 Q1 breaches the user-approved emergency condition, or a collateral-specific blocker makes ordinary management unsafe. `MonitoringSnapshot.is_emergency = true`.
 
 **Stage flow when Emergency fires.**
 - **Stage 6 → Stage 3 direct.** Stage 2 (focused re-run) is **skipped**. The thesis is pre-known: "reduce risk now." Re-running Analyze loses time the position cannot afford.
@@ -97,11 +97,11 @@ A formal Shapley-style attribution would be order-invariant but is overkill for 
 ### Surfacing
 
 - "HF dropped 0.08 since last check — most of the drop from interest accrual, with a smaller contribution from an oracle update on stETH; price contributed mildly positive; no LT changes; residual within tolerance."
-- When **price** is dominant and HF is still green → label routine ("expected fluctuation").
-- When HF flipped to yellow / red → surface dominant cause regardless of magnitude.
+- When **price** is dominant and HF still clears the user policy → label routine ("expected fluctuation").
+- When HF becomes review-required or action-required → surface dominant cause regardless of magnitude.
 - When **residual** is material → flag for re-grounding; surface raw deltas without claiming attribution.
 
-**UX surface.** Q1 attribution sub-Q is T2 — fires only when (a) Q1 T1 verdict flipped to yellow / red, OR (b) the user is sophisticated and wants the breakdown on every check. Routine flat-HF check doesn't surface attribution.
+**UX surface.** Q1 attribution sub-Q is T2 — fires only when (a) Q1 T1 verdict becomes review-required or action-required, OR (b) the user wants the breakdown on every check. Routine flat-HF check doesn't surface attribution.
 
 ## Drill — Q5 oracle drill triggers for CA
 
@@ -109,10 +109,10 @@ Q5 (oracle freshness / divergence / methodology) is excluded from the CA Glance 
 
 - **Q1 HF attribution flagged oracle as cause** — HF dropped and the dominant attribution component is "oracle update" or "safe-pricing kick-in." Q5 runs to identify whether a stale or methodology-shifted feed caused the drop.
 - **Q1 attribution flagged composition shift** — a new token entered the position via rebalance / change_strategy. Q5 verifies the new token's oracle methodology is acceptable under user thesis.
-- **User is sophisticated** — institutional, structured-product desk, or RWA-aware. Persistent T2 coverage on every monitoring call.
+- **User is sophisticated** — institutional, structured-product desk, or issuer-controlled-asset-aware. Persistent T2 coverage on every monitoring call.
 - **Known structural oracle risk on held tokens** — position holds a token on a NAV / hardcoded / hybrid feed (cross-ref [[Pool deposit - reference#Drill — Oracle types and LP risk shapes|drill ↗]]). Different from Pool monitoring's *dominant collateral* trigger because CA holds collateral directly — every held token with structural oracle risk is in scope.
-- **RWA token's oracle methodology shifted** — RWA tokens often use NAV oracles updated by the issuer; methodology change (NAV → market, or vice versa) reshapes the cascade-vs-trap risk on this specific position.
-- **Per-token oracle approaching staleness window** — for any held token, `(now − lastUpdate) / stalenessWindow > yellowThreshold` (per [[Benchmarks and tresholds for metrics#CA-related|Benchmarks]] "Oracle freshness" yellow band). This is the **proactive trigger** that fires before liquidation — without it, Q5 is purely reactive and the user only learns about staleness after Q1 catches the realised loss.
+- **Issuer-controlled token's oracle methodology shifted** — issuer-controlled tokens often use NAV oracles updated by the issuer; methodology change (NAV → market, or vice versa) reshapes the cascade-vs-trap risk on this specific position.
+- **Per-token oracle approaching staleness window** — for any held token, the feed age is approaching its staleness window under the user / product review policy. This is the **proactive trigger** that fires before liquidation — without it, Q5 is purely reactive and the user only learns about staleness after Q1 catches the realised loss.
 
 When none fire, Q5 is skipped and `MonitoringSnapshot.verdicts.q5_oracle` is absent.
 
@@ -129,7 +129,7 @@ The agent maintains `agentLog.previousCheck.{...}` across monitoring sessions to
 - Q3 — `previousCheck.asOf` (parameter-change log scoped to `executedAt > previousCheck.asOf`).
 - Q4 — `previousCheck.{claimableAtTimestamps, expirationStatus}` (delayed-withdrawal queue progression; expiration creep tracking).
 - Q5 (when fired) — `previousCheck.oracleSet` (oracle methodology change detection).
-- Q6 — `previousCheck.{frozenAccountIds, kycStatus}` (RWA compliance delta).
+- Q6 — `previousCheck.{frozenAccountIds, kycStatus}` (issuer / eligibility delta).
 
 **First-call rule.** First monitoring call after a CA is opened: deltas are vacuously zero; current state is recorded as `previousCheck` for next-call's delta. No special-cased "I just opened" branch — the position is monitored forward-looking from the first call.
 

@@ -1,59 +1,55 @@
 # Gearbox Product Docs Vault
 
-This vault is the primary source for Gearbox front/product knowledge: user research, decision flows, agent-facing reasoning rules, UI primitive inputs, and the data gaps that must be solved before implementation.
+This vault is the primary source for Gearbox front/product knowledge: user-facing decision flows, agent-facing reasoning rules, UI primitive inputs, and the data gaps that must be solved before implementation.
 
 Canonical loop: `Discover → Analyze → Propose → Preview → Execute → Monitor`.
 
-Canonical flow docs live in `user-flows/`. The legacy `JTBDs/` and `User flows/` folders have been removed; use git history or planning artifacts only if old source material is needed for archaeology.
+The vault now separates runtime user / agent knowledge from development context:
 
-Current product-flow coverage is sufficient to move into the data-requirements compilation pass: Pool deposit, Pool monitoring, Credit Account opening, Credit Account monitoring, and the RWA leverage overlay are canonical. A cross-position / Portfolio flow is intentionally deferred until there is a complete draft; it is not a blocker for compiling Gearbox-side data requirements from the current product docs.
+- `user/` contains the canonical material an agent needs to reason about user funds and position management.
+- `dev/` contains product/design lineage, implementation gaps, UI primitive drafts, and archived planning material.
 
-## Foundations
+Standalone RWA leverage is not a canonical flow. Tokenized securities, issuer-controlled assets, redemption-window assets, and compliance-gated assets are handled as conditional branches inside Credit Account opening and Credit Account management.
 
-| Document | Description |
-| --- | --- |
-| [Basic info and definitions](Basic%20info%20and%20definitions.md) | Defines core Gearbox concepts, yield sources, and the canonical six-stage loop. |
-| [Personas and audience](Personas%20and%20audience.md) | Defines the LP and Credit Account operator personas, loss vectors, and agent-as-reader assumptions. |
-| [Benchmarks and tresholds for metrics](Benchmarks%20and%20tresholds%20for%20metrics.md) | Sets green/yellow/red operating thresholds for pool and Credit Account monitoring. |
-| [Data requirements and to-dos](Data%20requirements%20and%20to-dos.md) | Backend-facing punch list for feeds, endpoints, implementation hints, and unresolved data gaps. |
+## User / runtime knowledge
 
-## Decision axes
+### Foundations
 
 | Document | Description |
 | --- | --- |
-| [Entry points](Entry%20points.md) | Explains session modes: first-time decision, routine monitoring, and emergency response. |
-| [Three-layer progressive disclosure](Three-layer%20progressive%20disclosure.md) | Defines the Glance / Analyze / Act hierarchy for screens and agent responses. |
+| [Basic info and definitions](user/foundations/Basic%20info%20and%20definitions.md) | Defines core Gearbox concepts, yield sources, the canonical six-stage loop, and shared stage handoff rules. |
+| [Personas and audience](user/foundations/Personas%20and%20audience.md) | Defines the LP and Credit Account operator personas, loss vectors, and agent-as-reader assumptions. |
+| [Position risk and monitoring](user/foundations/Position%20risk%20and%20monitoring.md) | Explains why positions need monitoring, how asset properties affect risk, and how agents should derive or request thresholds instead of applying universal defaults. |
 
-## Build-facing contract bridge
-
-| Document | Description |
-| --- | --- |
-| [Data contracts](Data%20contracts.md) | Product-level contract registry: what each stage must hand off, which data is protocol-backed, and which fields require indexer / issuer / user-policy sources. |
-| [Preview contract](Preview%20contract.md) | Defines Preview as the hard execution gate: before/after state, warnings, pass/fail rules, and handoff to Execute. |
-| [Agent execution boundaries](Agent%20execution%20boundaries.md) | Defines what the agent can read, propose, preview, execute with human approval, automate, or never do. |
-
-## Canonical user flows
+### Decision axes
 
 | Document | Description |
 | --- | --- |
-| [Pool deposit](user-flows/Pool%20deposit.md) | LP entry flow from opportunity discovery through deposit execution and monitor handoff. |
-| [Pool deposit — reference](user-flows/Pool%20deposit%20-%20reference.md) | Drill material for Pool deposit: oracle types, curator diligence, risk layers, and IC decision palette. |
-| [Pool monitoring](user-flows/Pool%20monitoring.md) | LP ownership flow: recurring checks, drift routing, action proposal, preview, and execution. |
-| [Pool monitoring — reference](user-flows/Pool%20monitoring%20-%20reference.md) | Drill material for LP action classes, oracle triggers, and agent continuity log mechanics. |
-| [Credit Account opening](user-flows/Credit%20Account%20opening.md) | Credit Account entry flow from strategy discovery through leveraged-position execution and monitor handoff. |
-| [Credit Account opening — reference](user-flows/Credit%20Account%20opening%20-%20reference.md) | Drill material for IRM, structural risk, RWA compliance, route selection, and multicall preview mechanics. |
-| [Credit Account monitoring](user-flows/Credit%20Account%20monitoring.md) | Credit Account ownership flow: safety, yield, rule changes, operational mechanics, oracle / RWA drift, emergency routing, and action execution. |
-| [Credit Account monitoring — reference](user-flows/Credit%20Account%20monitoring%20-%20reference.md) | Drill material for CA action classes, emergency mode, HF attribution, oracle triggers, and agent continuity. |
-| [RWA leverage](user-flows/RWA%20leverage.md) | RWA-specific overlay for Credit Account opening and monitoring. Treats tokenized securities as a CA variant with issuer, redemption, and compliance constraints. |
+| [Entry points](user/decision/Entry%20points.md) | Explains session modes, agent reader behavior, and the Preview / Execute approval boundary. |
+| [Three-layer progressive disclosure](user/decision/Three-layer%20progressive%20disclosure.md) | Defines the Glance / Analyze / Act hierarchy for screens and agent responses. |
 
-## UI primitives
+### Canonical flows
 
-| Folder | Description |
+| Document | Description |
 | --- | --- |
-| [ui-primitives](ui-primitives/) | Word-based component drafts. These follow the canonical flow docs; they do not define product logic independently. |
+| [Pool deposit](user/flows/Pool%20deposit.md) | LP entry flow from opportunity discovery through deposit execution and monitor handoff. |
+| [Pool monitoring](user/flows/Pool%20monitoring.md) | LP ownership flow: recurring checks, drift routing, action proposal, Preview, and Execute. |
+| [Credit Account opening](user/flows/Credit%20Account%20opening.md) | Credit Account entry flow from strategy discovery through leveraged-position execution and monitor handoff. Includes issuer-controlled collateral checks as a conditional branch. |
+| [Credit Account management](user/flows/Credit%20Account%20management.md) | Credit Account ownership flow: safety, yield, rule changes, operational mechanics, oracle / issuer-controlled collateral drift, emergency routing, and action execution. |
 
-## Planning artifacts
+### References
 
-| Folder | Description |
+| Document | Description |
 | --- | --- |
-| [.planning/foundation](.planning/foundation/) | Archived foundation planning and merge artifacts. These files may mention pre-merge `JTBDs/`, `User flows/`, Tier 4 user-flow, or Tier 5 UI-primitive structures as historical source state; they are not current canonical docs. |
+| [Pool deposit — reference](user/references/Pool%20deposit%20-%20reference.md) | Drill material for Pool deposit: oracle types, curator diligence, risk layers, and IC decision palette. |
+| [Pool monitoring — reference](user/references/Pool%20monitoring%20-%20reference.md) | Drill material for LP action classes, oracle triggers, and agent continuity log mechanics. |
+| [Credit Account opening — reference](user/references/Credit%20Account%20opening%20-%20reference.md) | Drill material for IRM, structural risk, issuer / eligibility checks, route selection, and multicall Preview mechanics. |
+| [Credit Account management — reference](user/references/Credit%20Account%20management%20-%20reference.md) | Drill material for CA action classes, emergency mode, HF attribution, oracle triggers, and agent continuity. |
+
+## Development context
+
+| Path | Description |
+| --- | --- |
+| [Data requirements and to-dos](dev/implementation/Data%20requirements%20and%20to-dos.md) | Backend-facing punch list for feeds, endpoints, stage handoff artifacts, implementation hints, and unresolved data gaps. |
+| [UI primitives](dev/ui-primitives/) | Word-based component drafts. These follow the canonical flow docs; they do not define product logic independently. |
+| [Foundation planning archive](dev/planning/foundation/) | Historical planning and merge artifacts. These may mention old folders, fixed benchmark tables, or standalone RWA leverage; they are not current canonical docs. |
