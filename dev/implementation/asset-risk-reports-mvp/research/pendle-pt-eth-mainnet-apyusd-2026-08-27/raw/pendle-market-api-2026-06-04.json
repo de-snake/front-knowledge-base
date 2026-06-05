@@ -1,0 +1,394 @@
+{
+  "source": "https://api-v2.pendle.finance/core/v1/1/markets/0x30bb9ee8dc6aab322dc3a0d36063cbf06a9e5952",
+  "accessed": "2026-06-04",
+  "market": {
+    "id": "1-0x30bb9ee8dc6aab322dc3a0d36063cbf06a9e5952",
+    "chainId": 1,
+    "address": "0x30bb9ee8dc6aab322dc3a0d36063cbf06a9e5952",
+    "symbol": "PENDLE-LPT",
+    "expiry": "2026-08-27T00:00:00.000Z",
+    "pt": {
+      "id": "1-0xee5c7cda577484b70b65c21235ecbd302bb290e2",
+      "chainId": 1,
+      "address": "0xee5c7cda577484b70b65c21235ecbd302bb290e2",
+      "symbol": "PT-apyUSD-27AUG2026",
+      "decimals": 18,
+      "expiry": "2026-08-27T00:00:00.000Z",
+      "price": {
+        "usd": 0.9389590854475389
+      },
+      "priceUpdatedAt": "2026-06-04T19:33:45.000Z",
+      "name": "PT-apyUSD-27AUG2026",
+      "baseType": "PT",
+      "types": [
+        "PT"
+      ],
+      "underlyingPool": "",
+      "proSymbol": "PT apyUSD (apxUSD)",
+      "proIcon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/00fd8af5-c5de-4d03-8112-b231c7fc4cc1.svg",
+      "zappable": false,
+      "simpleName": "PT apyUSD (apxUSD)",
+      "simpleSymbol": "PT apyUSD (apxUSD)",
+      "simpleIcon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/00fd8af5-c5de-4d03-8112-b231c7fc4cc1.svg",
+      "proName": "PT apyUSD (apxUSD)"
+    },
+    "yt": {
+      "id": "1-0x67553fb2ab2a411029387e1c53c0a3e55f8d10c9",
+      "chainId": 1,
+      "address": "0x67553fb2ab2a411029387e1c53c0a3e55f8d10c9",
+      "symbol": "YT-apyUSD-27AUG2026",
+      "decimals": 18,
+      "expiry": "2026-08-27T00:00:00.000Z",
+      "price": {
+        "usd": 0.03534766115781149
+      },
+      "priceUpdatedAt": "2026-06-04T19:33:45.000Z",
+      "name": "YT-apyUSD-27AUG2026",
+      "baseType": "YT",
+      "types": [
+        "YT"
+      ],
+      "underlyingPool": "",
+      "proSymbol": "YT apyUSD (apxUSD)",
+      "proIcon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/1545f140-ab8e-4a6d-ac1d-ba6d348d3ec2.svg",
+      "zappable": false,
+      "simpleName": "YT apyUSD (apxUSD)",
+      "simpleSymbol": "YT apyUSD (apxUSD)",
+      "simpleIcon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/1545f140-ab8e-4a6d-ac1d-ba6d348d3ec2.svg",
+      "proName": "YT apyUSD (apxUSD)"
+    },
+    "sy": {
+      "id": "1-0x04f8dca7bccd8997ac57ca6fef7c705e17d6bcb6",
+      "chainId": 1,
+      "address": "0x04f8dca7bccd8997ac57ca6fef7c705e17d6bcb6",
+      "symbol": "SY-apyUSD",
+      "decimals": 18,
+      "expiry": null,
+      "price": {
+        "usd": 1.339193303179813
+      },
+      "priceUpdatedAt": "2026-06-04T19:33:45.000Z",
+      "name": "SY-apyUSD",
+      "baseType": "SY",
+      "types": [
+        "SY"
+      ],
+      "underlyingPool": "",
+      "proSymbol": "apyUSD",
+      "proIcon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/57c6e942-f35a-4be7-91f6-aaaa2da1c0cd.svg",
+      "zappable": false,
+      "simpleName": "apyUSD",
+      "simpleSymbol": "apyUSD",
+      "simpleIcon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/57c6e942-f35a-4be7-91f6-aaaa2da1c0cd.svg",
+      "proName": "apyUSD"
+    },
+    "lp": {
+      "id": "1-0x30bb9ee8dc6aab322dc3a0d36063cbf06a9e5952",
+      "chainId": 1,
+      "address": "0x30bb9ee8dc6aab322dc3a0d36063cbf06a9e5952",
+      "symbol": "PLP-apyUSD-27AUG2026",
+      "decimals": 18,
+      "expiry": "2026-08-27T00:00:00.000Z",
+      "price": {
+        "usd": 2.3202656527120324
+      },
+      "priceUpdatedAt": "2026-06-04T19:33:45.000Z",
+      "name": "PLP-apyUSD-27AUG2026",
+      "baseType": "PENDLE_LP",
+      "types": [
+        "PENDLE_LP"
+      ],
+      "underlyingPool": "",
+      "proSymbol": "LP apyUSD (apxUSD)",
+      "proIcon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/6ab20095-6b8b-4a0e-95af-19ed229c5e74.svg",
+      "zappable": false,
+      "simpleName": "LP apyUSD (apxUSD)",
+      "simpleSymbol": "LP apyUSD (apxUSD)",
+      "simpleIcon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/6ab20095-6b8b-4a0e-95af-19ed229c5e74.svg",
+      "proName": "LP apyUSD (apxUSD)"
+    },
+    "accountingAsset": {
+      "id": "1-0x98a878b1cd98131b271883b390f68d2c90674665",
+      "chainId": 1,
+      "address": "0x98a878b1cd98131b271883b390f68d2c90674665",
+      "symbol": "apxUSD",
+      "decimals": 18,
+      "expiry": null,
+      "accentColor": "",
+      "price": {
+        "usd": 0.9742368482184001
+      },
+      "priceUpdatedAt": "2026-06-04T19:33:45.041Z",
+      "name": "apxUSD",
+      "baseType": "IB",
+      "types": [
+        "IB"
+      ],
+      "proSymbol": "apxUSD",
+      "proIcon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/4cad89ae-991c-4e83-a30f-cc418c4d8b16.svg",
+      "zappable": true,
+      "simpleName": "apxUSD",
+      "simpleSymbol": "apxUSD",
+      "simpleIcon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/4cad89ae-991c-4e83-a30f-cc418c4d8b16.svg",
+      "proName": "apxUSD"
+    },
+    "underlyingAsset": {
+      "id": "1-0x38eeb52f0771140d10c4e9a9a72349a329fe8a6a",
+      "chainId": 1,
+      "address": "0x38eeb52f0771140d10c4e9a9a72349a329fe8a6a",
+      "symbol": "apyUSD",
+      "decimals": 18,
+      "expiry": null,
+      "accentColor": "",
+      "price": {
+        "usd": 1.339097227224234
+      },
+      "priceUpdatedAt": "2026-06-04T19:33:45.041Z",
+      "name": "apyUSD",
+      "baseType": "IB",
+      "types": [
+        "IB"
+      ],
+      "proSymbol": "apyUSD",
+      "proIcon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/a48376d0-b564-4013-85b6-ccb62c4d3694.svg",
+      "zappable": true,
+      "simpleName": "apyUSD",
+      "simpleSymbol": "apyUSD",
+      "simpleIcon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/a48376d0-b564-4013-85b6-ccb62c4d3694.svg",
+      "proName": "apyUSD"
+    },
+    "basePricingAsset": {
+      "id": "1-0x98a878b1cd98131b271883b390f68d2c90674665",
+      "chainId": 1,
+      "address": "0x98a878b1cd98131b271883b390f68d2c90674665",
+      "symbol": "apxUSD",
+      "decimals": 18,
+      "expiry": null,
+      "accentColor": "",
+      "price": {
+        "usd": 0.9742368482184001
+      },
+      "priceUpdatedAt": "2026-06-04T19:33:45.041Z",
+      "name": "apxUSD",
+      "baseType": "IB",
+      "types": [
+        "IB"
+      ],
+      "proSymbol": "apxUSD",
+      "proIcon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/4cad89ae-991c-4e83-a30f-cc418c4d8b16.svg",
+      "zappable": true,
+      "simpleName": "apxUSD",
+      "simpleSymbol": "apxUSD",
+      "simpleIcon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/4cad89ae-991c-4e83-a30f-cc418c4d8b16.svg",
+      "proName": "apxUSD"
+    },
+    "rewardTokens": [
+      {
+        "id": "1-0x808507121b80c02388fad14726482e061b8da827",
+        "chainId": 1,
+        "address": "0x808507121b80c02388fad14726482e061b8da827",
+        "symbol": "PENDLE",
+        "decimals": 18,
+        "accentColor": null,
+        "price": {
+          "usd": 1.3348008124125152
+        },
+        "priceUpdatedAt": "2026-06-04T19:33:45.041Z",
+        "name": "PENDLE",
+        "baseType": "GENERIC",
+        "types": [
+          "GENERIC"
+        ],
+        "protocol": "Pendle",
+        "proSymbol": "PENDLE",
+        "proIcon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/assets/pro/ea33e392-1876-46a5-b7ce-c8434b5a7e71.svg",
+        "zappable": true,
+        "simpleName": "PENDLE",
+        "simpleSymbol": "PENDLE",
+        "simpleIcon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/assets/pro/ea33e392-1876-46a5-b7ce-c8434b5a7e71.svg",
+        "proName": "PENDLE"
+      }
+    ],
+    "inputTokens": [
+      {
+        "id": "1-0x98a878b1cd98131b271883b390f68d2c90674665",
+        "chainId": 1,
+        "address": "0x98a878b1cd98131b271883b390f68d2c90674665",
+        "symbol": "apxUSD",
+        "decimals": 18,
+        "expiry": null,
+        "accentColor": "",
+        "price": {
+          "usd": 0.9742368482184001
+        },
+        "priceUpdatedAt": "2026-06-04T19:33:45.041Z",
+        "name": "apxUSD",
+        "baseType": "IB",
+        "types": [
+          "IB"
+        ],
+        "proSymbol": "apxUSD",
+        "proIcon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/4cad89ae-991c-4e83-a30f-cc418c4d8b16.svg",
+        "zappable": true,
+        "simpleName": "apxUSD",
+        "simpleSymbol": "apxUSD",
+        "simpleIcon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/4cad89ae-991c-4e83-a30f-cc418c4d8b16.svg",
+        "proName": "apxUSD"
+      },
+      {
+        "id": "1-0x38eeb52f0771140d10c4e9a9a72349a329fe8a6a",
+        "chainId": 1,
+        "address": "0x38eeb52f0771140d10c4e9a9a72349a329fe8a6a",
+        "symbol": "apyUSD",
+        "decimals": 18,
+        "expiry": null,
+        "accentColor": "",
+        "price": {
+          "usd": 1.339097227224234
+        },
+        "priceUpdatedAt": "2026-06-04T19:33:45.041Z",
+        "name": "apyUSD",
+        "baseType": "IB",
+        "types": [
+          "IB"
+        ],
+        "proSymbol": "apyUSD",
+        "proIcon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/a48376d0-b564-4013-85b6-ccb62c4d3694.svg",
+        "zappable": true,
+        "simpleName": "apyUSD",
+        "simpleSymbol": "apyUSD",
+        "simpleIcon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/a48376d0-b564-4013-85b6-ccb62c4d3694.svg",
+        "proName": "apyUSD"
+      }
+    ],
+    "outputTokens": [
+      {
+        "id": "1-0x38eeb52f0771140d10c4e9a9a72349a329fe8a6a",
+        "chainId": 1,
+        "address": "0x38eeb52f0771140d10c4e9a9a72349a329fe8a6a",
+        "symbol": "apyUSD",
+        "decimals": 18,
+        "expiry": null,
+        "accentColor": "",
+        "price": {
+          "usd": 1.339097227224234
+        },
+        "priceUpdatedAt": "2026-06-04T19:33:45.041Z",
+        "name": "apyUSD",
+        "baseType": "IB",
+        "types": [
+          "IB"
+        ],
+        "proSymbol": "apyUSD",
+        "proIcon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/a48376d0-b564-4013-85b6-ccb62c4d3694.svg",
+        "zappable": true,
+        "simpleName": "apyUSD",
+        "simpleSymbol": "apyUSD",
+        "simpleIcon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/a48376d0-b564-4013-85b6-ccb62c4d3694.svg",
+        "proName": "apyUSD"
+      }
+    ],
+    "protocol": "APYX",
+    "proSymbol": "apyUSD",
+    "proIcon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/e5a99142-298f-4f5f-b8b8-8fa2932264ad.svg",
+    "assetRepresentation": "apxUSD",
+    "isWhitelistedPro": true,
+    "isWhitelistedSimple": false,
+    "votable": false,
+    "isActive": true,
+    "isWhitelistedLimitOrder": true,
+    "accentColor": "#DC143C",
+    "totalPt": 691726.5118777575,
+    "totalSy": 332113.9697132733,
+    "totalLp": 471613.1085360869,
+    "totalActiveSupply": 471613.1085360869,
+    "liquidity": {
+      "usd": 1091790.7306618334,
+      "acc": 1123123.5735458499
+    },
+    "tradingVolume": {
+      "usd": 913490.3782045757
+    },
+    "underlyingInterestApy": 0.11347902822412825,
+    "underlyingRewardApy": 0,
+    "underlyingRewardApyBreakdown": [],
+    "underlyingApy": 0.11347902822412825,
+    "impliedApy": 0.17603521126850152,
+    "ytFloatingApy": -0.8495781277260459,
+    "ptDiscount": 0.036280639908622514,
+    "swapFeeApy": 0.07826633351471601,
+    "pendleApy": 0.14206283696245223,
+    "aggregatedApy": 0.37093843777821023,
+    "maxBoostedApy": 0.5840326932218887,
+    "lpRewardApy": 0,
+    "voterApy": 0,
+    "ytRoi": -0.35060993934744067,
+    "ptRoi": 0.03764570995230154,
+    "estimatedDailyPoolRewards": [
+      {
+        "asset": {
+          "id": "1-0x808507121b80c02388fad14726482e061b8da827",
+          "chainId": 1,
+          "address": "0x808507121b80c02388fad14726482e061b8da827",
+          "symbol": "PENDLE",
+          "decimals": 18,
+          "accentColor": null,
+          "price": {
+            "usd": 1.3348008124125152
+          },
+          "priceUpdatedAt": "2026-06-04T19:33:45.041Z",
+          "name": "PENDLE"
+        },
+        "amount": 317.91388562854075
+      }
+    ],
+    "dataUpdatedAt": "2026-06-04T19:31:00.000Z",
+    "liquidityChange24h": -0.017510999819149952,
+    "tradingVolumeChange24h": -0.7050629299362817,
+    "underlyingInterestApyChange24h": 0.008732756246874529,
+    "underlyingApyChange24h": 0.008732756246874529,
+    "impliedApyChange24h": -0.0613049875081058,
+    "ytFloatingApyChange24h": -0.03900317745293429,
+    "ptDiscountChange24h": -0.06637181219859038,
+    "swapFeeApyChange24h": 0.21369209099277012,
+    "pendleApyChange24h": 0.05528621138288702,
+    "aggregatedApyChange24h": 0.02267218913858345,
+    "categoryIds": [
+      "points",
+      "rwa",
+      "strc"
+    ],
+    "timestamp": "2026-05-27T21:14:59.000Z",
+    "scalarRoot": 37.882080154369746,
+    "initialAnchor": 1.0385563844743717,
+    "extendedInfo": {
+      "floatingPt": 9130439.83669193,
+      "floatingSy": 120134046.78092653,
+      "pyUnit": "apxUSD staked in APYX",
+      "ptEqualsPyUnit": false,
+      "underlyingAssetWorthMore": "apyUSD",
+      "feeRate": 0.0038403626098639787,
+      "yieldRange": {
+        "min": 0.09999999999999999,
+        "max": 0.22999999999999998
+      }
+    },
+    "isPopular": true,
+    "tvlThresholdTimestamp": "2026-05-31T10:51:00.000Z",
+    "whitelistedProAt": "2026-05-29T09:59:00.000Z",
+    "isNew": true,
+    "name": "PENDLE-LPT",
+    "simpleName": "apyUSD",
+    "simpleSymbol": "apyUSD",
+    "simpleIcon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/e5a99142-298f-4f5f-b8b8-8fa2932264ad.svg",
+    "proName": "apyUSD",
+    "farmName": "apyUSD",
+    "farmSymbol": "apyUSD",
+    "farmSimpleName": "apyUSD",
+    "farmSimpleSymbol": "apyUSD",
+    "farmSimpleIcon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/e5a99142-298f-4f5f-b8b8-8fa2932264ad.svg",
+    "farmProName": "apyUSD",
+    "farmProSymbol": "apyUSD",
+    "farmProIcon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/e5a99142-298f-4f5f-b8b8-8fa2932264ad.svg"
+  }
+}

@@ -10,6 +10,8 @@ This file is not the agent-side response design. The agent remains the fuzzy rea
 
 Backend / MCP is the deterministic layer. It cannot satisfy every future agent's needs perfectly, so the right goal is a stable, composable read architecture derived from the flows we know users and agents will repeat.
 
+Companion developer type file: `types_.ts`. Treat it as a dev-maintained, raw, incomplete reference that intentionally keeps the existing opportunity / strategy / position style. This Markdown file remains the product / architecture source of truth; the TypeScript companion should receive only product-dictated additions such as objective asset compliance metadata, curator profile facts, opportunity-access checks, change-feed facts, and Preview / receipt artifacts. Do not force it to mirror every architecture section as a full schema rewrite.
+
 ## Design thesis
 
 The canonical product flows reduce to four durable backend needs:
@@ -19,7 +21,7 @@ The canonical product flows reduce to four durable backend needs:
    - Credit Account strategy / Credit Manager opportunities for leveraged positions.
 
 2. **Read due-diligence facts**
-   - yield, exposure, liquidity, curator / Credit Manager envelope, oracle state, change queue, route constraints, issuer / eligibility branch.
+   - yield, exposure, liquidity, curator / Credit Manager envelope, oracle state, change queue, route constraints, and opportunity access eligibility.
 
 3. **Monitor existing positions**
    - current LP or Credit Account state;
@@ -50,7 +52,7 @@ The backend should not expose UI card names or agent verdicts as primary objects
 - Event and governance-change feeds.
 - Reward / incentive campaign facts.
 - Curator / Credit Manager / pool metadata that has a declared source.
-- Issuer / eligibility / freeze / redemption / eligible-liquidator facts when available.
+- Opportunity access eligibility checks when an opportunity is gated by DegenNFT, asset waitlist, or compliance requirements.
 - Deterministic derived values where the formula is fixed:
   - Health Factor;
   - utilisation;
@@ -73,44 +75,6 @@ The backend should not expose UI card names or agent verdicts as primary objects
 - Action choice and sizing when multiple valid deterministic options exist.
 - Final wording shown to the user.
 
-### Shared rule
-
-Every MCP response that can affect a user decision must carry:
-
-```text
-as_of
-source_class
-source_handle
-freshness_status
-unknown_or_stale_reason
-block_number, if chain-derived
-computed_from, if derived
-```
-
-A missing fact is a first-class result, not an omitted field.
-
-Allowed status values:
-
-```text
-ok | stale | unknown | not_indexed | not_applicable | blocked
-```
-
-## Data-source classes
-
-Use these source classes consistently across methods.
-
-| Source class | Meaning | Examples |
-| --- | --- | --- |
-| `protocol` | Direct contract state or canonical protocol artifact. | pool liquidity, Credit Manager parameters, quotas, LT, oracle prices, facade pause. |
-| `indexer` | Derived from events, traces, subgraphs, or backend aggregation. | utilisation history, share-price history, top borrower concentration, executed change feed. |
-| `external_market` | Market data outside Gearbox protocol state. | DEX depth, adapter quotes, aggregator quotes, 90d price / slippage series. |
-| `incentive` | Reward campaign data. | Merkl campaign APY, expiry, top-up history, reference URL. |
-| `curator_diligence` | Curator profile and operating history with declared source. | identity, governance mechanism, bad-debt incidents, liquidity incidents. |
-| `issuer_compliance` | Issuer-controlled or compliance-gated asset state. | freeze state, eligibility, redemption window, eligible-liquidator depth. |
-| `product_policy` | Product-owned rule, not user preference. | missing issuer state blocks automation; preview required before Execute. |
-| `user_policy` | Supplied by user / representative / agent mandate. | HF floor, hold horizon, APY hurdle, route tolerance. Usually passed in request or stored outside protocol backend. |
-| `computed` | Deterministic calculation over sourced facts. | max exposure, safe-pricing exit HF, breakeven horizon, action simulation. |
-
 ## Core entities
 
 These are stable backend objects, not UI cards.
@@ -123,14 +87,14 @@ Key facts:
 
 - `asset_id`: chain + address or canonical synthetic id.
 - `symbol`, `decimals`, `asset_type`.
-- `issuer_controlled`: boolean.
-- `compliance_gated`: boolean.
-- `redemption_window_asset`: boolean.
+- `issuer_info_url` or equivalent issuer/source link when known.
+- `compliance_required`: boolean when the token has objective compliance / eligibility requirements.
+- `redemption_window_asset`: boolean routing flag; if true, do not assume ordinary ERC-20 transfer / exit behavior. The next deterministic step is an opportunity access check or an issuer / terms URL, not a rich issuer-state object by default.
 - `phantom_token`: boolean.
 - oracle metadata.
 - withdrawal / redemption metadata when applicable.
 
-Why it exists: both LP and Credit Account flows need per-token exposure, oracle, liquidity, and issuer branch checks.
+Why it exists: both LP and Credit Account flows need per-token exposure, oracle, liquidity, and objective asset-term flags. A flag such as `redemption_window_asset = true` exists only to route the agent into an access check or issuer / terms link; it is not itself enough to decide anything.
 
 ### `Pool`
 
@@ -164,8 +128,8 @@ Key facts:
 - forbidden-token status;
 - quota rates and quota limits;
 - allowed adapters;
-- expiration, pause state, facade pause, per-block borrow capacity;
-- compliance-gated execution flag.
+- expiration, pause state, per-block borrow capacity;
+- opportunity access rule, e.g. DegenNFT or asset-specific eligibility requirement.
 
 Why it exists: Credit Account opening / management asks about safety, exit feasibility, operational envelope, and rule-change risk.
 
@@ -202,9 +166,9 @@ Key facts:
 - current borrow and quota rates;
 - rewards;
 - bot permissions;
-- transition-stage assets / pending withdrawals.
+- pending-withdrawal / redemption state derivable from held asset metadata and action previews when needed.
 
-Why it exists: Credit Account management must answer safety, returns, operational state, issuer-controlled collateral state, and action feasibility.
+Why it exists: Credit Account management must answer safety, returns, operational state, asset-term branch state, and action feasibility.
 
 ### `CuratorProfile`
 
@@ -218,10 +182,9 @@ Key facts:
 - first operation date;
 - AUM;
 - bad-debt incidents;
-- liquidity incidents;
 - parameter-change history summary.
 
-Why it exists: LP and Credit Account flows ask who manages the risk envelope and whether the envelope is stable.
+Why it exists: LP and Credit Account flows ask who manages the risk envelope and whether the envelope is stable. Pool liquidity stress is read from pool state, withdrawal previews, utilisation history, and equity / share-price dynamics; it is not a curator-profile incident field by default.
 
 ### `GovernanceChange`
 
@@ -235,27 +198,29 @@ Key facts:
 - old value, new value;
 - proposed / queued / executed timestamp;
 - timelock / Safe / proposer;
-- affected domains: yield, exposure, Health Factor, exit, oracle, issuer, operational.
+- affected domains: yield, exposure, Health Factor, exit, oracle, access, operational.
 
 Why it exists: both entry and monitoring flows ask what could change or what changed since last check.
 
-### `IssuerControlState`
+### `OpportunityAccessCheck`
 
-Business meaning: external or issuer-controlled facts that affect transferability, liquidation, redemption, or automation.
+Business meaning: deterministic wallet-level answer to: can this user use this opportunity now?
+
+This replaces a broad issuer-state object in V1. The agent does not need a full issuer dossier to route the user. It needs a concise result:
+
+- `eligible`: the wallet can use the opportunity;
+- `not_eligible`: the wallet is missing a known gate;
+- `not_sure`: the backend cannot determine the answer.
 
 Key facts:
 
-- issuer / program id;
-- asset id;
-- holder / Credit Account / wrapper address if applicable;
-- eligibility / KYC state;
-- own freeze state;
-- frozen-account count and aggregate frozen debt when LP-facing;
-- redemption window, notice deadline, claim readiness;
-- eligible-liquidator set and depth;
-- automation restrictions.
+- opportunity id;
+- wallet address;
+- access status: `eligible`, `not_eligible`, or `not_sure`;
+- missing gate reason, e.g. `missing_degen_nft`, `missing_asset_waitlist_approval`, or `unknown`;
+- action URL when the backend has one, e.g. DegenNFT acquisition page, asset waitlist, issuer terms, or manual review route.
 
-Why it exists: tokenized-security and issuer-controlled assets cannot be treated as ordinary liquid collateral when this state is missing.
+Why it exists: when a token is a redemption-window asset or an opportunity has a DegenNFT / asset-waitlist gate, the agent needs a deterministic next step. If no deeper endpoint exists, the useful backend output is not "issuer state"; it is "this wallet is eligible / not eligible / not sure, and here is the link or reason."
 
 ### `PreviewPackage`
 
@@ -287,7 +252,7 @@ The method surface should have two layers:
    - They reduce round trips and make frequent flows consistent.
 
 2. **Facet methods** for drill-down and alternate agents.
-   - These expose raw pool, Credit Manager, oracle, issuer, route, history, and change-feed data.
+   - These expose raw pool, Credit Manager, oracle, access, route, history, and change-feed data.
    - They let a different agent build a different reasoning path without requiring a new backend endpoint for every idea.
 
 This is the compromise between deterministic structure and agent flexibility.
@@ -316,9 +281,10 @@ Returns:
 - composite APY with organic / incentive split;
 - incentive expiry presence;
 - top exposure tokens by quota / current debt proxy;
-- issuer-controlled exposure flag;
+- asset-term flags and access-check links when relevant;
 - pending material-change count by target scope;
-- source / freshness envelope.
+- stable ids and current read timestamp where available;
+- explicit `gaps` for missing, stale, not-indexed, not-applicable, or blocked facts.
 
 Why this method exists:
 
@@ -348,7 +314,8 @@ Returns sections:
 - `curator`: identity, governance, track record, incidents, change-frequency summary.
 - `changes`: executed parameter changes and pending governance queue.
 - `oracles`: per-token main / reserve price, freshness, staleness window, methodology.
-- `issuer_branch`: issuer-controlled asset facts when exposure is present; otherwise `not_applicable`.
+- `asset_terms`: objective asset flags and source / terms links when relevant.
+- `access_check`: present when `wallet_address` is supplied and the opportunity has DegenNFT, asset waitlist, or compliance requirements.
 - `gaps`: facts that are missing, stale, or not indexed.
 
 Why this method exists:
@@ -380,9 +347,10 @@ Returns:
 - borrow rate, quota rate, collateral-yield inputs;
 - adapter availability;
 - route-quote availability;
-- issuer / compliance-gated flags;
+- asset-term flags, e.g. compliance requirement, redemption-window asset, phantom token;
 - operational state: paused / expirable / per-block borrow capacity;
-- source / freshness envelope.
+- stable ids and current read timestamp where available;
+- explicit `gaps` for missing, stale, not-indexed, not-applicable, or blocked facts.
 
 Why this method exists:
 
@@ -409,10 +377,10 @@ Returns sections:
 - `economics`: collateral yield, borrow rate, quota rate, fee inputs, APY / spread series, breakeven inputs.
 - `safety`: LT, LT ramps, projected Health Factor inputs, safe-pricing exit inputs, forbidden-token status.
 - `exit_feasibility`: adapters, route quotes, DEX depth, minDebt / iterative-unwind constraints, delayed-withdrawal / phantom-token state.
-- `credit_manager_envelope`: pause, expiration, debt limits, per-block capacity, facade state, compliance-gated flag.
+- `credit_manager_envelope`: pause, expiration, debt limits, per-block capacity, and access requirements such as DegenNFT.
 - `changes`: executed and pending changes affecting CM, pool, tokens, oracle, IRM, forbidden tokens.
 - `oracles`: per held / target token freshness, main / reserve price, methodology.
-- `issuer_branch`: issuer / freeze / eligibility / redemption / eligible-liquidator facts when relevant.
+- `access_check`: wallet eligibility for this opportunity when `wallet_address` is supplied; returns the missing gate and action URL when not eligible or not sure.
 - `gaps`: missing, stale, or not-indexed facts.
 
 Why this method exists:
@@ -434,10 +402,11 @@ include_closed = false
 
 Returns:
 
-- LP positions: position id, pool id, shares, current value, last known activity.
+- LP positions: pool id, shares, current value.
 - Credit Accounts: account address, Credit Manager id, current value, debt, Health Factor, leverage, status flags.
-- Position types that include issuer-controlled collateral.
-- Source / freshness envelope.
+- Position types that include objective asset-term branches.
+- Stable ids and current read timestamp where available.
+- Explicit `gaps` for missing, stale, not-indexed, not-applicable, or blocked facts.
 
 Why this method exists:
 
@@ -451,7 +420,9 @@ Purpose: deterministic fact bundle for Pool monitoring Stage 6.
 Request inputs:
 
 ```text
-position_id
+chain_id
+wallet_address
+pool_id
 since?                   // agent supplies previous-check timestamp if it has one
 history_window = 30d
 include_t2 = false
@@ -462,11 +433,11 @@ Returns sections:
 - `position`: shares, current value, pool share price, rewards.
 - `yield`: composite APY, 30d trend, incentive expiry facts.
 - `exit`: withdrawable now, utilisation trend, withdrawal fee, withdrawal mechanics.
-- `composition`: quoted-token quota composition, top-token delta since `since`, new CMs since `since`.
+- `composition`: quoted-token quota composition and top-token delta since `since`.
 - `governance`: pending queue and executed pool changes since `since`.
 - `bad_debt_canary`: share-price delta, insurance-fund delta, matching incident references.
 - `oracle_drill`: present only if requested or triggered by change-feed / stale-feed facts.
-- `issuer_branch`: frozen-account / eligible-liquidator / issuer facts if issuer-controlled exposure is material.
+- `asset_terms`: objective asset-term flags for held / exposed tokens when relevant.
 - `gaps`.
 
 Why this method exists:
@@ -495,12 +466,12 @@ Returns sections:
 - `governance`: pending and executed changes affecting the CM, held tokens, oracle, IRM, forbidden-token set.
 - `operations`: expiration, pause, facade state, delayed withdrawals, phantom tokens, minDebt / partial-exit feasibility, bot permissions.
 - `oracle_drill`: freshness, main / reserve divergence, methodology changes when requested or triggered.
-- `issuer_branch`: own freeze, eligibility / KYC, registry, redemption / claim readiness, eligible-liquidator facts when relevant.
+- `asset_terms`: objective asset-term flags for held tokens when relevant; action-specific feasibility still belongs in Preview or `check_opportunity_access`.
 - `gaps`.
 
 Why this method exists:
 
-- Credit Account monitoring differs from LP monitoring: safety, debt cost, leverage, emergency path, and issuer-controlled own-account state are first-class.
+- Credit Account monitoring differs from LP monitoring: safety, debt cost, leverage, emergency path, and asset-term branches are first-class when the asset requires them.
 - It should not return "safe" as a backend judgment. It should return the facts an agent needs to compare against user policy.
 
 ### `preview_pool_action`
@@ -688,19 +659,21 @@ get_curator_activity(curator_id, since?)
 
 Use when agent due diligence asks whether the pool / Credit Manager manager has a credible operating record.
 
-### Issuer / compliance facets
+### Opportunity access facet
 
 ```text
-get_issuer_program_state(asset_id)
-get_holder_issuer_state(asset_id, holder_address)
-get_credit_account_issuer_state(asset_id, credit_account_address)
-get_redemption_state(asset_id, holder_address?)
-get_eligible_liquidator_state(asset_id, scope_id?)
+check_opportunity_access(opportunity_id, wallet_address)
 ```
 
-Use when assets are tokenized securities, issuer-controlled, redemption-window assets, freezeable assets, or compliance-gated.
+Use when an opportunity may require a DegenNFT, asset-specific waitlist approval, KYC / compliance eligibility, or other explicit access gate.
 
-If these methods cannot source a fact, they must return `unknown` or `not_indexed`, not omit the branch.
+Return a concise result:
+
+- `eligible`: continue analysis or Preview normally;
+- `not_eligible`: return the missing gate and an action URL when known;
+- `not_sure`: route to manual review or source browsing, using the opportunity / asset info URL when available.
+
+A `redemption_window_asset` flag is only useful if it causes this endpoint, Preview, or an issuer / terms URL to provide the next step. Do not add a broad issuer-state endpoint until a repeated product flow needs more than this access answer.
 
 ### Route / quote facets
 
@@ -734,17 +707,17 @@ Use before agents present high-confidence analysis.
 | --- | --- | --- |
 | LP wants candidate pools. | `list_pool_opportunities` | Pool deposit starts with finite opportunity discovery before analysis. |
 | LP asks where yield comes from. | `get_pool_due_diligence.yield`, `get_incentive_layers` | Pool deposit Q1 needs organic vs incentive yield and expiry / durability facts. |
-| LP asks maximum token exposure. | `get_pool_due_diligence.exposure`, `get_pool_state`, `get_credit_manager_state`, `get_oracle_state`, issuer facets | Pool deposit Q2 needs quota, CM limits, current exposure, oracle, and issuer-controlled token facts. |
+| LP asks maximum token exposure. | `get_pool_due_diligence.exposure`, `get_pool_state`, `get_credit_manager_state`, `get_oracle_state`, access facets | Pool deposit Q2 needs quota, CM limits, current exposure, oracle, and asset-term and access facts when that branch applies. |
 | LP asks whether withdrawal is possible. | `get_pool_due_diligence.liquidity`, `get_pool_series`, route / market facets when exit routes need swaps | Pool deposit Q3 and Pool monitoring Q2 need current liquidity plus history. |
 | LP asks who manages the pool. | `get_curator_profile`, `get_curator_incidents`, `get_change_feed` | Pool deposit Q4 asks for manager identity, governance, and record. |
 | LP asks what can change. | `get_change_feed`, `get_pending_governance`, `get_change_frequency` | Pool deposit Q5 and monitoring Q4 need executed and pending parameter changes. |
 | LP monitors an existing position. | `list_user_positions`, `get_lp_monitoring_dataset` | Pool monitoring Stage 6 is a recurring current-state + delta read. |
 | Credit Account user wants candidates. | `list_credit_account_opportunities` | CA opening starts with strategy / Credit Manager candidates, not generic pool candidates. |
 | Credit Account user asks economics. | `get_credit_account_due_diligence.economics`, history facets | CA opening Q1 needs borrow, quota, collateral yield, fees, and breakeven inputs. |
-| Credit Account user asks liquidation safety. | `get_credit_account_due_diligence.safety`, oracle facets, issuer facets | CA opening Q2 and CA management Q1 need HF, LT, ramps, oracle, forbidden-token, and issuer facts. |
+| Credit Account user asks liquidation safety. | `get_credit_account_due_diligence.safety`, oracle facets, access facets | CA opening Q2 and CA management Q1 need HF, LT, ramps, oracle, forbidden-token, and access / asset-term facts. |
 | Credit Account user asks exit feasibility. | `get_credit_account_due_diligence.exit_feasibility`, route facets | CA opening Q3 and CA management Q4 need adapters, minDebt, liquidity, queues, and route quotes. |
 | Credit Account user asks envelope stability. | `get_credit_account_due_diligence.credit_manager_envelope`, `get_change_feed` | CA opening Q4 / Q5 and CA management Q3 / Q4 need CM operational and change state. |
-| Credit Account user monitors position. | `list_user_positions`, `get_credit_account_monitoring_dataset` | CA management Stage 6 is a richer safety / returns / operational / issuer recurring read. |
+| Credit Account user monitors position. | `list_user_positions`, `get_credit_account_monitoring_dataset` | CA management Stage 6 is a richer safety / returns / operational / asset-term recurring read. |
 | Any flow reaches state-changing action. | `preview_pool_action`, `preview_credit_account_action` | Preview is mandatory before Execute and must be deterministic. |
 | Any action confirms. | `get_execution_receipt` | Monitoring requires a post-action baseline and integrity readback. |
 
@@ -767,7 +740,7 @@ Backend can expose `affected_domains`, raw deltas, and deterministic projections
 
 Every method must distinguish:
 
-- `not_applicable`: branch does not apply, e.g. no issuer-controlled asset exposure.
+- `not_applicable`: branch does not apply, e.g. no access / asset-term branch.
 - `unknown`: branch applies, but source did not return a fact.
 - `not_indexed`: source could exist but backend does not yet collect it.
 - `stale`: fact exists but failed freshness SLA.
@@ -776,11 +749,11 @@ Every method must distinguish:
 Examples:
 
 ```text
-issuer_branch.status = not_applicable
-// ordinary ERC-20-only pool, no issuer-controlled asset exposure
+access_check.status = not_applicable
+// ordinary ERC-20-only opportunity, no DegenNFT or asset waitlist gate
 
-issuer_branch.status = unknown
-// tokenized-security exposure exists, but issuer freeze state was not returned
+access_check.status = not_sure
+// opportunity appears gated, but backend cannot determine whether this wallet can use it
 
 curator.incidents.status = not_indexed
 // curator incident log is not implemented yet
@@ -807,7 +780,7 @@ These gaps are backend / MCP gaps, not agent response-design gaps.
    - Used as deterministic input for curator / envelope volatility reasoning.
 
 5. **Curator profile and incident logs**
-   - Identity, governance, bad-debt incidents, liquidity incidents, activity log.
+   - Identity, governance, bad-debt incidents, activity log. Liquidity stress belongs in pool state / series, not curator profile.
    - Must carry source handles and confidence / editorial ownership.
 
 6. **Borrower / debt concentration**
@@ -830,9 +803,9 @@ These gaps are backend / MCP gaps, not agent response-design gaps.
     - Claimable rewards per wallet, pool position, Credit Account, and Merkl attribution.
     - Needed for monitoring and claim action previews.
 
-11. **Issuer / eligibility / freeze / redemption state**
-    - Issuer program status, holder state, Credit Account state, redemption windows, eligible-liquidator depth.
-    - Missing state must block ordinary-liquid-collateral treatment.
+11. **Opportunity access check**
+    - `check_opportunity_access(opportunity_id, wallet_address)` for DegenNFT, asset waitlist, and compliance gates.
+    - Missing or `not_sure` access must block automated entry and route to the returned action URL or manual review.
 
 12. **Bot registry / permission state**
     - Active bots, permission scopes, expected vs unexpected bot permissions.
@@ -848,50 +821,94 @@ These gaps are backend / MCP gaps, not agent response-design gaps.
 
 ## Build order
 
-1. **Method envelope and identifiers**
-   - Standardize `chain_id`, ids, timestamps, block numbers, source classes, freshness, unknown states.
-   - Without this, later methods cannot be trusted or composed.
-
-2. **Current state primitives**
+1. **Current state primitives**
    - `get_pool_state`, `get_credit_manager_state`, `get_lp_position_state`, `get_credit_account_state`, `list_user_positions`.
    - These are dependencies for every flow.
+   - Include stable identifiers and timestamps where they already exist; do not block the first version on a full cross-method envelope.
 
-3. **Preview integrity methods**
+2. **Preview integrity methods**
    - `preview_pool_action`, `preview_credit_account_action`, `get_execution_receipt`.
    - Any Execute path is unsafe without deterministic preview and receipt readback.
 
-4. **History and change feeds**
+3. **History and change feeds**
    - Series, executed changes, pending governance, change-frequency aggregate.
    - Required for monitoring and for explaining why a previously valid thesis may no longer hold.
 
-5. **Monitoring composites**
+4. **Monitoring composites**
    - `get_lp_monitoring_dataset`, `get_credit_account_monitoring_dataset`.
    - Highest recurring user value after current state and preview safety.
 
-6. **Issuer-controlled asset branch**
-   - Issuer / freeze / eligibility / redemption / eligible-liquidator methods.
-   - Required because unknown issuer state changes the safety interpretation and automation boundary.
+5. **Opportunity access branch**
+   - `check_opportunity_access` plus asset terms / source links for DegenNFT, asset waitlist, and compliance gates.
+   - Required because the agent needs one deterministic yes / no / not-sure answer before routing the user to DegenNFT acquisition, an asset waitlist, or manual review.
 
-7. **Opportunity and due-diligence composites**
+6. **Opportunity and due-diligence composites**
    - `list_pool_opportunities`, `get_pool_due_diligence`, `list_credit_account_opportunities`, `get_credit_account_due_diligence`.
    - These improve entry decisions after the monitoring / preview safety backbone exists.
 
-8. **Extended drill facets**
+7. **Extended drill facets**
    - Curator incident history, external route comparisons, top-borrower concentration, advanced oracle / market history.
    - Useful for sophisticated agents and T2 flows, but less foundational than current state, preview, and monitoring.
 
+8. **Common response envelope and source taxonomy**
+   - Optional hardening layer once the baseline methods exist.
+   - Standardize `as_of`, `source_class`, `source_handle`, `freshness_status`, `unknown_or_stale_reason`, `block_number`, and `computed_from`.
+   - Useful for multi-source agents and audits, but it should not delay current-state, preview, and monitoring methods.
+
+## Optional response envelope and source taxonomy
+
+This is not a first implementation blocker. Add it once the core MCP methods are useful and the team needs consistent auditability across methods, agents, and data sources. The current `types_.ts` companion intentionally does not carry `DataStatus`, `DataGap`, `ReadMeta`, `ResponseEnvelope`, source taxonomy, or `DataPoint<T>`; those can be added later if developers want that hardening layer.
+
+Every MCP response that can affect a user decision can then carry:
+
+```text
+as_of
+source_class
+source_handle
+freshness_status
+unknown_or_stale_reason
+block_number, if chain-derived
+computed_from, if derived
+```
+
+A missing fact should still be a first-class result, not an omitted field. The shared status vocabulary is:
+
+```text
+ok | stale | unknown | not_indexed | not_applicable | blocked
+```
+
+Use these source classes consistently once the envelope is adopted.
+
+| Source class | Meaning | Examples |
+| --- | --- | --- |
+| `protocol` | Direct contract state or canonical protocol artifact. | pool liquidity, Credit Manager parameters, quotas, LT, oracle prices, facade pause. |
+| `indexer` | Derived from events, traces, subgraphs, or backend aggregation. | utilisation history, share-price history, top borrower concentration, executed change feed. |
+| `external_market` | Market data outside Gearbox protocol state. | DEX depth, adapter quotes, aggregator quotes, 90d price / slippage series. |
+| `incentive` | Reward campaign data. | Merkl campaign APY, expiry, top-up history, reference URL. |
+| `curator_diligence` | Curator profile and operating history with declared source. | identity, governance mechanism, bad-debt incidents. |
+| `opportunity_access` | Wallet eligibility for a gated opportunity. | eligible / not eligible / not sure, missing DegenNFT, missing asset waitlist approval, action URL. |
+| `product_policy` | Product-owned rule, not user preference. | unknown opportunity access blocks automated entry; preview required before Execute. |
+| `user_policy` | Supplied by user / representative / agent mandate. | HF floor, hold horizon, APY hurdle, route tolerance. Usually passed in request or stored outside protocol backend. |
+| `computed` | Deterministic calculation over sourced facts. | max exposure, safe-pricing exit HF, breakeven horizon, action simulation. |
+
 ## Review standard for this architecture
 
-A backend / MCP method is ready only if it answers all of these:
+For the first version, a backend / MCP method is ready only if it answers all of these:
 
 - Which product-flow question requires it?
 - Which entity owns the fact?
 - Is the fact current, historical, event-based, or computed?
-- What is the source class?
-- What is the freshness rule?
+- What source or source family backs the fact?
 - What happens if the fact is unknown, stale, or not indexed?
 - Is the method returning deterministic facts, or accidentally returning an agent verdict?
 - Which composite methods reuse this facet?
 - What test proves the method can answer or correctly block the product-flow question?
+
+After the optional envelope is adopted, also check:
+
+- Does each decision-affecting response include `as_of`, source metadata, freshness status, and missing-data reason where relevant?
+- Are chain-derived facts tied to `block_number`?
+- Are derived facts tied to `computed_from` inputs?
+- Are source classes used consistently across composite and facet methods?
 
 This is the reason for the exact structure above: product flows define repeated questions; repeated questions define deterministic facts; facts define entities and MCP methods; agents consume those methods and still do the user-specific reasoning.

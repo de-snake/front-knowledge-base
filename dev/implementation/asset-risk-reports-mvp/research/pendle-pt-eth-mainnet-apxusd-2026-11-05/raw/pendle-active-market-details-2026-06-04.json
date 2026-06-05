@@ -1,0 +1,34 @@
+{
+  "source": "https://api-v2.pendle.finance/core/v1/1/markets/active",
+  "accessed": "2026-06-04",
+  "matched_count": 1,
+  "market": {
+    "name": "apxUSD",
+    "address": "0xaf0349fb9b1ba07d34381870c59b560b31412660",
+    "expiry": "2026-11-05T00:00:00.000Z",
+    "pt": "1-0xaf687b5ecb525ccea96115088999b4ed80c388b6",
+    "yt": "1-0x7fbc01c63b0ac372ec75907f3a1d8adc8cf28e1f",
+    "sy": "1-0x4f116ee5bcd227d1a1c4f57918d694a4abe7b3fc",
+    "underlyingAsset": "1-0x98a878b1cd98131b271883b390f68d2c90674665",
+    "details": {
+      "liquidity": 1170194.5713013876,
+      "pendleApy": 0.132530920495758,
+      "impliedApy": 0.21676292183272805,
+      "feeRate": 0.004081520970658836,
+      "yieldRange": {
+        "min": 0.060000000000000005,
+        "max": 0.24999999999999997
+      },
+      "aggregatedApy": 1.200638423551169,
+      "maxBoostedApy": 1.399434804294806
+    },
+    "isNew": false,
+    "isPrime": false,
+    "timestamp": "2026-05-16T00:44:47.000Z",
+    "categoryIds": [
+      "points",
+      "rwa",
+      "strc"
+    ]
+  }
+}

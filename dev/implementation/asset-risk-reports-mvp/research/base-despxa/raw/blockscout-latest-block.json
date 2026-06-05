@@ -1,0 +1,10 @@
+{
+  "url": "https://base.blockscout.com/api?module=block&action=eth_block_number",
+  "response": {
+    "jsonrpc": "2.0",
+    "result": "0x2cb84ad",
+    "id": 1
+  },
+  "latest_block_decimal": 46892205,
+  "accessed_utc": "2026-06-04T11:50:54Z"
+}

@@ -1,0 +1,254 @@
+{
+  "access_date_utc": "2026-06-04",
+  "rpc": "https://ethereum.publicnode.com",
+  "latest_block": 25243627,
+  "feed_verifier_proxy": "0xdF4ab20fA7752Be52E41e42F1FD667f37964d6a3",
+  "implementation": "0xbC6023cb49F8E8cA6cef563d5FD97ba4C6A5D937",
+  "first_code_block": 24894016,
+  "state": {
+    "verifierProxy": "0x5A1634A86e9b7BfEf33F0f3f3EA3b1aBBc4CC85F",
+    "paused": false,
+    "allowedFeedId": "0x0007c8ed155d952e003b1e15ce7666fea785cfbe216577d578fce3920e997271",
+    "defaultMaxStaleness": 3600,
+    "maxStalenessByFeed": 0,
+    "priceByFeed": 1040906939176726297,
+    "timestampByFeed": 1780571081,
+    "lastFeedId": "0x0007c8ed155d952e003b1e15ce7666fea785cfbe216577d578fce3920e997271",
+    "UPGRADE_INTERFACE_VERSION": "ERR (\"The function 'UPGRADE_INTERFACE_VERSION' was not found in this \", \"contract's abi.\")"
+  },
+  "roles": {
+    "DEFAULT_ADMIN_ROLE": {
+      "hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "admin": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "holders": [
+        "0x8D358B8aE881F8ea92C3d07783aBCA21727C6309"
+      ],
+      "hasRole": {
+        "0x8D358B8aE881F8ea92C3d07783aBCA21727C6309": true
+      }
+    },
+    "PAUSER_ROLE": {
+      "hash": "0x65d7a28e3265b37a6474929f336521b332c1681b933f6cb9f3376673440d862a",
+      "admin": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "holders": [
+        "0xA8C3CF6183D49d5D372f8FC149BD2cb5CFC0faCd"
+      ],
+      "hasRole": {
+        "0xA8C3CF6183D49d5D372f8FC149BD2cb5CFC0faCd": true
+      }
+    },
+    "UPGRADER_ROLE": {
+      "hash": "0x189ab7a9244df0848122154315af71fe140f3db0fe014031783b0946b8c9d2e3",
+      "admin": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "holders": [
+        "0x8D358B8aE881F8ea92C3d07783aBCA21727C6309"
+      ],
+      "hasRole": {
+        "0x8D358B8aE881F8ea92C3d07783aBCA21727C6309": true
+      }
+    },
+    "UPDATER_ROLE": {
+      "hash": "0x73e573f9566d61418a34d5de3ff49360f9c51fec37f7486551670290f6285dab",
+      "admin": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "holders": [
+        "0xF0a5baEBF749562fAe5f3d9d2928357ae6cd73cd"
+      ],
+      "hasRole": {
+        "0xF0a5baEBF749562fAe5f3d9d2928357ae6cd73cd": true
+      }
+    }
+  },
+  "event_counts": {
+    "RoleGranted": 8,
+    "RoleRevoked": 4,
+    "Upgraded": 1,
+    "Paused": 0,
+    "Unpaused": 0,
+    "FeedIdUpdated": 2,
+    "MaxStalenessUpdated": 0,
+    "MaxStalenessByFeedUpdated": 0,
+    "DecodedPrice": 3889
+  },
+  "decoded_admin_events": [
+    {
+      "event": "Upgraded",
+      "block": 24894016,
+      "timestamp_utc": "2026-04-16T17:54:47Z",
+      "tx": "0xa6de1607ba438601647e46c0545336b6110cc95867dcd0f8eb30b518fe4128f2",
+      "implementation": "0xbC6023cb49F8E8cA6cef563d5FD97ba4C6A5D937"
+    },
+    {
+      "event": "RoleGranted",
+      "block": 24894016,
+      "timestamp_utc": "2026-04-16T17:54:47Z",
+      "tx": "0xa6de1607ba438601647e46c0545336b6110cc95867dcd0f8eb30b518fe4128f2",
+      "role": "DEFAULT_ADMIN_ROLE",
+      "role_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "account": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3",
+      "sender": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3"
+    },
+    {
+      "event": "RoleGranted",
+      "block": 24894016,
+      "timestamp_utc": "2026-04-16T17:54:47Z",
+      "tx": "0xa6de1607ba438601647e46c0545336b6110cc95867dcd0f8eb30b518fe4128f2",
+      "role": "PAUSER_ROLE",
+      "role_hash": "0x65d7a28e3265b37a6474929f336521b332c1681b933f6cb9f3376673440d862a",
+      "account": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3",
+      "sender": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3"
+    },
+    {
+      "event": "RoleGranted",
+      "block": 24894016,
+      "timestamp_utc": "2026-04-16T17:54:47Z",
+      "tx": "0xa6de1607ba438601647e46c0545336b6110cc95867dcd0f8eb30b518fe4128f2",
+      "role": "UPGRADER_ROLE",
+      "role_hash": "0x189ab7a9244df0848122154315af71fe140f3db0fe014031783b0946b8c9d2e3",
+      "account": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3",
+      "sender": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3"
+    },
+    {
+      "event": "RoleGranted",
+      "block": 24894016,
+      "timestamp_utc": "2026-04-16T17:54:47Z",
+      "tx": "0xa6de1607ba438601647e46c0545336b6110cc95867dcd0f8eb30b518fe4128f2",
+      "role": "UPDATER_ROLE",
+      "role_hash": "0x73e573f9566d61418a34d5de3ff49360f9c51fec37f7486551670290f6285dab",
+      "account": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3",
+      "sender": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3"
+    },
+    {
+      "event": "FeedIdUpdated",
+      "block": 24894016,
+      "timestamp_utc": "2026-04-16T17:54:47Z",
+      "tx": "0xa6de1607ba438601647e46c0545336b6110cc95867dcd0f8eb30b518fe4128f2",
+      "oldFeedId": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "newFeedId": "0x000700f43b35146a1cb16373ac6225ad597535e928e6dc4d179c3b4225f2b6d3"
+    },
+    {
+      "event": "FeedIdUpdated",
+      "block": 24945331,
+      "timestamp_utc": "2026-04-23T21:27:11Z",
+      "tx": "0xf86332d0c97d77df4642304e00a910f1f330896daaac17e1acf2f5aaf412c2cb",
+      "oldFeedId": "0x000700f43b35146a1cb16373ac6225ad597535e928e6dc4d179c3b4225f2b6d3",
+      "newFeedId": "0x0007c8ed155d952e003b1e15ce7666fea785cfbe216577d578fce3920e997271"
+    },
+    {
+      "event": "RoleGranted",
+      "block": 24951286,
+      "timestamp_utc": "2026-04-24T17:21:23Z",
+      "tx": "0x7758198f9b84030da928c6da17734896f7e6e993918c517e9c36ac95740dea0f",
+      "role": "UPDATER_ROLE",
+      "role_hash": "0x73e573f9566d61418a34d5de3ff49360f9c51fec37f7486551670290f6285dab",
+      "account": "0xF0a5baEBF749562fAe5f3d9d2928357ae6cd73cd",
+      "sender": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3"
+    },
+    {
+      "event": "RoleRevoked",
+      "block": 24951306,
+      "timestamp_utc": "2026-04-24T17:25:23Z",
+      "tx": "0xa8fe523b9e38fa71bdb48dee7def63911f56981ef71328ad355d5d5d89b86f51",
+      "role": "UPDATER_ROLE",
+      "role_hash": "0x73e573f9566d61418a34d5de3ff49360f9c51fec37f7486551670290f6285dab",
+      "account": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3",
+      "sender": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3"
+    },
+    {
+      "event": "RoleGranted",
+      "block": 24988802,
+      "timestamp_utc": "2026-04-29T22:41:59Z",
+      "tx": "0x02131ed4baa3f08be28d6d78624f4bd5693b4bad00169e126ed51994cf339e9b",
+      "role": "DEFAULT_ADMIN_ROLE",
+      "role_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "account": "0x8D358B8aE881F8ea92C3d07783aBCA21727C6309",
+      "sender": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3"
+    },
+    {
+      "event": "RoleGranted",
+      "block": 24988807,
+      "timestamp_utc": "2026-04-29T22:42:59Z",
+      "tx": "0xc8d4c0d7688226d58b8f726d9de2630eae967d6ce7ffaa869603f9c5ce472c2f",
+      "role": "UPGRADER_ROLE",
+      "role_hash": "0x189ab7a9244df0848122154315af71fe140f3db0fe014031783b0946b8c9d2e3",
+      "account": "0x8D358B8aE881F8ea92C3d07783aBCA21727C6309",
+      "sender": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3"
+    },
+    {
+      "event": "RoleGranted",
+      "block": 24988830,
+      "timestamp_utc": "2026-04-29T22:47:35Z",
+      "tx": "0x3a5552d2d7a0285d4d9507ed2b65abb55adf3505285ea85d46b29ee7f779ae3f",
+      "role": "PAUSER_ROLE",
+      "role_hash": "0x65d7a28e3265b37a6474929f336521b332c1681b933f6cb9f3376673440d862a",
+      "account": "0xA8C3CF6183D49d5D372f8FC149BD2cb5CFC0faCd",
+      "sender": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3"
+    },
+    {
+      "event": "RoleRevoked",
+      "block": 25032024,
+      "timestamp_utc": "2026-05-05T23:13:47Z",
+      "tx": "0x1e647132f17138e308b0d41610b46d9cbe7bf235134a63e70919e7287948729e",
+      "role": "DEFAULT_ADMIN_ROLE",
+      "role_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "account": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3",
+      "sender": "0x8D358B8aE881F8ea92C3d07783aBCA21727C6309"
+    },
+    {
+      "event": "RoleRevoked",
+      "block": 25032024,
+      "timestamp_utc": "2026-05-05T23:13:47Z",
+      "tx": "0x1e647132f17138e308b0d41610b46d9cbe7bf235134a63e70919e7287948729e",
+      "role": "UPGRADER_ROLE",
+      "role_hash": "0x189ab7a9244df0848122154315af71fe140f3db0fe014031783b0946b8c9d2e3",
+      "account": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3",
+      "sender": "0x8D358B8aE881F8ea92C3d07783aBCA21727C6309"
+    },
+    {
+      "event": "RoleRevoked",
+      "block": 25032048,
+      "timestamp_utc": "2026-05-05T23:18:35Z",
+      "tx": "0xa01ce5e2123e7466a165fdb2cae2a1a77f5210c214d2cbf7104f102a67afaf1b",
+      "role": "PAUSER_ROLE",
+      "role_hash": "0x65d7a28e3265b37a6474929f336521b332c1681b933f6cb9f3376673440d862a",
+      "account": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3",
+      "sender": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3"
+    }
+  ],
+  "address_classification": {
+    "0x8D358B8aE881F8ea92C3d07783aBCA21727C6309": {
+      "code_bytes": 171,
+      "type": "contract",
+      "safe_probe": {
+        "VERSION": "1.4.1",
+        "getThreshold": 4,
+        "getOwners": [
+          "0xB257106FFd8290D3F5fdeAED9F603EF2D0630c26",
+          "0x13B29ad44c9f859764378e2325b2AA9725E71fE3",
+          "0x4b8d18095cb48125d0d9106c8c1162BCEB8558C7",
+          "0x3f7aa6E9bd048b97c9B0914Ae317a1814B9381b2",
+          "0xc4D5491382138e9a0bcD37c1a8EBd46C753253F1",
+          "0xCd1Ef81CcB5AaB7d96c083F48ff859385eB65A36",
+          "0x840560f38E5CdCa96bF4042e6Ee45407a303EEA1"
+        ],
+        "getModulesPaginated": [
+          [],
+          "0x0000000000000000000000000000000000000001"
+        ]
+      }
+    },
+    "0xA8C3CF6183D49d5D372f8FC149BD2cb5CFC0faCd": {
+      "code_bytes": 0,
+      "type": "EOA"
+    },
+    "0xF0a5baEBF749562fAe5f3d9d2928357ae6cd73cd": {
+      "code_bytes": 0,
+      "type": "EOA"
+    }
+  },
+  "sources": {
+    "sourcify_proxy_metadata": "https://repo.sourcify.dev/contracts/full_match/1/0xdF4ab20fA7752Be52E41e42F1FD667f37964d6a3/metadata.json",
+    "sourcify_implementation_metadata": "https://repo.sourcify.dev/contracts/full_match/1/0xbC6023cb49F8E8cA6cef563d5FD97ba4C6A5D937/metadata.json",
+    "sourcify_implementation_source": "https://repo.sourcify.dev/contracts/full_match/1/0xbC6023cb49F8E8cA6cef563d5FD97ba4C6A5D937/sources/contracts/FeedVerifier.sol",
+    "github_doc": "https://github.com/provenance-io/hastra-eth-vault/blob/main/chainlink-hub/docs/FeedVerifier.md"
+  }
+}

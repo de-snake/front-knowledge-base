@@ -1,0 +1,8 @@
+root.delay 172800 [1.728e5]
+root.paused false
+root.wards(ROOT) 0
+token.wards(ROOT) 1
+vault.wards(ROOT) 1
+vault.wards(MAN) 1
+manager.wards(ROOT) 1
+hook.wards(ROOT) 1

@@ -1,0 +1,95 @@
+{
+  "source": "https://api-v2.pendle.finance/core/v1/1/markets/active",
+  "accessed": "2026-06-04",
+  "underlyingAsset": "1-0x38eeb52f0771140d10c4e9a9a72349a329fe8a6a",
+  "count_candidates_same_underlying": 3,
+  "candidates": [
+    {
+      "name": "apyUSD",
+      "address": "0x3c53fae231ad3c0408a8b6d33138bbff1caec330",
+      "expiry": "2026-06-18T00:00:00.000Z",
+      "pt": "1-0x3365554a61ceff74a76528f9e86c1e87946d16a5",
+      "yt": "1-0x4864dcfa317b29e13e6caa04b5c37f24c79a465e",
+      "sy": "1-0x04f8dca7bccd8997ac57ca6fef7c705e17d6bcb6",
+      "underlyingAsset": "1-0x38eeb52f0771140d10c4e9a9a72349a329fe8a6a",
+      "details": {
+        "liquidity": 10637215.708626594,
+        "pendleApy": 0.01457965767939998,
+        "impliedApy": 0.2403758073185751,
+        "feeRate": 0.004854288967354403,
+        "yieldRange": {
+          "min": 0.05000000000000001,
+          "max": 0.35
+        },
+        "aggregatedApy": 0.24703436112605168,
+        "maxBoostedApy": 0.26890384764515163
+      },
+      "isNew": false,
+      "isPrime": false,
+      "timestamp": "2026-02-27T04:38:47.000Z",
+      "categoryIds": [
+        "points",
+        "rwa",
+        "strc"
+      ]
+    },
+    {
+      "name": "apyUSD",
+      "address": "0xc5f938a8ef5f3bf9e72f5aa094baf5e03f4727d3",
+      "expiry": "2026-11-05T00:00:00.000Z",
+      "pt": "1-0xb5be35d8ff83d431899b95851cb17a2b4bcef150",
+      "yt": "1-0x85cc1b74fc95abb6b9b6060c56334ba3e4b88ed4",
+      "sy": "1-0x04f8dca7bccd8997ac57ca6fef7c705e17d6bcb6",
+      "underlyingAsset": "1-0x38eeb52f0771140d10c4e9a9a72349a329fe8a6a",
+      "details": {
+        "liquidity": 2979077.604856374,
+        "pendleApy": 0.05205871892725964,
+        "impliedApy": 0.16535281801025126,
+        "feeRate": 0.0033481067048410917,
+        "yieldRange": {
+          "min": 0.08000000000000002,
+          "max": 0.29
+        },
+        "aggregatedApy": 0.2027122174085728,
+        "maxBoostedApy": 0.28080029579946225
+      },
+      "isNew": false,
+      "isPrime": false,
+      "timestamp": "2026-05-16T00:37:59.000Z",
+      "categoryIds": [
+        "points",
+        "rwa",
+        "strc"
+      ]
+    },
+    {
+      "name": "apyUSD",
+      "address": "0x30bb9ee8dc6aab322dc3a0d36063cbf06a9e5952",
+      "expiry": "2026-08-27T00:00:00.000Z",
+      "pt": "1-0xee5c7cda577484b70b65c21235ecbd302bb290e2",
+      "yt": "1-0x67553fb2ab2a411029387e1c53c0a3e55f8d10c9",
+      "sy": "1-0x04f8dca7bccd8997ac57ca6fef7c705e17d6bcb6",
+      "underlyingAsset": "1-0x38eeb52f0771140d10c4e9a9a72349a329fe8a6a",
+      "details": {
+        "liquidity": 1090351.6198062503,
+        "pendleApy": 0.1421534794168352,
+        "impliedApy": 0.176034972472358,
+        "feeRate": 0.0038403626098639787,
+        "yieldRange": {
+          "min": 0.09999999999999999,
+          "max": 0.22999999999999998
+        },
+        "aggregatedApy": 0.37102866180972915,
+        "maxBoostedApy": 0.5842588809349819
+      },
+      "isNew": true,
+      "isPrime": false,
+      "timestamp": "2026-05-27T21:14:59.000Z",
+      "categoryIds": [
+        "points",
+        "rwa",
+        "strc"
+      ]
+    }
+  ]
+}

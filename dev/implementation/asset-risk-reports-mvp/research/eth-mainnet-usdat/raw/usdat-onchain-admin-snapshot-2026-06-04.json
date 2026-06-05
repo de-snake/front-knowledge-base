@@ -1,0 +1,174 @@
+{
+  "addresses": {
+    "AssetCapTimelock": "0x7D343D17896D2cd87A49b4fB8872298A883f78f7",
+    "SaturnTimelock": "0xfD5782E3BFF366601da3973aE30C583dE4F08A67",
+    "USDat": "0x23238F20B894f29041f48d88Ee91131c395aAA71",
+    "USDatProxyAdmin": "0xcf1072DA5f0D127AEf99136489BAd08bFa3D1A7D"
+  },
+  "block_number": 25245745,
+  "created_at_utc": "2026-06-04T18:14:39.567438+00:00",
+  "etherscan_source_page_url": "https://etherscan.io/address/0x23238F20B894f29041f48d88Ee91131c395aAA71",
+  "etherscan_source_summary_snippets": {
+    "ASSET_CAP_MANAGER_ROLE": "supported. * @author M0 Labs */ contract JMIExtension is IJMIExtension, JMIExtensionLayout, MYieldToOne { using SafeERC20 for IERC20; /* ============ Variables ============ */ /// @inheritdoc IJMIExtension bytes32 public constant ASSET_CAP_MANAGER_ROLE = keccak256(\"ASSET_CAP_MANAGER_ROLE\"); /// @inheritdoc IJMIExtension uint8 public constant M_DECIMALS = 6; /* ============ Constructor ============ */ /** * @custom:oz-upgrades-unsafe-allow constructor * @notice Constructs JMIExtension Implementation contract * @dev Sets immutable storage. * @param mToken The address of $M token. * @param swapFacility The address of Swap Facility. */ constructor(address mToken, address swapFacility) MYieldToOne(mToken, swapFacility) {} /* ============ Initializer ============ */ /** * @dev Initializes the M extension token with JMI backing model and yield",
+    "Contract Name": "Contract Name TransparentUpgradeableProxy Compiler Version",
+    "FORCED_TRANSFER_MANAGER_ROLE": "rce transfer managers. * @author M0 Labs */ abstract contract ForcedTransferable is IForcedTransferable, AccessControlUpgradeable { /* ============ Variables ============ */ /// @inheritdoc IForcedTransferable bytes32 public constant FORCED_TRANSFER_MANAGER_ROLE = keccak256(\"FORCED_TRANSFER_MANAGER_ROLE\"); /* ============ Initializer ============ */ /** * @notice Initializes the contract with the given force transfer manager. * @param forcedTransferManager The address of a force transfer manager. */ function __ForcedTransferable_init(address forcedTransferManager) internal onlyInitializing { if (forcedTransferManager == address(0)) revert ZeroForcedTransferManager(); _grantRole(FORCED_TRANSFER_MANAGER_ROLE, forcedTransferManager); } /* ============ Interactive Functions ============ */ /// @inheritdoc IForcedTransferable function forceTransfer( addres",
+    "FREEZE_MANAGER_ROLE": "racting with the contract. * @author M0 Labs */ abstract contract Freezable is IFreezable, FreezableStorageLayout, AccessControlUpgradeable { /* ============ Variables ============ */ /// @inheritdoc IFreezable bytes32 public constant FREEZE_MANAGER_ROLE = keccak256(\"FREEZE_MANAGER_ROLE\"); /* ============ Initializer ============ */ /** * @notice Initializes the contract with the given freeze manager. * @param freezeManager The address of a freeze manager. */ function __Freezable_init(address freezeManager) internal onlyInitializing { if (freezeManager == address(0)) revert ZeroFreezeManager(); _grantRole(FREEZE_MANAGER_ROLE, freezeManager); } /* ============ Interactive Functions ============ */ /// @inheritdoc IFreezable function freeze(address account) external onlyRole(FREEZE_MANAGER_ROLE) { _freeze(_getFreezableStorageLocation(), account); }",
+    "PAUSER_ROLE": "eppelin for pause functionality. * @author M0 Labs */ abstract contract Pausable is IPausable, AccessControlUpgradeable, PausableUpgradeable { /* ============ Variables ============ */ /// @inheritdoc IPausable bytes32 public constant PAUSER_ROLE = keccak256(\"PAUSER_ROLE\"); /* ============ Initializer ============ */ /** * @notice Initializes the contract with the given pauser. * @param pauser The address of a pauser. */ function __Pausable_init(address pauser) internal onlyInitializing { if (pauser == address(0)) revert ZeroPauser(); _grantRole(PAUSER_ROLE, pauser); } /* ============ Interactive Functions ============ */ /// @inheritdoc IPausable function pause() external onlyRole(PAUSER_ROLE) { _pause(); } /// @inheritdoc IPausable function unpause() external onlyRole(PAUSER_ROLE) { _unpause(); } } '><label class='form-check-",
+    "WHITELIST_MANAGER_ROLE": "6a491448d31b621000; function _getWhitelistStorage() private pure returns (WhitelistStorage storage $) { assembly { $.slot := _WHITELIST_STORAGE_LOCATION } } /// @inheritdoc IUSDat bytes32 public constant WHITELIST_MANAGER_ROLE = keccak256(\"WHITELIST_MANAGER_ROLE\"); /// @custom:oz-upgrades-unsafe-allow constructor constructor(address mToken_, address swapFacility_) JMIExtension(mToken_, swapFacility_) { _disableInitializers(); } function initialize(address yieldRecipient, address admin, address compliance, address processor) public initializer { __JMIExtension_init(\"USDat\", \"USDat\", yieldRecipient, admin, processor, compliance, compliance, processor); __ForcedTransferable_init(compliance); _grantRole(WHITELIST_MANAGER_ROLE, compliance); } /* ============ Whitelist Functions ============ */ /// @inheritdoc IUS",
+    "contract USDat is": "sions/projects/jmi/JMIExtension.sol\"; import {ForcedTransferable} from \"@m-extensions/components/forcedTransferable/ForcedTransferable.sol\"; import {IMTokenLike} from \"@m-extensions/interfaces/IMTokenLike.sol\"; import {IUSDat} from \"./IUSDat.sol\"; contract USDat is IUSDat, JMIExtension, ForcedTransferable { /// @custom:storage-location erc7201:Saturn.storage.Whitelist struct WhitelistStorage { bool isEnabled; mapping(address account => bool) isWhitelisted; } // keccak256(abi.encode(uint256(keccak256(\"Saturn.storage.Whitelist\")) - 1)) & ~bytes32(uint256(0xff)) bytes32 private constant _WHITELIST_STORAGE_LOCATION = 0x1d6c3b82f2027bd0b336e517c3a50a0483eb4d2c5cd82c6a491448d31b621000; function _getWhitelistStorage() private pure returns (WhitelistStorage storage $) { assembly { $.slot := _WHITELIST_STORAGE_LOCATION } } /// @inheritdoc IUSDat bytes32"
+  },
+  "etherscan_token_page_url": "https://etherscan.io/token/0x23238F20B894f29041f48d88Ee91131c395aAA71",
+  "has_role_checks": {
+    "ASSET_CAP_MANAGER_ROLE": {
+      "0x09D6E34cE24D54890fF0BC6a090b5f880F8C729f": false,
+      "0x10D59F776db12b4B271b2609CB8b7Ddd0A82703B": false,
+      "0x610182581C93687Ca03F4a8E7f124f8cEC616820": false,
+      "0x7D343D17896D2cd87A49b4fB8872298A883f78f7": true,
+      "0xfD5782E3BFF366601da3973aE30C583dE4F08A67": false
+    },
+    "DEFAULT_ADMIN_ROLE": {
+      "0x09D6E34cE24D54890fF0BC6a090b5f880F8C729f": false,
+      "0x10D59F776db12b4B271b2609CB8b7Ddd0A82703B": false,
+      "0x610182581C93687Ca03F4a8E7f124f8cEC616820": true,
+      "0x7D343D17896D2cd87A49b4fB8872298A883f78f7": false,
+      "0xfD5782E3BFF366601da3973aE30C583dE4F08A67": true
+    },
+    "FORCED_TRANSFER_MANAGER_ROLE": {
+      "0x09D6E34cE24D54890fF0BC6a090b5f880F8C729f": false,
+      "0x10D59F776db12b4B271b2609CB8b7Ddd0A82703B": true,
+      "0x610182581C93687Ca03F4a8E7f124f8cEC616820": false,
+      "0x7D343D17896D2cd87A49b4fB8872298A883f78f7": false,
+      "0xfD5782E3BFF366601da3973aE30C583dE4F08A67": false
+    },
+    "FREEZE_MANAGER_ROLE": {
+      "0x09D6E34cE24D54890fF0BC6a090b5f880F8C729f": false,
+      "0x10D59F776db12b4B271b2609CB8b7Ddd0A82703B": true,
+      "0x610182581C93687Ca03F4a8E7f124f8cEC616820": false,
+      "0x7D343D17896D2cd87A49b4fB8872298A883f78f7": false,
+      "0xfD5782E3BFF366601da3973aE30C583dE4F08A67": false
+    },
+    "PAUSER_ROLE": {
+      "0x09D6E34cE24D54890fF0BC6a090b5f880F8C729f": false,
+      "0x10D59F776db12b4B271b2609CB8b7Ddd0A82703B": true,
+      "0x610182581C93687Ca03F4a8E7f124f8cEC616820": false,
+      "0x7D343D17896D2cd87A49b4fB8872298A883f78f7": false,
+      "0xfD5782E3BFF366601da3973aE30C583dE4F08A67": false
+    },
+    "WHITELIST_MANAGER_ROLE": {
+      "0x09D6E34cE24D54890fF0BC6a090b5f880F8C729f": false,
+      "0x10D59F776db12b4B271b2609CB8b7Ddd0A82703B": true,
+      "0x610182581C93687Ca03F4a8E7f124f8cEC616820": false,
+      "0x7D343D17896D2cd87A49b4fB8872298A883f78f7": false,
+      "0xfD5782E3BFF366601da3973aE30C583dE4F08A67": false
+    },
+    "YIELD_RECIPIENT_MANAGER_ROLE": {
+      "0x09D6E34cE24D54890fF0BC6a090b5f880F8C729f": true,
+      "0x10D59F776db12b4B271b2609CB8b7Ddd0A82703B": false,
+      "0x610182581C93687Ca03F4a8E7f124f8cEC616820": false,
+      "0x7D343D17896D2cd87A49b4fB8872298A883f78f7": false,
+      "0xfD5782E3BFF366601da3973aE30C583dE4F08A67": false
+    }
+  },
+  "holder_code_lengths": {
+    "0x09D6E34cE24D54890fF0BC6a090b5f880F8C729f": 0,
+    "0x10D59F776db12b4B271b2609CB8b7Ddd0A82703B": 0,
+    "0x610182581C93687Ca03F4a8E7f124f8cEC616820": 0,
+    "0x7D343D17896D2cd87A49b4fB8872298A883f78f7": 5497,
+    "0xfD5782E3BFF366601da3973aE30C583dE4F08A67": 5497
+  },
+  "prior_related_snapshot": "projects/front-knowledge-base/dev/implementation/asset-risk-reports-mvp/research/eth-mainnet-susdat/raw/onchain-admin-snapshot-2026-06-04.json",
+  "proxy_admin_owner": "0x610182581C93687Ca03F4a8E7f124f8cEC616820",
+  "proxy_slots": {
+    "eip1967_admin": {
+      "address": "0xcf1072da5f0d127aef99136489bad08bfa3d1a7d",
+      "code_len": 881,
+      "raw": "0x000000000000000000000000cf1072da5f0d127aef99136489bad08bfa3d1a7d"
+    },
+    "eip1967_implementation": {
+      "address": "0x17cac25c6d6bbcb592837fea083a5c8eb4d1e52e",
+      "code_len": 22042,
+      "raw": "0x00000000000000000000000017cac25c6d6bbcb592837fea083a5c8eb4d1e52e"
+    }
+  },
+  "role_ids": {
+    "ASSET_CAP_MANAGER_ROLE": "0xa56d2bdf254c8533e707144802f9ebe3f93e4c7e3dbd92488f75e6c593e0c2af",
+    "DEFAULT_ADMIN_ROLE": "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "FORCED_TRANSFER_MANAGER_ROLE": "0xc66b3536568140ce119bcc21a4fa7e3449a56fb5f260d32ff8e719230264132c",
+    "FREEZE_MANAGER_ROLE": "0x109b88c1c8d528799ca6f455418979dd2a552493f14553ce44443b23f7df8b35",
+    "PAUSER_ROLE": "0x65d7a28e3265b37a6474929f336521b332c1681b933f6cb9f3376673440d862a",
+    "WHITELIST_MANAGER_ROLE": "0x2a3dab589bcc9747970dd85ac3f222668741ae51f2a1bbb8f8355be28dd8a868",
+    "YIELD_RECIPIENT_MANAGER_ROLE": "0x4a5e9eb1ba56d04185ff75ebf0f4f42a3d7c88c35b4a90fa278437e0c9bdceca"
+  },
+  "rpc": "https://ethereum-rpc.publicnode.com",
+  "timelock_min_delays": {
+    "0x7D343D17896D2cd87A49b4fB8872298A883f78f7": "432000 [4.32e5]",
+    "0xfD5782E3BFF366601da3973aE30C583dE4F08A67": "432000 [4.32e5]"
+  },
+  "timelock_role_checks": {
+    "0x7D343D17896D2cd87A49b4fB8872298A883f78f7": {
+      "minDelay": "432000 [4.32e5]",
+      "roles": {
+        "CANCELLER_ROLE": {
+          "0x0000000000000000000000000000000000000000": false,
+          "0x610182581C93687Ca03F4a8E7f124f8cEC616820": false,
+          "0x7D343D17896D2cd87A49b4fB8872298A883f78f7": false,
+          "0xfD5782E3BFF366601da3973aE30C583dE4F08A67": false
+        },
+        "DEFAULT_ADMIN_ROLE": {
+          "0x0000000000000000000000000000000000000000": false,
+          "0x610182581C93687Ca03F4a8E7f124f8cEC616820": false,
+          "0x7D343D17896D2cd87A49b4fB8872298A883f78f7": true,
+          "0xfD5782E3BFF366601da3973aE30C583dE4F08A67": false
+        },
+        "EXECUTOR_ROLE": {
+          "0x0000000000000000000000000000000000000000": true,
+          "0x610182581C93687Ca03F4a8E7f124f8cEC616820": false,
+          "0x7D343D17896D2cd87A49b4fB8872298A883f78f7": false,
+          "0xfD5782E3BFF366601da3973aE30C583dE4F08A67": false
+        },
+        "PROPOSER_ROLE": {
+          "0x0000000000000000000000000000000000000000": false,
+          "0x610182581C93687Ca03F4a8E7f124f8cEC616820": false,
+          "0x7D343D17896D2cd87A49b4fB8872298A883f78f7": false,
+          "0xfD5782E3BFF366601da3973aE30C583dE4F08A67": false
+        }
+      }
+    },
+    "0xfD5782E3BFF366601da3973aE30C583dE4F08A67": {
+      "minDelay": "432000 [4.32e5]",
+      "roles": {
+        "CANCELLER_ROLE": {
+          "0x0000000000000000000000000000000000000000": false,
+          "0x610182581C93687Ca03F4a8E7f124f8cEC616820": true,
+          "0x7D343D17896D2cd87A49b4fB8872298A883f78f7": false,
+          "0xfD5782E3BFF366601da3973aE30C583dE4F08A67": false
+        },
+        "DEFAULT_ADMIN_ROLE": {
+          "0x0000000000000000000000000000000000000000": false,
+          "0x610182581C93687Ca03F4a8E7f124f8cEC616820": false,
+          "0x7D343D17896D2cd87A49b4fB8872298A883f78f7": false,
+          "0xfD5782E3BFF366601da3973aE30C583dE4F08A67": true
+        },
+        "EXECUTOR_ROLE": {
+          "0x0000000000000000000000000000000000000000": true,
+          "0x610182581C93687Ca03F4a8E7f124f8cEC616820": false,
+          "0x7D343D17896D2cd87A49b4fB8872298A883f78f7": false,
+          "0xfD5782E3BFF366601da3973aE30C583dE4F08A67": false
+        },
+        "PROPOSER_ROLE": {
+          "0x0000000000000000000000000000000000000000": false,
+          "0x610182581C93687Ca03F4a8E7f124f8cEC616820": true,
+          "0x7D343D17896D2cd87A49b4fB8872298A883f78f7": false,
+          "0xfD5782E3BFF366601da3973aE30C583dE4F08A67": false
+        }
+      }
+    }
+  },
+  "token_calls": {
+    "decimals()": "6",
+    "isWhitelistEnabled()": "true",
+    "name()": "\"USDat\"",
+    "paused()": "false",
+    "symbol()": "\"USDat\""
+  }
+}

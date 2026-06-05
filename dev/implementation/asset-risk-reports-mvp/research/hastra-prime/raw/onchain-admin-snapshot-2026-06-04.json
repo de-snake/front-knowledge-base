@@ -1,0 +1,579 @@
+{
+  "access_date_utc": "2026-06-04",
+  "rpc": "https://ethereum.publicnode.com",
+  "latest_block": 25243587,
+  "token_proxy": "0x19ebb35279A16207Ec4ba82799CC64715065F7F6",
+  "implementation": "0x90fd843c68db38e2de0618AcBB39341CbA5A5abD",
+  "first_code_block": 24901862,
+  "storage": {
+    "implementation": {
+      "slot": "0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc",
+      "raw": "0x00000000000000000000000090fd843c68db38e2de0618acbb39341cba5a5abd",
+      "address": "0x90fd843c68db38e2de0618AcBB39341CbA5A5abD"
+    },
+    "admin": {
+      "slot": "0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103",
+      "raw": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "address": null
+    },
+    "beacon": {
+      "slot": "0xa3f0ad74e5423aebfd80d3ef4346578335a9a72aeaee59ff6cb3582b35133d50",
+      "raw": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "address": null
+    }
+  },
+  "state": {
+    "name": {
+      "ok": true,
+      "value": "Hastra PRIME"
+    },
+    "symbol": {
+      "ok": true,
+      "value": "PRIME"
+    },
+    "decimals": {
+      "ok": true,
+      "value": 6
+    },
+    "asset": {
+      "ok": true,
+      "value": "0x6aD038cA6C04e885630851278ca0a856Ad9a66Cc"
+    },
+    "yieldVault": {
+      "ok": true,
+      "value": "0x6aD038cA6C04e885630851278ca0a856Ad9a66Cc"
+    },
+    "paused": {
+      "ok": true,
+      "value": false
+    },
+    "navOracle": {
+      "ok": true,
+      "value": "0xdF4ab20fA7752Be52E41e42F1FD667f37964d6a3"
+    },
+    "navFeedId": {
+      "ok": true,
+      "value": "0x0007c8ed155d952e003b1e15ce7666fea785cfbe216577d578fce3920e997271"
+    },
+    "navStalenessLimit": {
+      "ok": true,
+      "value": 0
+    },
+    "maxRewardPercent": {
+      "ok": true,
+      "value": 7500000000000000
+    },
+    "maxPeriodRewards": {
+      "ok": true,
+      "value": 1000000000000
+    },
+    "rewardPeriodSeconds": {
+      "ok": true,
+      "value": 3540
+    },
+    "lastRewardDistributedAt": {
+      "ok": true,
+      "value": 1780570019
+    },
+    "maxTotalRewards": {
+      "ok": true,
+      "value": 10000000000000
+    },
+    "totalRewardsDistributed": {
+      "ok": true,
+      "value": 222666313185
+    },
+    "totalAssets": {
+      "ok": true,
+      "value": 134374638283899
+    },
+    "totalSupply": {
+      "ok": true,
+      "value": 129096016382551
+    },
+    "getVerifiedNav": {
+      "ok": true,
+      "value": 1040904685772521320
+    },
+    "getTotalValueAtNav": {
+      "ok": true,
+      "value": 139871190638698
+    },
+    "UPGRADE_INTERFACE_VERSION": {
+      "ok": true,
+      "value": "5.0.0"
+    },
+    "proxiableUUID": {
+      "ok": false,
+      "error": "('0xe07c8dba', '0xe07c8dba')"
+    }
+  },
+  "roles": {
+    "DEFAULT_ADMIN_ROLE": {
+      "hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "admin_role_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "holders": [
+        "0x8D358B8aE881F8ea92C3d07783aBCA21727C6309"
+      ],
+      "hasRole_verification": {
+        "0x8D358B8aE881F8ea92C3d07783aBCA21727C6309": true
+      }
+    },
+    "FREEZE_ADMIN_ROLE": {
+      "hash": "0x543dd7347cde3308f4ca610f3d5b513c0c1ce692b559bf3b9637d9557d3aede9",
+      "admin_role_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "holders": [
+        "0xA8C3CF6183D49d5D372f8FC149BD2cb5CFC0faCd"
+      ],
+      "hasRole_verification": {
+        "0xA8C3CF6183D49d5D372f8FC149BD2cb5CFC0faCd": true
+      }
+    },
+    "REWARDS_ADMIN_ROLE": {
+      "hash": "0x5b1d514dc7939e180020b5e45c6b4b0b997babf2832f415121a45e9091b5b54b",
+      "admin_role_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "holders": [
+        "0xA8C3CF6183D49d5D372f8FC149BD2cb5CFC0faCd"
+      ],
+      "hasRole_verification": {
+        "0xA8C3CF6183D49d5D372f8FC149BD2cb5CFC0faCd": true
+      }
+    },
+    "PAUSER_ROLE": {
+      "hash": "0x65d7a28e3265b37a6474929f336521b332c1681b933f6cb9f3376673440d862a",
+      "admin_role_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "holders": [
+        "0xA8C3CF6183D49d5D372f8FC149BD2cb5CFC0faCd"
+      ],
+      "hasRole_verification": {
+        "0xA8C3CF6183D49d5D372f8FC149BD2cb5CFC0faCd": true
+      }
+    },
+    "UPGRADER_ROLE": {
+      "hash": "0x189ab7a9244df0848122154315af71fe140f3db0fe014031783b0946b8c9d2e3",
+      "admin_role_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "holders": [
+        "0x8D358B8aE881F8ea92C3d07783aBCA21727C6309"
+      ],
+      "hasRole_verification": {
+        "0x8D358B8aE881F8ea92C3d07783aBCA21727C6309": true
+      }
+    },
+    "NAV_ORACLE_UPDATER_ROLE": {
+      "hash": "0x8c05f61760c0f173f6ac4249c7cb7cb780b3447e46ec8c842d5198905761e0cf",
+      "admin_role_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "holders": [],
+      "hasRole_verification": {}
+    }
+  },
+  "event_counts": {
+    "RoleGranted": 11,
+    "RoleRevoked": 6,
+    "Upgraded": 1,
+    "Paused": 2,
+    "Unpaused": 2,
+    "AccountFrozen": 0,
+    "AccountThawed": 0,
+    "YieldVaultUpdated": 0,
+    "NavOracleUpdated": 2,
+    "MaxRewardPercentUpdated": 0,
+    "MaxPeriodRewardsUpdated": 0,
+    "RewardPeriodSecondsUpdated": 0,
+    "MaxTotalRewardsUpdated": 0,
+    "RewardsDistributed": 712
+  },
+  "decoded_admin_events": [
+    {
+      "event": "Upgraded",
+      "block": 24901862,
+      "timestamp_utc": "2026-04-17T20:07:23Z",
+      "tx": "0xa0fe19e31a28f06df7d6d515b7b694252558debef305cb0c5fd36c68f42c4a3f",
+      "implementation": "0x90fd843c68db38e2de0618AcBB39341CbA5A5abD"
+    },
+    {
+      "event": "RoleGranted",
+      "block": 24901862,
+      "timestamp_utc": "2026-04-17T20:07:23Z",
+      "tx": "0xa0fe19e31a28f06df7d6d515b7b694252558debef305cb0c5fd36c68f42c4a3f",
+      "role": "DEFAULT_ADMIN_ROLE",
+      "role_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "account": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3",
+      "sender": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3"
+    },
+    {
+      "event": "RoleGranted",
+      "block": 24901862,
+      "timestamp_utc": "2026-04-17T20:07:23Z",
+      "tx": "0xa0fe19e31a28f06df7d6d515b7b694252558debef305cb0c5fd36c68f42c4a3f",
+      "role": "PAUSER_ROLE",
+      "role_hash": "0x65d7a28e3265b37a6474929f336521b332c1681b933f6cb9f3376673440d862a",
+      "account": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3",
+      "sender": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3"
+    },
+    {
+      "event": "RoleGranted",
+      "block": 24901862,
+      "timestamp_utc": "2026-04-17T20:07:23Z",
+      "tx": "0xa0fe19e31a28f06df7d6d515b7b694252558debef305cb0c5fd36c68f42c4a3f",
+      "role": "UPGRADER_ROLE",
+      "role_hash": "0x189ab7a9244df0848122154315af71fe140f3db0fe014031783b0946b8c9d2e3",
+      "account": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3",
+      "sender": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3"
+    },
+    {
+      "event": "RoleGranted",
+      "block": 24901913,
+      "timestamp_utc": "2026-04-17T20:17:35Z",
+      "tx": "0x73a696217b76fc490aeda55cbddab6bcf10bd37b061ec3e00b217bfa9ce68486",
+      "role": "FREEZE_ADMIN_ROLE",
+      "role_hash": "0x543dd7347cde3308f4ca610f3d5b513c0c1ce692b559bf3b9637d9557d3aede9",
+      "account": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3",
+      "sender": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3"
+    },
+    {
+      "event": "RoleGranted",
+      "block": 24901914,
+      "timestamp_utc": "2026-04-17T20:17:47Z",
+      "tx": "0x01d1f39a41c678e388d162b51dcd066e005e77afbab6af2220a027768bd0a978",
+      "role": "REWARDS_ADMIN_ROLE",
+      "role_hash": "0x5b1d514dc7939e180020b5e45c6b4b0b997babf2832f415121a45e9091b5b54b",
+      "account": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3",
+      "sender": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3"
+    },
+    {
+      "event": "RoleGranted",
+      "block": 24901915,
+      "timestamp_utc": "2026-04-17T20:17:59Z",
+      "tx": "0xc69f7265d83f4bfc66866c8d3e04c0559329096dd84eca459c02c426fb5d791a",
+      "role": "NAV_ORACLE_UPDATER_ROLE",
+      "role_hash": "0x8c05f61760c0f173f6ac4249c7cb7cb780b3447e46ec8c842d5198905761e0cf",
+      "account": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3",
+      "sender": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3"
+    },
+    {
+      "event": "NavOracleUpdated",
+      "block": 24901916,
+      "timestamp_utc": "2026-04-17T20:18:11Z",
+      "tx": "0x7e64eaa47f8ae8cc9a493084632424c4d728eadf5d8b9d0027f551283095de33",
+      "oldOracle": "0x0000000000000000000000000000000000000000",
+      "newOracle": "0xdF4ab20fA7752Be52E41e42F1FD667f37964d6a3",
+      "feedId": "0x000700f43b35146a1cb16373ac6225ad597535e928e6dc4d179c3b4225f2b6d3"
+    },
+    {
+      "event": "NavOracleUpdated",
+      "block": 24945422,
+      "timestamp_utc": "2026-04-23T21:45:23Z",
+      "tx": "0xec72e638809917d318191345a8519daf7b830d4f18464e309308058ef168fe10",
+      "oldOracle": "0xdF4ab20fA7752Be52E41e42F1FD667f37964d6a3",
+      "newOracle": "0xdF4ab20fA7752Be52E41e42F1FD667f37964d6a3",
+      "feedId": "0x0007c8ed155d952e003b1e15ce7666fea785cfbe216577d578fce3920e997271"
+    },
+    {
+      "event": "RoleGranted",
+      "block": 24952471,
+      "timestamp_utc": "2026-04-24T21:18:59Z",
+      "tx": "0x686dcf2205390a27a52c1a8d056e07ea519b78747cb0a21ea9f68c51867d4830",
+      "role": "PAUSER_ROLE",
+      "role_hash": "0x65d7a28e3265b37a6474929f336521b332c1681b933f6cb9f3376673440d862a",
+      "account": "0xA8C3CF6183D49d5D372f8FC149BD2cb5CFC0faCd",
+      "sender": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3"
+    },
+    {
+      "event": "RoleGranted",
+      "block": 24952480,
+      "timestamp_utc": "2026-04-24T21:20:47Z",
+      "tx": "0xda80e2f692aa20748808ea25f16b1767a75a410f6eb25b782480db13d26e224f",
+      "role": "FREEZE_ADMIN_ROLE",
+      "role_hash": "0x543dd7347cde3308f4ca610f3d5b513c0c1ce692b559bf3b9637d9557d3aede9",
+      "account": "0xA8C3CF6183D49d5D372f8FC149BD2cb5CFC0faCd",
+      "sender": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3"
+    },
+    {
+      "event": "RoleGranted",
+      "block": 24952493,
+      "timestamp_utc": "2026-04-24T21:23:23Z",
+      "tx": "0xd0639bac463812ed6c82199df7736fc013a960dc644283233c3306e425b1e87c",
+      "role": "REWARDS_ADMIN_ROLE",
+      "role_hash": "0x5b1d514dc7939e180020b5e45c6b4b0b997babf2832f415121a45e9091b5b54b",
+      "account": "0xA8C3CF6183D49d5D372f8FC149BD2cb5CFC0faCd",
+      "sender": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3"
+    },
+    {
+      "event": "RoleRevoked",
+      "block": 24952682,
+      "timestamp_utc": "2026-04-24T22:01:11Z",
+      "tx": "0xaf62e1a84345506d56e5988ed1461dc5daf2b81b00de71a5a47f57d58bbfc2bc",
+      "role": "REWARDS_ADMIN_ROLE",
+      "role_hash": "0x5b1d514dc7939e180020b5e45c6b4b0b997babf2832f415121a45e9091b5b54b",
+      "account": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3",
+      "sender": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3"
+    },
+    {
+      "event": "RoleGranted",
+      "block": 24987572,
+      "timestamp_utc": "2026-04-29T18:35:23Z",
+      "tx": "0x1d27e65cc5206f9d52c210532ee8da468cf5055ef7a34a4ac3666e5e0b292dc2",
+      "role": "DEFAULT_ADMIN_ROLE",
+      "role_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "account": "0x8D358B8aE881F8ea92C3d07783aBCA21727C6309",
+      "sender": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3"
+    },
+    {
+      "event": "RoleGranted",
+      "block": 24987586,
+      "timestamp_utc": "2026-04-29T18:38:11Z",
+      "tx": "0x81b4ba6a1501ced19d3a34ddeb38b444cbb19f128d5faf719a94d001136c240d",
+      "role": "UPGRADER_ROLE",
+      "role_hash": "0x189ab7a9244df0848122154315af71fe140f3db0fe014031783b0946b8c9d2e3",
+      "account": "0x8D358B8aE881F8ea92C3d07783aBCA21727C6309",
+      "sender": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3"
+    },
+    {
+      "event": "RoleRevoked",
+      "block": 25002484,
+      "timestamp_utc": "2026-05-01T20:27:23Z",
+      "tx": "0xa05b8b205f28a29be9cedb30dad98f26118a6da834a59a80d2bef4ec9ae725fc",
+      "role": "PAUSER_ROLE",
+      "role_hash": "0x65d7a28e3265b37a6474929f336521b332c1681b933f6cb9f3376673440d862a",
+      "account": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3",
+      "sender": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3"
+    },
+    {
+      "event": "RoleRevoked",
+      "block": 25002488,
+      "timestamp_utc": "2026-05-01T20:28:11Z",
+      "tx": "0x63d9339d498140499242a9119215959df3dc9af774db544cc6777b683eaa98d1",
+      "role": "FREEZE_ADMIN_ROLE",
+      "role_hash": "0x543dd7347cde3308f4ca610f3d5b513c0c1ce692b559bf3b9637d9557d3aede9",
+      "account": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3",
+      "sender": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3"
+    },
+    {
+      "event": "Paused",
+      "block": 25024436,
+      "timestamp_utc": "2026-05-04T21:51:11Z",
+      "tx": "0x2250853ad6cb5297981e17fceb88d1b883a6ebe223a455602da7f3503cc425c2",
+      "account": "0xA8C3CF6183D49d5D372f8FC149BD2cb5CFC0faCd"
+    },
+    {
+      "event": "Unpaused",
+      "block": 25025053,
+      "timestamp_utc": "2026-05-04T23:55:11Z",
+      "tx": "0xfd3b30dce3f41a26a8f43a5b15c71c65b7c1cb4ca641603529fbb382a50fdafb",
+      "account": "0xA8C3CF6183D49d5D372f8FC149BD2cb5CFC0faCd"
+    },
+    {
+      "event": "RoleRevoked",
+      "block": 25032014,
+      "timestamp_utc": "2026-05-05T23:11:47Z",
+      "tx": "0x20abcd072d2034842e31a0a42d4ad7cac28fad2715f4a14d5490e8bd03284bcc",
+      "role": "DEFAULT_ADMIN_ROLE",
+      "role_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "account": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3",
+      "sender": "0x8D358B8aE881F8ea92C3d07783aBCA21727C6309"
+    },
+    {
+      "event": "RoleRevoked",
+      "block": 25032014,
+      "timestamp_utc": "2026-05-05T23:11:47Z",
+      "tx": "0x20abcd072d2034842e31a0a42d4ad7cac28fad2715f4a14d5490e8bd03284bcc",
+      "role": "UPGRADER_ROLE",
+      "role_hash": "0x189ab7a9244df0848122154315af71fe140f3db0fe014031783b0946b8c9d2e3",
+      "account": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3",
+      "sender": "0x8D358B8aE881F8ea92C3d07783aBCA21727C6309"
+    },
+    {
+      "event": "RoleRevoked",
+      "block": 25032121,
+      "timestamp_utc": "2026-05-05T23:33:11Z",
+      "tx": "0x665a48b327052b0dcbb60aaae7c1e88911b87ba006043ce99a98f45facd303b8",
+      "role": "NAV_ORACLE_UPDATER_ROLE",
+      "role_hash": "0x8c05f61760c0f173f6ac4249c7cb7cb780b3447e46ec8c842d5198905761e0cf",
+      "account": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3",
+      "sender": "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3"
+    },
+    {
+      "event": "Paused",
+      "block": 25230421,
+      "timestamp_utc": "2026-06-02T14:53:47Z",
+      "tx": "0x8bb4b32d44b38ee6fe5a9614914b47ade4c12f98665d4b5e1a87d3ec79dbeabf",
+      "account": "0xA8C3CF6183D49d5D372f8FC149BD2cb5CFC0faCd"
+    },
+    {
+      "event": "Unpaused",
+      "block": 25230601,
+      "timestamp_utc": "2026-06-02T15:29:47Z",
+      "tx": "0x4a3f2a5497198d72505ed46b58177f8fa959161aefb0e280efce1118f0326aa0",
+      "account": "0xA8C3CF6183D49d5D372f8FC149BD2cb5CFC0faCd"
+    }
+  ],
+  "reward_event_sample": [
+    {
+      "event": "RewardsDistributed",
+      "block": 25025094,
+      "timestamp_utc": "2026-05-05T00:03:23Z",
+      "tx": "0x46d2af3240f47a72a4c2c4d30eb9b33547beda305f6f35a9baa61355578a95a5",
+      "amount_raw": 498,
+      "amount_decimal_6": 0.000498,
+      "event_timestamp": 1777939403
+    },
+    {
+      "event": "RewardsDistributed",
+      "block": 25025392,
+      "timestamp_utc": "2026-05-05T01:03:23Z",
+      "tx": "0xef7544b7f19fb409b56d67a0a1fe615e9de7aa89956259619ef0e84711bdc2c0",
+      "amount_raw": 2376,
+      "amount_decimal_6": 0.002376,
+      "event_timestamp": 1777943003
+    },
+    {
+      "event": "RewardsDistributed",
+      "block": 25025690,
+      "timestamp_utc": "2026-05-05T02:03:23Z",
+      "tx": "0x2d45911f938ef77bcb455ed17e5d6a275be543171b3e4aa1e675fdc8033d557c",
+      "amount_raw": 2376,
+      "amount_decimal_6": 0.002376,
+      "event_timestamp": 1777946603
+    },
+    {
+      "event": "RewardsDistributed",
+      "block": 25242295,
+      "timestamp_utc": "2026-06-04T06:40:47Z",
+      "tx": "0xf8159620ce5e8d641394140e77bdda24bd24276e1525ecdee8f85c795b4a0166",
+      "amount_raw": 855440119,
+      "amount_decimal_6": 855.440119,
+      "event_timestamp": 1780555247
+    },
+    {
+      "event": "RewardsDistributed",
+      "block": 25242606,
+      "timestamp_utc": "2026-06-04T07:42:59Z",
+      "tx": "0x903f892c8e7be2474f9bda2c27cfb5aa3c2e87489bf1193e4323f47416181f53",
+      "amount_raw": 855232471,
+      "amount_decimal_6": 855.232471,
+      "event_timestamp": 1780558979
+    },
+    {
+      "event": "RewardsDistributed",
+      "block": 25242917,
+      "timestamp_utc": "2026-06-04T08:45:11Z",
+      "tx": "0x2a005ddeec0d9ca8e75b8e49c775daa359adfdc4efda775a55c116f1afb0ce6e",
+      "amount_raw": 855165957,
+      "amount_decimal_6": 855.165957,
+      "event_timestamp": 1780562711
+    },
+    {
+      "event": "RewardsDistributed",
+      "block": 25243222,
+      "timestamp_utc": "2026-06-04T09:46:59Z",
+      "tx": "0xd31d135d66a40142f73d07f5b4ca6c97412b1f90bdb5fbcac6b5353d27b78780",
+      "amount_raw": 854182181,
+      "amount_decimal_6": 854.182181,
+      "event_timestamp": 1780566419
+    },
+    {
+      "event": "RewardsDistributed",
+      "block": 25243520,
+      "timestamp_utc": "2026-06-04T10:46:59Z",
+      "tx": "0xba6c52fe4d8ba38232222400a3952494232968691ccdabe19ed6596aa742b853",
+      "amount_raw": 855162330,
+      "amount_decimal_6": 855.16233,
+      "event_timestamp": 1780570019
+    }
+  ],
+  "address_classification": {
+    "0x19ebb35279A16207Ec4ba82799CC64715065F7F6": {
+      "code_bytes": 170,
+      "type": "contract"
+    },
+    "0x5f134E02dbDd7514E0E166f8D55BB2E6D06659b3": {
+      "code_bytes": 0,
+      "type": "EOA"
+    },
+    "0x6aD038cA6C04e885630851278ca0a856Ad9a66Cc": {
+      "code_bytes": 170,
+      "type": "contract"
+    },
+    "0x8D358B8aE881F8ea92C3d07783aBCA21727C6309": {
+      "code_bytes": 171,
+      "type": "contract",
+      "safe_probe": {
+        "VERSION": "1.4.1",
+        "getThreshold": 4,
+        "getOwners": [
+          "0xB257106FFd8290D3F5fdeAED9F603EF2D0630c26",
+          "0x13B29ad44c9f859764378e2325b2AA9725E71fE3",
+          "0x4b8d18095cb48125d0d9106c8c1162BCEB8558C7",
+          "0x3f7aa6E9bd048b97c9B0914Ae317a1814B9381b2",
+          "0xc4D5491382138e9a0bcD37c1a8EBd46C753253F1",
+          "0xCd1Ef81CcB5AaB7d96c083F48ff859385eB65A36",
+          "0x840560f38E5CdCa96bF4042e6Ee45407a303EEA1"
+        ],
+        "nonce": 9,
+        "getModulesPaginated": [
+          [],
+          "0x0000000000000000000000000000000000000001"
+        ]
+      }
+    },
+    "0x90fd843c68db38e2de0618AcBB39341CbA5A5abD": {
+      "code_bytes": 15605,
+      "type": "contract"
+    },
+    "0xA8C3CF6183D49d5D372f8FC149BD2cb5CFC0faCd": {
+      "code_bytes": 0,
+      "type": "EOA"
+    },
+    "0xdF4ab20fA7752Be52E41e42F1FD667f37964d6a3": {
+      "code_bytes": 170,
+      "type": "contract"
+    }
+  },
+  "associated_contracts": {
+    "0x19ebb35279A16207Ec4ba82799CC64715065F7F6": {
+      "name": "Hastra PRIME",
+      "symbol": "PRIME",
+      "decimals": 6,
+      "asset": "0x6aD038cA6C04e885630851278ca0a856Ad9a66Cc",
+      "totalSupply": 129096016382551,
+      "paused": false,
+      "UPGRADE_INTERFACE_VERSION": "5.0.0",
+      "eip1967_nonzero_slots": {
+        "implementation": "0x90fd843c68db38e2de0618AcBB39341CbA5A5abD"
+      }
+    },
+    "0x6aD038cA6C04e885630851278ca0a856Ad9a66Cc": {
+      "name": "Hastra wYLDS",
+      "symbol": "wYLDS",
+      "decimals": 6,
+      "asset": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+      "totalSupply": 135115136331411,
+      "paused": false,
+      "UPGRADE_INTERFACE_VERSION": "5.0.0",
+      "eip1967_nonzero_slots": {
+        "implementation": "0xDA962f7a0308e9D4F2F60c5Aab94f173C26d1A1D"
+      }
+    },
+    "0xdF4ab20fA7752Be52E41e42F1FD667f37964d6a3": {
+      "paused": false,
+      "eip1967_nonzero_slots": {
+        "implementation": "0xbC6023cb49F8E8cA6cef563d5FD97ba4C6A5D937"
+      }
+    }
+  },
+  "sources": {
+    "sourcify_proxy_metadata": "https://repo.sourcify.dev/contracts/full_match/1/0x19ebb35279A16207Ec4ba82799CC64715065F7F6/metadata.json",
+    "sourcify_proxy_source": "https://repo.sourcify.dev/contracts/full_match/1/0x19ebb35279A16207Ec4ba82799CC64715065F7F6/sources/@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol",
+    "sourcify_implementation_metadata": "https://repo.sourcify.dev/contracts/full_match/1/0x90fd843c68db38e2de0618AcBB39341CbA5A5abD/metadata.json",
+    "sourcify_implementation_source": "https://repo.sourcify.dev/contracts/full_match/1/0x90fd843c68db38e2de0618AcBB39341CbA5A5abD/sources/contracts/StakingVault.sol",
+    "github_deployment_mainnet": "https://github.com/provenance-io/hastra-eth-vault/blob/main/deployment_mainnet.json",
+    "github_roles_doc": "https://github.com/provenance-io/hastra-eth-vault/blob/main/docs/ROLES.md",
+    "github_key_management": "https://github.com/provenance-io/hastra-eth-vault/blob/main/docs/KEY_MANAGEMENT.md",
+    "github_upgrades_doc": "https://github.com/provenance-io/hastra-eth-vault/blob/main/docs/UPGRADES.md",
+    "hastra_terms": "https://hastra.io/terms",
+    "hastra_home": "https://hastra.io/",
+    "hastra_proof_of_reserves": "https://hastra.io/proof-of-reserves",
+    "etherscan_token": "https://etherscan.io/token/0x19ebb35279A16207Ec4ba82799CC64715065F7F6",
+    "etherscan_impl": "https://etherscan.io/address/0x90fd843c68db38e2de0618AcBB39341CbA5A5abD"
+  }
+}

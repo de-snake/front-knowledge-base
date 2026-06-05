@@ -1,0 +1,406 @@
+{
+  "accessed_utc": "2026-06-04T17:10:25Z",
+  "rpc": "https://ethereum-rpc.publicnode.com",
+  "contracts": {
+    "apxUSD": {
+      "address": "0x98A878b1Cd98131B271883B390f68D2c90674665",
+      "code_size": "130",
+      "implementation": "0xdd71fd677fde2ed2579a3c45204f41a11016ccb4",
+      "implementation_code_size": "10129",
+      "implementation_slot_raw": "0x000000000000000000000000dd71fd677fde2ed2579a3c45204f41a11016ccb4",
+      "admin_slot_raw": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "beacon_slot_raw": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "name()(string)": "\"apxUSD\"",
+      "symbol()(string)": "\"apxUSD\"",
+      "decimals()(uint8)": "18",
+      "totalSupply()(uint256)": "466229030895898820992229055 [4.662e26]",
+      "supplyCap()(uint256)": "750000000000000000000000000 [7.5e26]",
+      "supplyCapRemaining()(uint256)": "283770969104101179007770945 [2.837e26]",
+      "paused()(bool)": "false",
+      "denyList()(address)": "0x2c271ddF484aC0386d216eB7eB9Ff02D4Dc0F6AA",
+      "getCCIPAdmin()(address)": "0xf9862EfC1704aC05e687f66E5cD8c130E5663cE2",
+      "proxiableUUID_impl": "0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc"
+    },
+    "accessManager": {
+      "address": "0xe167330E2Eac88666de253e9607C6d9ae0cA2824",
+      "code_size": "9017",
+      "expiration()(uint32)": "604800 [6.048e5]",
+      "minSetback()(uint32)": "432000 [4.32e5]",
+      "target_admin_delay_token": "259200 [2.592e5]",
+      "target_admin_delay_minter": "259200 [2.592e5]",
+      "roles_for_token_functions": {
+        "mint(address,uint256,uint256)": {
+          "selector": "0x156e29f6",
+          "role": "4",
+          "canCall": {
+            "admin_safe": "false\n0",
+            "guardian_upgrader_safe": "false\n0",
+            "operations_safe": "false\n0",
+            "third_party_safe": "false\n0",
+            "minter_v0": "false\n14400 [1.44e4]",
+            "order_delegate": "false\n0",
+            "mint_pass_through": "false\n0"
+          }
+        },
+        "setSupplyCap(uint256)": {
+          "selector": "0xb6a3f59a",
+          "role": "23",
+          "canCall": {
+            "admin_safe": "false\n0",
+            "guardian_upgrader_safe": "false\n86400 [8.64e4]",
+            "operations_safe": "false\n0",
+            "third_party_safe": "false\n0",
+            "minter_v0": "false\n0",
+            "order_delegate": "false\n0",
+            "mint_pass_through": "false\n0"
+          }
+        },
+        "setDenyList(address)": {
+          "selector": "0x0de2731d",
+          "role": "23",
+          "canCall": {
+            "admin_safe": "false\n0",
+            "guardian_upgrader_safe": "false\n86400 [8.64e4]",
+            "operations_safe": "false\n0",
+            "third_party_safe": "false\n0",
+            "minter_v0": "false\n0",
+            "order_delegate": "false\n0",
+            "mint_pass_through": "false\n0"
+          }
+        },
+        "setCCIPAdmin(address)": {
+          "selector": "0xa8fa343c",
+          "role": "25",
+          "canCall": {
+            "admin_safe": "false\n0",
+            "guardian_upgrader_safe": "false\n604800 [6.048e5]",
+            "operations_safe": "false\n0",
+            "third_party_safe": "false\n0",
+            "minter_v0": "false\n0",
+            "order_delegate": "false\n0",
+            "mint_pass_through": "false\n0"
+          }
+        },
+        "pause()": {
+          "selector": "0x8456cb59",
+          "role": "21",
+          "canCall": {
+            "admin_safe": "false\n0",
+            "guardian_upgrader_safe": "true\n0",
+            "operations_safe": "false\n0",
+            "third_party_safe": "false\n0",
+            "minter_v0": "false\n0",
+            "order_delegate": "false\n0",
+            "mint_pass_through": "false\n0"
+          }
+        },
+        "unpause()": {
+          "selector": "0x3f4ba83a",
+          "role": "22",
+          "canCall": {
+            "admin_safe": "false\n0",
+            "guardian_upgrader_safe": "false\n14400 [1.44e4]",
+            "operations_safe": "false\n0",
+            "third_party_safe": "false\n0",
+            "minter_v0": "false\n0",
+            "order_delegate": "false\n0",
+            "mint_pass_through": "false\n0"
+          }
+        },
+        "upgradeToAndCall(address,bytes)": {
+          "selector": "0x4f1ef286",
+          "role": "24",
+          "canCall": {
+            "admin_safe": "false\n0",
+            "guardian_upgrader_safe": "false\n259200 [2.592e5]",
+            "operations_safe": "false\n0",
+            "third_party_safe": "false\n0",
+            "minter_v0": "false\n0",
+            "order_delegate": "false\n0",
+            "mint_pass_through": "false\n0"
+          }
+        },
+        "setAuthority(address)": {
+          "selector": "0x7a9e5e4b",
+          "role": "25",
+          "canCall": {
+            "admin_safe": "false\n0",
+            "guardian_upgrader_safe": "false\n604800 [6.048e5]",
+            "operations_safe": "false\n0",
+            "third_party_safe": "false\n0",
+            "minter_v0": "false\n0",
+            "order_delegate": "false\n0",
+            "mint_pass_through": "false\n0"
+          }
+        }
+      },
+      "roles_for_minter_functions": {
+        "requestMint((address,uint48,uint48,uint48,uint208),bytes)": {
+          "selector": "0xeecd570d",
+          "role": "2",
+          "canCall": {
+            "admin_safe": "false\n0",
+            "guardian_upgrader_safe": "true\n0",
+            "operations_safe": "false\n0",
+            "third_party_safe": "false\n0",
+            "minter_v0": "false\n0",
+            "order_delegate": "false\n0",
+            "mint_pass_through": "false\n0"
+          }
+        },
+        "executeMint(bytes32)": {
+          "selector": "0x14d39415",
+          "role": "2",
+          "canCall": {
+            "admin_safe": "false\n0",
+            "guardian_upgrader_safe": "true\n0",
+            "operations_safe": "false\n0",
+            "third_party_safe": "false\n0",
+            "minter_v0": "false\n0",
+            "order_delegate": "false\n0",
+            "mint_pass_through": "false\n0"
+          }
+        },
+        "cancelMint(bytes32)": {
+          "selector": "0x041a068b",
+          "role": "31",
+          "canCall": {
+            "admin_safe": "false\n0",
+            "guardian_upgrader_safe": "true\n0",
+            "operations_safe": "false\n0",
+            "third_party_safe": "false\n0",
+            "minter_v0": "false\n0",
+            "order_delegate": "false\n0",
+            "mint_pass_through": "false\n0"
+          }
+        },
+        "setMaxMintAmount(uint208)": {
+          "selector": "0x94d66f0a",
+          "role": "23",
+          "canCall": {
+            "admin_safe": "false\n0",
+            "guardian_upgrader_safe": "false\n86400 [8.64e4]",
+            "operations_safe": "false\n0",
+            "third_party_safe": "false\n0",
+            "minter_v0": "false\n0",
+            "order_delegate": "false\n0",
+            "mint_pass_through": "false\n0"
+          }
+        },
+        "setRateLimit(uint256,uint48)": {
+          "selector": "0xef935f35",
+          "role": "24",
+          "canCall": {
+            "admin_safe": "false\n0",
+            "guardian_upgrader_safe": "false\n259200 [2.592e5]",
+            "operations_safe": "false\n0",
+            "third_party_safe": "false\n0",
+            "minter_v0": "false\n0",
+            "order_delegate": "false\n0",
+            "mint_pass_through": "false\n0"
+          }
+        },
+        "cleanMintHistory(uint32)": {
+          "selector": "0xa052be7d",
+          "role": "0",
+          "canCall": {
+            "admin_safe": "true\n0",
+            "guardian_upgrader_safe": "false\n0",
+            "operations_safe": "false\n0",
+            "third_party_safe": "false\n0",
+            "minter_v0": "false\n0",
+            "order_delegate": "false\n0",
+            "mint_pass_through": "false\n0"
+          }
+        },
+        "pause()": {
+          "selector": "0x8456cb59",
+          "role": "21",
+          "canCall": {
+            "admin_safe": "false\n0",
+            "guardian_upgrader_safe": "true\n0",
+            "operations_safe": "false\n0",
+            "third_party_safe": "false\n0",
+            "minter_v0": "false\n0",
+            "order_delegate": "false\n0",
+            "mint_pass_through": "false\n0"
+          }
+        },
+        "unpause()": {
+          "selector": "0x3f4ba83a",
+          "role": "22",
+          "canCall": {
+            "admin_safe": "false\n0",
+            "guardian_upgrader_safe": "false\n14400 [1.44e4]",
+            "operations_safe": "false\n0",
+            "third_party_safe": "false\n0",
+            "minter_v0": "false\n0",
+            "order_delegate": "false\n0",
+            "mint_pass_through": "false\n0"
+          }
+        },
+        "setAuthority(address)": {
+          "selector": "0x7a9e5e4b",
+          "role": "25",
+          "canCall": {
+            "admin_safe": "false\n0",
+            "guardian_upgrader_safe": "false\n604800 [6.048e5]",
+            "operations_safe": "false\n0",
+            "third_party_safe": "false\n0",
+            "minter_v0": "false\n0",
+            "order_delegate": "false\n0",
+            "mint_pass_through": "false\n0"
+          }
+        }
+      },
+      "role_access_for_candidates": {
+        "0": {
+          "admin_safe": "1774281275 [1.774e9]\n0\n0\n0",
+          "guardian_upgrader_safe": "0\n0\n0\n0",
+          "operations_safe": "0\n0\n0\n0",
+          "third_party_safe": "0\n0\n0\n0",
+          "minter_v0": "0\n0\n0\n0",
+          "order_delegate": "0\n0\n0\n0",
+          "mint_pass_through": "0\n0\n0\n0",
+          "admin_role_of_role": "0",
+          "guardian_of_role": "0"
+        },
+        "2": {
+          "admin_safe": "0\n0\n0\n0",
+          "guardian_upgrader_safe": "1774443467 [1.774e9]\n0\n0\n0",
+          "operations_safe": "0\n0\n0\n0",
+          "third_party_safe": "0\n0\n0\n0",
+          "minter_v0": "0\n0\n0\n0",
+          "order_delegate": "0\n0\n0\n0",
+          "mint_pass_through": "0\n0\n0\n0",
+          "admin_role_of_role": "0",
+          "guardian_of_role": "31"
+        },
+        "4": {
+          "admin_safe": "0\n0\n0\n0",
+          "guardian_upgrader_safe": "0\n0\n0\n0",
+          "operations_safe": "0\n0\n0\n0",
+          "third_party_safe": "0\n0\n0\n0",
+          "minter_v0": "1775831447 [1.775e9]\n14400 [1.44e4]\n0\n0",
+          "order_delegate": "0\n0\n0\n0",
+          "mint_pass_through": "0\n0\n0\n0",
+          "admin_role_of_role": "0",
+          "guardian_of_role": "0"
+        },
+        "21": {
+          "admin_safe": "0\n0\n0\n0",
+          "guardian_upgrader_safe": "1775143031 [1.775e9]\n0\n0\n0",
+          "operations_safe": "0\n0\n0\n0",
+          "third_party_safe": "0\n0\n0\n0",
+          "minter_v0": "0\n0\n0\n0",
+          "order_delegate": "0\n0\n0\n0",
+          "mint_pass_through": "0\n0\n0\n0",
+          "admin_role_of_role": "0",
+          "guardian_of_role": "0"
+        },
+        "22": {
+          "admin_safe": "0\n0\n0\n0",
+          "guardian_upgrader_safe": "1775143031 [1.775e9]\n14400 [1.44e4]\n0\n0",
+          "operations_safe": "0\n0\n0\n0",
+          "third_party_safe": "0\n0\n0\n0",
+          "minter_v0": "0\n0\n0\n0",
+          "order_delegate": "0\n0\n0\n0",
+          "mint_pass_through": "0\n0\n0\n0",
+          "admin_role_of_role": "0",
+          "guardian_of_role": "31"
+        },
+        "23": {
+          "admin_safe": "0\n0\n0\n0",
+          "guardian_upgrader_safe": "1775143031 [1.775e9]\n86400 [8.64e4]\n0\n0",
+          "operations_safe": "0\n0\n0\n0",
+          "third_party_safe": "0\n0\n0\n0",
+          "minter_v0": "0\n0\n0\n0",
+          "order_delegate": "0\n0\n0\n0",
+          "mint_pass_through": "0\n0\n0\n0",
+          "admin_role_of_role": "0",
+          "guardian_of_role": "31"
+        },
+        "24": {
+          "admin_safe": "0\n0\n0\n0",
+          "guardian_upgrader_safe": "1775143031 [1.775e9]\n259200 [2.592e5]\n0\n0",
+          "operations_safe": "0\n0\n0\n0",
+          "third_party_safe": "0\n0\n0\n0",
+          "minter_v0": "0\n0\n0\n0",
+          "order_delegate": "0\n0\n0\n0",
+          "mint_pass_through": "0\n0\n0\n0",
+          "admin_role_of_role": "0",
+          "guardian_of_role": "31"
+        },
+        "25": {
+          "admin_safe": "0\n0\n0\n0",
+          "guardian_upgrader_safe": "1775143031 [1.775e9]\n604800 [6.048e5]\n0\n0",
+          "operations_safe": "0\n0\n0\n0",
+          "third_party_safe": "0\n0\n0\n0",
+          "minter_v0": "0\n0\n0\n0",
+          "order_delegate": "0\n0\n0\n0",
+          "mint_pass_through": "0\n0\n0\n0",
+          "admin_role_of_role": "0",
+          "guardian_of_role": "31"
+        },
+        "31": {
+          "admin_safe": "0\n0\n0\n0",
+          "guardian_upgrader_safe": "1775270291 [1.775e9]\n0\n0\n0",
+          "operations_safe": "0\n0\n0\n0",
+          "third_party_safe": "0\n0\n0\n0",
+          "minter_v0": "0\n0\n0\n0",
+          "order_delegate": "0\n0\n0\n0",
+          "mint_pass_through": "0\n0\n0\n0",
+          "admin_role_of_role": "0",
+          "guardian_of_role": "0"
+        }
+      }
+    },
+    "minterV0": {
+      "address": "0x2c36e1adfaa80ee0324b04cc814f5207bb7ba76e",
+      "code_size": "8486",
+      "apxUSD()(address)": "0x98A878b1Cd98131B271883B390f68D2c90674665",
+      "authority()(address)": "0xe167330E2Eac88666de253e9607C6d9ae0cA2824",
+      "maxMintAmount()(uint208)": "50000000000000000000000000 [5e25]",
+      "rateLimitAmount()(uint256)": "50000000000000000000000000 [5e25]",
+      "rateLimitPeriod()(uint48)": "86400 [8.64e4]",
+      "rateLimitMinted()(uint256)": "0",
+      "rateLimitAvailable()(uint256)": "50000000000000000000000000 [5e25]",
+      "paused()(bool)": "false",
+      "DOMAIN_SEPARATOR()(bytes32)": "0x6504a99c15d8015cd244ea575363db702fa6ec22db3d6d38ccd4ed8f50311f27"
+    },
+    "mintPassThrough": {
+      "address": "0xcca1af4d4afccc113d7682fbec1c5888f9b7f7b8",
+      "code_size": "3175",
+      "asset()(address)": "0x98A878b1Cd98131B271883B390f68D2c90674665",
+      "authority()(address)": "0xe167330E2Eac88666de253e9607C6d9ae0cA2824",
+      "paused()(bool)": "false"
+    },
+    "safe_like_contracts": {
+      "admin_safe": {
+        "address": "0xabdd8c8ee69e5F5180EB9352AeFFc5CeEAd65e96",
+        "code_size": "171",
+        "getThreshold": "4",
+        "getOwners": "[0xb51F89DEA7Df709cEbb4809B40c6431361e61d0d, 0xD6bB3f9718D4f30ed2851c713275dEf7529D1411, 0xcFCF3C9Ed3d97DB54c99BDd197E59952a0973f6e, 0xB98cD8C868cf00cEA934977dBE4AC090E808fb87, 0x5db416BcFc1a8b5b921f55C1E078d1F39194e99F, 0xd66a0Fc924fAb7476D35aFe5941856ef76BA0839]"
+      },
+      "guardian_upgrader_safe": {
+        "address": "0xf9862EfC1704aC05e687f66E5cD8c130E5663CE2",
+        "code_size": "171",
+        "getThreshold": "3",
+        "getOwners": "[0xb51F89DEA7Df709cEbb4809B40c6431361e61d0d, 0x5db416BcFc1a8b5b921f55C1E078d1F39194e99F, 0xD6bB3f9718D4f30ed2851c713275dEf7529D1411, 0xcFCF3C9Ed3d97DB54c99BDd197E59952a0973f6e, 0xB98cD8C868cf00cEA934977dBE4AC090E808fb87, 0xd66a0Fc924fAb7476D35aFe5941856ef76BA0839]"
+      },
+      "operations_safe": {
+        "address": "0x37b0779a66edc491df83e59a56d485835323a555",
+        "code_size": "171",
+        "getThreshold": "3",
+        "getOwners": "[0xb51F89DEA7Df709cEbb4809B40c6431361e61d0d, 0xD6bB3f9718D4f30ed2851c713275dEf7529D1411, 0xcFCF3C9Ed3d97DB54c99BDd197E59952a0973f6e, 0xB98cD8C868cf00cEA934977dBE4AC090E808fb87, 0x5db416BcFc1a8b5b921f55C1E078d1F39194e99F, 0xd66a0Fc924fAb7476D35aFe5941856ef76BA0839]"
+      },
+      "third_party_safe": {
+        "address": "0x81f5d98ea5acf65640ce8bb68aa8449b7c304c50",
+        "code_size": "171",
+        "getThreshold": "2",
+        "getOwners": "[0xb99D885642AeA5558d51328cC99123f0929b83Bc, 0x3d826a5e0e1f93dc6d66293AdD02985c54E5aDF8, 0x0E8387f83a43385Fa1E383332B34f934D919a1BD]"
+      }
+    }
+  },
+  "block_number": "25245413"
+}

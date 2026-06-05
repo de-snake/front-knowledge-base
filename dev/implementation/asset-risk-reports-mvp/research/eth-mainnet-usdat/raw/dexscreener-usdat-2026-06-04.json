@@ -1,0 +1,120 @@
+{
+  "accessed_utc": "2026-06-04T18:20:58Z",
+  "url": "https://api.dexscreener.com/latest/dex/tokens/0x23238F20B894f29041f48d88Ee91131c395Aaa71",
+  "data": {
+    "schemaVersion": "1.0.0",
+    "pairs": [
+      {
+        "chainId": "ethereum",
+        "dexId": "curve",
+        "url": "https://dexscreener.com/ethereum/0xf4d0cf32908b2c7f1021339c43df0f77f06896d7",
+        "pairAddress": "0xF4d0CF32908b2C7f1021339c43Df0F77f06896d7",
+        "labels": [
+          "stbl"
+        ],
+        "baseToken": {
+          "address": "0x23238f20b894f29041f48D88eE91131C395Aaa71",
+          "name": "USDat",
+          "symbol": "USDat"
+        },
+        "quoteToken": {
+          "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+          "name": "USD Coin",
+          "symbol": "USDC"
+        },
+        "priceNative": "1.0001000",
+        "priceUsd": "1.00010",
+        "txns": {
+          "m5": {
+            "buys": 0,
+            "sells": 0
+          },
+          "h1": {
+            "buys": 1,
+            "sells": 2
+          },
+          "h6": {
+            "buys": 15,
+            "sells": 27
+          },
+          "h24": {
+            "buys": 51,
+            "sells": 153
+          }
+        },
+        "volume": {
+          "h24": 7372297.26,
+          "h6": 1162233.77,
+          "h1": 35978.11,
+          "m5": 0
+        },
+        "priceChange": {
+          "h1": 0.02,
+          "h6": 0.02,
+          "h24": 0.03
+        },
+        "liquidity": {
+          "usd": 16520157.99,
+          "base": 8259612,
+          "quote": 8259719
+        },
+        "fdv": 154393940,
+        "marketCap": 154393940,
+        "pairCreatedAt": 1775403179000
+      },
+      {
+        "chainId": "ethereum",
+        "dexId": "balancer",
+        "url": "https://dexscreener.com/ethereum/0x32d4c5bb72b96a52cf7b9a54fff12ea4340d2314-0x23238f20b894f29041f48d88ee91131c395aaa71-0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+        "pairAddress": "0x32d4c5Bb72b96A52Cf7B9a54fFf12Ea4340d2314-0x23238f20b894f29041f48D88eE91131C395Aaa71-0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+        "labels": [
+          "v3"
+        ],
+        "baseToken": {
+          "address": "0x23238f20b894f29041f48D88eE91131C395Aaa71",
+          "name": "USDat",
+          "symbol": "USDat"
+        },
+        "quoteToken": {
+          "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+          "name": "USD Coin",
+          "symbol": "USDC"
+        },
+        "priceNative": "0.8513",
+        "priceUsd": "0.8513",
+        "txns": {
+          "m5": {
+            "buys": 0,
+            "sells": 0
+          },
+          "h1": {
+            "buys": 0,
+            "sells": 1
+          },
+          "h6": {
+            "buys": 0,
+            "sells": 1
+          },
+          "h24": {
+            "buys": 0,
+            "sells": 1
+          }
+        },
+        "volume": {
+          "h24": 221.79,
+          "h6": 221.79,
+          "h1": 221.79,
+          "m5": 0
+        },
+        "priceChange": {},
+        "liquidity": {
+          "usd": 1193.01,
+          "base": 954.626,
+          "quote": 380.2571
+        },
+        "fdv": 125956103,
+        "marketCap": 125956103
+      }
+    ]
+  }
+}
