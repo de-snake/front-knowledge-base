@@ -14,7 +14,7 @@ This apyUSD package shows the richer path: evidence first, then a readable analy
 
 - `RESULT.md` — primary human-readable apyUSD risk note.
 - `input.json` — scoped run input and artifact map.
-- `REPRODUCE.md` — exact reproduction protocol.
+- `REPRODUCE.md` — compact reproduction handoff that points to the canonical workflow docs.
 - `run/methodology.md` — asset-specific mining methodology used by the run.
 - `run/tokens/eth-mainnet-apyusd/technical-report.md` — source-linked technical dossier.
 - `run/tokens/eth-mainnet-apyusd/research/` — stage research notes and raw onchain snapshots.
