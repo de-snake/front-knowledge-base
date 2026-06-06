@@ -13,6 +13,34 @@ The vault now has two scopes:
 
 Canonical loop: `Discover → Analyze → Propose → Preview → Execute → Monitor`.
 
+## Human-request routing for executable harnesses
+
+Agents must translate human-readable requests into the correct repository workflow.
+Do not require the user to name file paths, runner commands, packet names, or
+stage contracts when the intent is clear.
+
+When the user asks for fresh Gearbox collateral research, asset diligence,
+oracle/feed analysis, Credit Account opening analysis, or an `Analyze → Propose`
+assessment:
+
+1. Treat the request as a workflow-harness task, not as an ad hoc memo.
+2. Read `dev/implementation/workflow-entrypoint/run-workflow-usage.md`.
+3. Convert the user's provided asset/feed/risk parameters into a temporary
+   repo-local input under `dev/implementation/workflow-harness/tmp/inputs/`.
+4. Run `dev/tools/run_workflow.py analyze-propose` in scaffold mode.
+5. Open the generated `.workflow/agent-handoff.md` and follow the generated
+   packets for deliverables, validation, final response shape, and next-action
+   suggestions.
+6. Keep Preview and Execute out of scope unless the user explicitly requests
+   them and the generated gates allow them.
+7. Do not persist asset-specific scratch inputs or generated run artifacts as
+   canonical fixtures or docs unless the user explicitly asks.
+
+The harness is the routing and validation interface. A normal user prompt such
+as “run fresh Gearbox Analyze → Propose research for these two collateral
+assets” is sufficient; the agent is responsible for discovering and operating
+the harness from the repository instructions.
+
 ## Current layout
 
 ```text
@@ -37,10 +65,17 @@ front-knowledge-base/
       Credit Account management.md
 
     references/
-      Pool deposit - reference.md
-      Pool monitoring - reference.md
-      Credit Account opening - reference.md
-      Credit Account management - reference.md
+      mechanics/
+        oracle-and-liquidity-risk.md
+        token-and-curator-risk.md
+        allocation-and-action-palettes.md
+        credit-account-risk-controls.md
+        agent-continuity-log.md
+      workflows/
+        oracle-analysis/
+          executable oracle graph / methodology workflow
+        asset-investment-diligence/
+          executable token / PT diligence workflow
 
   dev/
     implementation/
@@ -63,7 +98,7 @@ Legacy `JTBDs/`, `User flows/`, `user-flows/`, top-level benchmark pages, and st
 - personas and loss vectors that justify flow questions;
 - session / display axes;
 - canonical position lifecycle flows;
-- reference drills needed by those flows.
+- stable mechanics and executable diligence workflows needed by those flows.
 
 `dev/` is for implementation and design context:
 
@@ -82,7 +117,8 @@ Tokenized securities, issuer-controlled assets, redemption-window assets, and co
 
 - `user/flows/Credit Account opening.md`
 - `user/flows/Credit Account management.md`
-- their reference drills
+- `user/references/mechanics/credit-account-risk-controls.md`
+- `user/references/workflows/asset-investment-diligence/` when candidate diligence is needed
 - `user/foundations/Position risk and monitoring.md`
 
 Use this logic:
@@ -177,11 +213,39 @@ Canonical Credit Account ownership / monitoring flow. Starts at Stage 6, detects
 
 Issuer-controlled collateral belongs here as Q6 conditional logic. Emergency routing is a product / agent safety route based on user policy or action-blocking state, not a universal HF number.
 
-### `user/references/* - reference.md`
+### `user/references/mechanics/`
 
-Sibling drill files. Use flat `## Drill — <topic>` headings. Main flow tables should carry verdict-level summaries and link to drills when details exceed table-cell scannability.
+Stable product mechanics that are neither router pages nor executable workflows. Use this subtree for reusable explanations, risk mechanics, action vocabularies, and agent-state concepts that multiple flows can link to without carrying long appendix sections inline.
 
-Keep drill names flow-agnostic where possible.
+Current mechanics files:
+
+- `oracle-and-liquidity-risk.md` — oracle categories, liquidity-cascade versus liquidity-trap mechanics, and LP / Credit Account oracle drill triggers.
+- `token-and-curator-risk.md` — per-token risk rubrics and curator trust / operating-discipline mechanics.
+- `allocation-and-action-palettes.md` — allocation, LP action, Credit Account action, route-selection, and Emergency-mode palettes.
+- `credit-account-risk-controls.md` — IRM sensitivity, HF floor reasoning, issuer-controlled collateral, adapter routing, CM envelope, KYC-gated execution, multicall Preview, and HF attribution.
+- `agent-continuity-log.md` — previous-check state for LP and Credit Account monitoring.
+
+Do not put multi-stage data mining, subagent orchestration, source compilation, or underwriting runbooks in mechanics files. If a mechanics section becomes an executable procedure, promote it into `user/references/workflows/<workflow-name>/` and link to it from the relevant flow.
+
+### `user/references/workflows/`
+
+End-agent executable reference workflows. Use this subtree for procedures an agent can run directly during opportunity evaluation, monitoring review, or strategy diligence.
+
+Workflow packages may include stage graphs, worker contracts, subagent prompts, context controls, examples, and validation runbooks. One-off evidence, reports, and verification outputs still live under a run artifact root such as `dev/implementation/<run-slug>/`.
+
+### `user/references/workflows/oracle-analysis/`
+
+End-agent executable reference workflow for oracle setup analysis. It parses a feed as a recursive dependency graph, classifies each node as market / fundamental / NAV / hardcoded / hybrid, audits source primitives such as Chainlink, Curve, Pendle, ERC4626, issuer reports, and fixed scalars, then produces a protocol-fit memo for Gearbox, Morpho, or another lending market.
+
+Oracle conclusions must be side-specific. The same feed can be borrower-friendly and LP-unfriendly, or LP-protective and borrower-unfriendly. The workflow must name the position side, token role, stress direction, and loss bearer before writing a verdict.
+
+For Gearbox scopes, use `user/references/workflows/oracle-analysis/gearbox-price-feed-parsing.md`, which grounds PFS and feed-type parsing in the official curator price-feed configuration guide.
+
+Run this workflow whenever oracle methodology fit cannot be answered by a single feed label, especially for Gearbox composite / bounded / ERC4626 / Curve TWAP / Pendle factory / main-reserve setups or when comparing Gearbox oracle risk against a simpler market.
+
+### `user/references/workflows/asset-investment-diligence/`
+
+End-agent executable reference workflow for token / Pendle PT diligence. It belongs under `user/` because the agent can run it directly during opportunity evaluation, not only while implementing the product.
 
 ### `dev/implementation/`
 

@@ -1,0 +1,314 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gearbox.example.invalid/workflow-harness/evidence-ledger-v1.schema.json",
+  "title": "Workflow evidence ledger",
+  "description": "Audit-grade provenance ledger for live/source facts gathered by asset, oracle, and protocol-specific workflow stages.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "ledger_id",
+    "workflow_id",
+    "run_root",
+    "generated_at",
+    "facts"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "evidence-ledger-v1"
+    },
+    "ledger_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workflow_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "run_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "facts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/fact"
+      }
+    }
+  },
+  "$defs": {
+    "json_value": {
+      "description": "Decoded value. Use null only for negative/no-result or unavailable facts and explain the decision effect.",
+      "type": ["object", "array", "string", "number", "integer", "boolean", "null"]
+    },
+    "fact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fact_id",
+        "claim",
+        "scope_id",
+        "stage_id",
+        "source_type",
+        "retrieved_at",
+        "method",
+        "command_or_query",
+        "raw_output_path",
+        "decoded_value",
+        "status",
+        "freshness",
+        "decision_effect"
+      ],
+      "properties": {
+        "fact_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_.:-]*$"
+        },
+        "claim": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scope_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "stage_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "rpc",
+            "explorer",
+            "http_api",
+            "source_code",
+            "docs",
+            "negative_search"
+          ]
+        },
+        "retrieved_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "method": {
+          "type": "string",
+          "minLength": 1
+        },
+        "command_or_query": {
+          "oneOf": [
+            {"type": "string", "minLength": 1},
+            {"type": "array", "minItems": 1},
+            {"type": "object"}
+          ]
+        },
+        "raw_output_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "decoded_value": {
+          "$ref": "#/$defs/json_value"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "confirmed",
+            "investigated_no_result",
+            "source_unavailable",
+            "source_inconclusive",
+            "contradicted",
+            "input_missing",
+            "not_investigated",
+            "not_applicable"
+          ]
+        },
+        "freshness": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "basis"],
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": ["live", "recent", "stale", "point_in_time", "not_applicable"]
+            },
+            "basis": {
+              "type": "string",
+              "minLength": 1
+            },
+            "valid_until": {
+              "type": ["string", "null"],
+              "format": "date-time"
+            },
+            "max_age_seconds": {
+              "type": ["integer", "null"],
+              "minimum": 0
+            },
+            "chain_block_basis": {
+              "type": ["string", "null"]
+            }
+          }
+        },
+        "decision_effect": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["effect", "rationale"],
+          "properties": {
+            "effect": {
+              "type": "string",
+              "enum": ["supports_decision", "blocks_decision", "requires_review", "no_effect"]
+            },
+            "rationale": {
+              "type": "string",
+              "minLength": 1
+            },
+            "blocks_stage": {
+              "type": "boolean"
+            },
+            "next_action": {
+              "type": ["string", "null"]
+            }
+          }
+        },
+        "rpc": {
+          "$ref": "#/$defs/rpc_fact"
+        },
+        "http_api": {
+          "$ref": "#/$defs/http_api_fact"
+        },
+        "source_code": {
+          "$ref": "#/$defs/source_code_fact"
+        },
+        "docs": {
+          "$ref": "#/$defs/docs_fact"
+        },
+        "negative_investigation": {
+          "$ref": "#/$defs/negative_investigation"
+        },
+        "extensions": {
+          "type": "object"
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"source_type": {"const": "rpc"}}, "required": ["source_type"]},
+          "then": {"required": ["rpc"]}
+        },
+        {
+          "if": {"properties": {"source_type": {"enum": ["http_api", "explorer"]}}, "required": ["source_type"]},
+          "then": {"required": ["http_api"]}
+        },
+        {
+          "if": {"properties": {"source_type": {"const": "source_code"}}, "required": ["source_type"]},
+          "then": {"required": ["source_code"]}
+        },
+        {
+          "if": {"properties": {"source_type": {"const": "docs"}}, "required": ["source_type"]},
+          "then": {"required": ["docs"]}
+        },
+        {
+          "if": {"properties": {"source_type": {"const": "negative_search"}}, "required": ["source_type"]},
+          "then": {"required": ["negative_investigation"]}
+        },
+        {
+          "if": {"properties": {"status": {"const": "investigated_no_result"}}, "required": ["status"]},
+          "then": {"required": ["negative_investigation"]}
+        }
+      ]
+    },
+    "rpc_fact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "chain_id",
+        "block_number",
+        "contract",
+        "signature_or_selector",
+        "raw_output",
+        "decoder"
+      ],
+      "properties": {
+        "chain_id": {"type": "integer", "minimum": 1},
+        "block_number": {"type": "integer", "minimum": 0},
+        "contract": {"type": "string", "minLength": 1},
+        "signature_or_selector": {"type": "string", "minLength": 1},
+        "raw_output": {"type": ["string", "object", "array", "number", "integer", "boolean", "null"]},
+        "decoder": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["decoder", "abi_or_source"],
+          "properties": {
+            "decoder": {"type": "string", "minLength": 1},
+            "abi_or_source": {"type": "string", "minLength": 1},
+            "decoded_at": {"type": ["string", "null"], "format": "date-time"}
+          }
+        }
+      }
+    },
+    "http_api_fact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["url", "request", "response_path", "status_code", "timestamp"],
+      "properties": {
+        "url": {"type": "string", "minLength": 1},
+        "request": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["params", "body"],
+          "properties": {
+            "params": {"type": ["object", "array", "string", "null"]},
+            "body": {"type": ["object", "array", "string", "null"]}
+          }
+        },
+        "response_path": {"type": "string", "minLength": 1},
+        "status_code": {"type": "integer", "minimum": 100, "maximum": 599},
+        "timestamp": {"type": "string", "format": "date-time"}
+      }
+    },
+    "source_code_fact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "path", "version_or_commit", "symbol_or_range"],
+      "properties": {
+        "repository": {"type": "string", "minLength": 1},
+        "path": {"type": "string", "minLength": 1},
+        "version_or_commit": {"type": "string", "minLength": 1},
+        "symbol_or_range": {"type": "string", "minLength": 1}
+      }
+    },
+    "docs_fact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["document", "version_or_timestamp", "section_or_anchor"],
+      "properties": {
+        "document": {"type": "string", "minLength": 1},
+        "version_or_timestamp": {"type": "string", "minLength": 1},
+        "section_or_anchor": {"type": "string", "minLength": 1}
+      }
+    },
+    "negative_investigation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["search_space", "queries_or_methods_tried", "sources_checked", "sufficiency_assessment"],
+      "properties": {
+        "search_space": {"type": ["string", "object"], "minLength": 1},
+        "queries_or_methods_tried": {"type": "array", "minItems": 1},
+        "sources_checked": {"type": "array", "minItems": 1},
+        "sufficiency_assessment": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["verdict", "rationale"],
+          "properties": {
+            "verdict": {"type": "string", "enum": ["sufficient", "insufficient"]},
+            "rationale": {"type": "string", "minLength": 1},
+            "known_gaps": {"type": "array"}
+          }
+        }
+      }
+    }
+  }
+}

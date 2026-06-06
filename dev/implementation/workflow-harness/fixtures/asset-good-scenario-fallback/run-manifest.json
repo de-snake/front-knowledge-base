@@ -1,0 +1,33 @@
+{
+  "final_index": "index.md",
+  "final_verification": "verification/final-investment-analysis-verification.md",
+  "pt_markets": [],
+  "run_artifact_root": "/Users/ilya/Documents/Codex/front-knowledge-base/dev/implementation/workflow-harness/fixtures/asset-good-scenario-fallback",
+  "run_id": "asset-good-scenario-fallback",
+  "skipped_stages": [
+    {
+      "reason": "No PT market was supplied in this run scope.",
+      "stage_id": "S3_pt_market_economics"
+    },
+    {
+      "reason": "No X/social scope was supplied in this run scope.",
+      "stage_id": "S4_x_social_mining"
+    },
+    {
+      "reason": "No X/social scope was supplied in this run scope.",
+      "stage_id": "S5_x_social_synthesis"
+    }
+  ],
+  "tokens": [
+    {
+      "address": "0x1111111111111111111111111111111111111111",
+      "artifact_dir": "tokens/ethereum-good-1111",
+      "chain": "Ethereum mainnet",
+      "status": "pass",
+      "symbol": "GOOD",
+      "token_slug": "ethereum-good-1111"
+    }
+  ],
+  "workflow_id": "asset-investment-diligence-v1",
+  "x_research_scopes": []
+}

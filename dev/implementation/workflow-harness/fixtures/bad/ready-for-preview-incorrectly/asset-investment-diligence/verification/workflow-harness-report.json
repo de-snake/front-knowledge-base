@@ -1,0 +1,32 @@
+{
+  "checks": [
+    {
+      "id": "fixture.synthetic_child_report",
+      "message": "synthetic child report for combined workflow fixture",
+      "path": ".",
+      "result": "pass",
+      "severity": "P1"
+    }
+  ],
+  "exit_code": 1,
+  "findings": [
+    {
+      "fix_hint": "Fixture intentionally carries this child finding for parent import coverage.",
+      "id": "asset.s6.calculation_fields_present",
+      "message": "asset S6 quantitative fields need review",
+      "path": ".",
+      "severity": "P1"
+    }
+  ],
+  "run_root": "asset-investment-diligence",
+  "schema_version": "workflow-harness-report-v1",
+  "status": "review_required",
+  "summary": {
+    "p0": 0,
+    "p1": 1,
+    "p2": 0,
+    "status": "review_required",
+    "total_findings": 1
+  },
+  "workflow": "asset-investment-diligence-v1"
+}

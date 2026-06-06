@@ -1,0 +1,25 @@
+{
+  "schema_version": "workflow-entrypoint-input-v1",
+  "command": "analyze-propose",
+  "primary_scope": "missing-live-fields-fixture",
+  "objective": {
+    "question": "Can the runner preserve live-data gaps without inventing oracle facts?"
+  },
+  "assets": [
+    {
+      "scope_id": "eth-mainnet-sample-base-token",
+      "chain_id": 1,
+      "chain": "Ethereum mainnet",
+      "symbol": "SampleBaseToken"
+    }
+  ],
+  "oracle_scopes": [
+    {
+      "scope_id": "eth-mainnet-sample-base-token-gearbox-oracle",
+      "asset_symbol": "SampleBaseToken",
+      "chain_id": 1,
+      "chain": "Ethereum mainnet",
+      "protocol": "Gearbox"
+    }
+  ]
+}

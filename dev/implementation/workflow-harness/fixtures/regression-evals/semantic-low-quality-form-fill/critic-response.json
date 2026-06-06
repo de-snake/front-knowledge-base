@@ -1,0 +1,15 @@
+{
+  "status": "review_required",
+  "findings": [
+    {
+      "id": "semantic.low_quality_form_fill",
+      "severity": "P1",
+      "violated_requirement": "Analyze artifacts must map evidence to a decision instead of only filling generic status fields.",
+      "evidence": {
+        "path": "stage-output.md",
+        "quote": "A source list exists, but this artifact does not map any specific source, quote, or calculation to the decision."
+      },
+      "required_remediation": "Replace generic form-fill fields with a source-grounded decision, cited evidence paths, and the specific acceptance criteria that remain blocked."
+    }
+  ]
+}

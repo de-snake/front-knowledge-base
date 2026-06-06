@@ -62,7 +62,7 @@ This flips the usual DeFi default: the "no action" baseline is a position slowly
 
 **Data sources beyond the inputs.**
 - **Position current state** — backend / Gearbox MCP, re-fetched per call: health factor, total value, TWV/debt, debt breakdown, token balances/quotas, leverage, HF history, and total-value history (==note: TWV USD as a standalone display value seems unnecessary — useful for HF derivation but not for the user-facing surface==); executed-change feed; pending governance-change queue.
-- **Agent continuity log** — user / agent-side state for delta detection: `agentLog.previousCheck.{asOf, hf, totalValueUsd, perTokenBalances, leverage, parameterSet, oracleSet, debtBreakdown, incidentIds, frozenAccountIds, claimableAtTimestamps, ...}`. Sunk-cost-blind by design — record of *what changed since I last looked*, not of *what the user opened with*. [[Credit Account management - reference#Drill — Agent continuity log mechanics for CA|drill ↗]] covers schema, per-Q usage, first-call rule, and the persistence boundary.
+- **Agent continuity log** — user / agent-side state for delta detection: `agentLog.previousCheck.{asOf, hf, totalValueUsd, perTokenBalances, leverage, parameterSet, oracleSet, debtBreakdown, incidentIds, frozenAccountIds, claimableAtTimestamps, ...}`. Sunk-cost-blind by design — record of *what changed since I last looked*, not of *what the user opened with*. [[agent-continuity-log#Drill — Agent continuity log mechanics for CA|drill ↗]] covers schema, per-Q usage, first-call rule, and the persistence boundary.
 
 **Sub-Q scope tiers.** Same `T1` / `T2` system as [[Credit Account opening#Stage 2 · Analyze — CA due diligence|CA opening Stage 2]] — `T1` runs unconditionally inside a firing Q; `T2` fires when the user is sophisticated, a `T1` verdict flipped, or a known structural risk warrants persistent coverage.
 
@@ -91,7 +91,7 @@ Q-level deep-dives below.
 | LT-ramp status on held tokens | T1 | Active downward ramps on held collateral; project HF cross-date against the user-approved floor at flat prices. If cross-date falls inside the user horizon or no floor exists, escalate to focused analysis / review. | Per-token LT-ramp schedule (start, end, final LT); held collateral; user horizon and floor. |
 | Forbidden-token overlap + safe-pricing | T1 | Overlap between forbidden-token status and held collateral. If overlap exists, recompute exit HF under safe pricing (`min(main, reserve)` for the forbidden token); flag if exit HF < floor. | Forbidden-token status; held-token balances; main/reserve oracle prices. |
 | Leverage delta vs target | T1 | Current leverage vs `userThesis.targetLeverage` and allowed drift tolerance. Price moves change effective leverage even with debt static. The HF attribution sub-Q below catches the upstream cause; this row catches "is my strategy still my strategy" independent of HF. | Current leverage; target leverage; user drift tolerance if supplied. |
-| HF movement attribution since last check | T2 | Decompose HF delta across price / interest / quota / LT change / forbidden-token / oracle / **composition shift** (a held token's balance changed since last check). Surface the dominant driver. Use the protocol's canonical HF calculation as the grounding source before applying any simplified attribution model. [[Credit Account management - reference#Drill — HF movement attribution|drill ↗]] | Previous-check snapshot; current account state; canonical HF calculation source. |
+| HF movement attribution since last check | T2 | Decompose HF delta across price / interest / quota / LT change / forbidden-token / oracle / **composition shift** (a held token's balance changed since last check). Surface the dominant driver. Use the protocol's canonical HF calculation as the grounding source before applying any simplified attribution model. [[credit-account-risk-controls#Drill — HF movement attribution|drill ↗]] | Previous-check snapshot; current account state; canonical HF calculation source. |
 | **Synthesis** | — | T1 verdict on HF, distance, ramp, forbidden overlap, and **leverage delta** drives the safety Glance. T2 attribution fires when the safety verdict changes or when the user wants the breakdown on every check. **Emergency override:** breach of the user-approved emergency condition or an action-blocking collateral state jumps directly to Stage 3 with `action_class: emergency_*`, skipping Stage 2. Drift (non-emergency) → back-edge to [[Credit Account opening#Q2 · How safe is my collateral? What could force liquidation?\|CA opening Q2]]. | — |
 
 ### Q2 · Am I making money?
@@ -148,7 +148,7 @@ Q-level deep-dives below.
 
 **Exit gate (when Q5 fires):** "Per-token oracle freshness within the relevant staleness window; main-vs-reserve divergence acceptable under the user thesis; no oracle methodology change for held tokens since last check that violates user thesis."
 
-**Why this matters.** Oracle manipulation / staleness / configuration / safe-pricing is a **P2** CA loss vector ([[Personas and audience#CA operator (leveraged user)|Personas]]) — upstream cause of liquidation events when it fires. Q5 fires only when triggered — see [[Credit Account management - reference#Drill — Q5 oracle drill triggers for CA|drill ↗]]. Deep-dive in [[Credit Account opening#Q2 · How safe is my collateral? What could force liquidation?|CA opening Q2]] (oracle methodology + safe pricing).
+**Why this matters.** Oracle manipulation / staleness / configuration / safe-pricing is a **P2** CA loss vector ([[Personas and audience#CA operator (leveraged user)|Personas]]) — upstream cause of liquidation events when it fires. Q5 fires only when triggered — see [[oracle-and-liquidity-risk#Drill — Q5 oracle drill triggers for CA|drill ↗]]. Deep-dive in [[Credit Account opening#Q2 · How safe is my collateral? What could force liquidation?|CA opening Q2]] (oracle methodology + safe pricing); for multi-node feed paths, run the [oracle analysis workflow](../references/workflows/oracle-analysis/README.md).
 
 **What the agent computes (when Q5 fires):**
 
@@ -157,7 +157,7 @@ Q-level deep-dives below.
 | Per-token freshness | T2 | `now − lastUpdate < stalenessWindow` for each held token. Treat age near or past the staleness window as a reason to review / act because the next update can change HF abruptly. | Oracle last-update timestamp and staleness window per held token. |
 | Main-vs-reserve divergence | T2 | Compare main and reserve oracle prices per held token. Classify the divergence by its effect on exit HF and on the user floor, not by a universal percentage. | Main/reserve oracle prices per held token; user floor. |
 | Oracle methodology change since last check | T2 | Detect any `oracleChanged` event affecting a held token between `agentLog.previousCheck.asOf` and now — main → reserve swap is permissionless without timelock. Triggers acceptability gate below. | Current oracle category/methodology; previous-check oracle set; executed oracle-change events. |
-| Methodology acceptable under user thesis | T2 | For each held token, check current oracle category against `userThesis.acceptedOracleMethodologies`. Category shifts can flip cascade-vs-trap risk shape ([[Pool deposit - reference#Drill — Oracle types and LP risk shapes\|drill ↗]]). | Current oracle category/methodology; user accepted-methodology list. |
+| Methodology acceptable under user thesis | T2 | For each held token, check current oracle category against `userThesis.acceptedOracleMethodologies`. Category shifts can flip cascade-vs-trap risk shape ([[oracle-and-liquidity-risk#Drill — Oracle types and LP risk shapes\|drill ↗]]). | Current oracle category/methodology; user accepted-methodology list. |
 | **Synthesis** | — | Q5 doesn't run on every monitoring call — fires only on the triggers documented in the drill. When fired: sub-Qs run cheapest-first (freshness → divergence → methodology delta → acceptability). Drift → back-edge to [[Credit Account opening#Q2 · How safe is my collateral? What could force liquidation?\|CA opening Q2]] (oracle methodology + safe pricing). | — |
 
 ### Q6 · Is the issuer-controlled collateral branch drifting? *(conditional)*
@@ -203,7 +203,7 @@ MonitoringSnapshot {
 - **All verdicts acceptable under user policy** → `recommended_next: 'end'`. Confirmation session ends in under a minute.
 - **Any review / act verdict (non-emergency)** → `recommended_next: 'analyze'`. Hand off to [[#Stage 2 · Analyze (CA) — focused re-run|Stage 2]] for the focused CA-opening-Q re-run.
 - **Thesis-broken or new-thesis intent** → `recommended_next: 'add_collateral' | 'reduce_leverage' | … | 'claim_rewards'`. Hand off to [[#Stage 3 · Propose (CA) — Action Committee|Stage 3]] (skipping Stage 2 — Action / Exit shape).
-- **Emergency (`is_emergency: true`)** → `recommended_next: 'emergency'`. Hand off **directly to Stage 3 with the ≤ 2-clicks contract**, skipping Stage 2. The thesis is pre-known ("reduce risk now"); the constraint is speed. [[Credit Account management - reference#Drill — Emergency mode contract|drill ↗]].
+- **Emergency (`is_emergency: true`)** → `recommended_next: 'emergency'`. Hand off **directly to Stage 3 with the ≤ 2-clicks contract**, skipping Stage 2. The thesis is pre-known ("reduce risk now"); the constraint is speed. [[allocation-and-action-palettes#Drill — Emergency mode contract|drill ↗]].
 
 No Stage-6 composite score is required. Stage 6 returns the per-question verdict mix and drift signals; Stage 2 is the Analyst pass that re-assesses the affected questions; Stage 3 is the Action Committee pass that aggregates those assessments into one action decision (`add_collateral`, `reduce_leverage`, `partial_exit`, `full_exit`, `claim_rewards`, `emergency`, etc.). HF and net APY remain first-class verdict inputs, not a separate portfolio-wide score.
 
@@ -255,7 +255,7 @@ FocusedAnalyzeReport {
 
 ## Stage 3 · Propose (CA) — Action Committee
 
-**Sub-job (part 1 of Commit action):** decide the action class and size it. CA's action-class palette is much richer than LP's — see [[Credit Account management - reference#Drill — CA action-class palette|drill ↗]].
+**Sub-job (part 1 of Commit action):** decide the action class and size it. CA's action-class palette is much richer than LP's — see [[allocation-and-action-palettes#Drill — CA action-class palette|drill ↗]].
 
 **Exit gate:** action class chosen, amount / target sized, route picked (if action involves a swap leg), rationale captured. Hand off to Stage 4. **Emergency exit gate:** ≤ 2-clicks contract — pre-filled amount, single concrete proposed action (Add Collateral or Reduce Leverage), HF floor enforced in preview.
 
@@ -276,12 +276,12 @@ The Action Committee for the CA operator chooses among **8 action classes plus e
 
 | Decision class | Tier | What the agent does | Data retrieved |
 | --- | --- | --- | --- |
-| Action class selection | T1 | Map `position_thesis_verdict` + LP intent + Q-verdict mix to action class. [[Credit Account management - reference#Drill — CA action-class palette\|drill ↗]] | `FocusedAnalyzeReport.recommended_action`; user-level intent (top-up / reduce / claim / exit / change strategy). |
+| Action class selection | T1 | Map `position_thesis_verdict` + LP intent + Q-verdict mix to action class. [[allocation-and-action-palettes#Drill — CA action-class palette\|drill ↗]] | `FocusedAnalyzeReport.recommended_action`; user-level intent (top-up / reduce / claim / exit / change strategy). |
 | Sizing per action class | T1 | For `add_collateral`: amount needed to reach target HF. For `reduce_leverage`: amount to repay to reach target leverage. For `increase_leverage`: additional borrow under maxLeverage(LT) and HF floor. For `partial_exit`: amount withdrawable without crossing HF floor **AND** without violating `minDebt` (residual debt ≥ `minDebt` post-action; otherwise the action degrades to `full_exit`). For `full_exit`: full unwind. For `claim_rewards`: claimable amount + matured `claimableAt` timestamps. For `change_strategy` / `rebalance`: source + destination + swap path. | Current HF, leverage, token balances, and debt; per-CM `minDebt`; user `targetLeverage`, `hfFloor`; per-token rewards / claimable schedule. |
 | Route selection (swap-leg actions) | T1 | For `change_strategy`, `rebalance`, `partial_exit`, `full_exit` — pick adapter set, slippage tolerance, max-price-impact budget. Same shape as CA opening Stage 3 route selection. | Available adapters per CM; price-impact estimates at intended size. |
 | Cross-position dedup | T2 | If the user holds correlated Credit Accounts or idle collateral on Gearbox, avoid over-correcting one position when a portfolio-level reallocation is cleaner — e.g., funding `add_collateral` (including Emergency) from another idle Credit Account's collateral rather than fresh outside capital. Flag the multi-CA reallocation case as cross-position work outside this flow. | Cross-position retrieval; idle collateral inventory. |
-| Emergency-mode override | T1 (fires when `is_emergency`) | Collapse to ≤ 2-clicks contract: pre-filled `add_collateral` OR `reduce_leverage` with computed amount; HF floor enforced; surface a single concrete proposed action with before / after preview. [[Credit Account management - reference#Drill — Emergency mode contract\|drill ↗]] | `MonitoringSnapshot.is_emergency`, `verdicts.q1_safety`. |
-| **Synthesis** | — | Output `ActionDecision { action_class, amount_*, target_*, route?, rationale, is_emergency }`. Action-class mapping, no-Emergency-for-LP contrast, automation interactions (bot enable / disable / threshold-tune), and cross-strategy reallocation out-of-scope rule: [[Credit Account management - reference#Drill — CA action-class palette\|drill ↗]]. | — |
+| Emergency-mode override | T1 (fires when `is_emergency`) | Collapse to ≤ 2-clicks contract: pre-filled `add_collateral` OR `reduce_leverage` with computed amount; HF floor enforced; surface a single concrete proposed action with before / after preview. [[allocation-and-action-palettes#Drill — Emergency mode contract\|drill ↗]] | `MonitoringSnapshot.is_emergency`, `verdicts.q1_safety`. |
+| **Synthesis** | — | Output `ActionDecision { action_class, amount_*, target_*, route?, rationale, is_emergency }`. Action-class mapping, no-Emergency-for-LP contrast, automation interactions (bot enable / disable / threshold-tune), and cross-strategy reallocation out-of-scope rule: [[allocation-and-action-palettes#Drill — CA action-class palette\|drill ↗]]. | — |
 
 ### Outputs (the hand-off to Stage 4)
 
@@ -355,7 +355,7 @@ TransactionPreviewReport {
 
 ## Stage 5 · Execute (CA) — Execution Desk trade
 
-**Sub-job (part 3 of Commit action):** sign and submit the previewed multicall, with an integrity gate. KYC-gated CMs use the compliance-gated execution path; bots are blocked at that layer. See [[Credit Account opening - reference#Drill — KYC-gated execution path|drill ↗]].
+**Sub-job (part 3 of Commit action):** sign and submit the previewed multicall, with an integrity gate. KYC-gated CMs use the compliance-gated execution path; bots are blocked at that layer. See [[credit-account-risk-controls#Drill — KYC-gated execution path|drill ↗]].
 
 **Exit gate:** signed bytes match what Preview validated; multicall confirms on-chain.
 

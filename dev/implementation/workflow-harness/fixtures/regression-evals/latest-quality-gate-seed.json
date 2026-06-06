@@ -1,0 +1,39 @@
+{
+  "schema_version": "workflow-quality-gate-latest-seed-v1",
+  "source_suite": "dev/implementation/workflow-harness/fixtures/regression-evals/quality-gate-regression-suite.json",
+  "created_at": "2026-06-06T11:52:34Z",
+  "seed_policy": "Seeds must store fixture ids, command lines, statuses, and finding ids only; do not encode live token recommendations, addresses outside synthetic examples, prices, or token-specific remediation policy.",
+  "replay_commands": [
+    "python3 dev/tools/run_fixture_checks.py",
+    "python3 -m pytest dev/tools/workflow_harness/tests -q"
+  ],
+  "generalized_case_ids": [
+    "fact.well_investigated_positive",
+    "fact.investigated_no_result_with_negative_evidence",
+    "fact.not_investigated_masquerading_as_unknown",
+    "adapter.valid_no_market_no_route_after_search",
+    "quantitative.scenario_fallback",
+    "quantitative.empty_calculations",
+    "parent.request_more_inputs_actionable_acceptance",
+    "semantic.low_quality_form_fill"
+  ],
+  "latest_observed_results": [
+    {
+      "command": "python3 dev/tools/run_fixture_checks.py",
+      "status": "pass",
+      "exit_code": 0,
+      "observed_at": "2026-06-06T11:59:27Z"
+    },
+    {
+      "command": "python3 -m pytest dev/tools/workflow_harness/tests -q",
+      "status": "pass",
+      "exit_code": 0,
+      "observed_at": "2026-06-06T11:59:27Z",
+      "summary": "39 passed in 3.98s"
+    }
+  ],
+  "notes": [
+    "The seed intentionally stores generalized fixture ids and replay commands only.",
+    "Use sample-token fixture names for stable synthetic coverage; do not derive live recommendation policy from this file."
+  ]
+}

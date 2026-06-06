@@ -4,6 +4,18 @@ This vault is the primary source for Gearbox front/product knowledge: user-facin
 
 Canonical loop: `Discover → Analyze → Propose → Preview → Execute → Monitor`.
 
+## Agent workflow routing
+
+For fresh Gearbox collateral, asset diligence, oracle/feed analysis, Credit
+Account opening analysis, or `Analyze → Propose` research, agents should route
+the human request through the workflow harness instead of writing an ad hoc
+report. Start from the operating contract (`AGENTS.md` / `CLAUDE.md`), then use
+`dev/implementation/workflow-entrypoint/run-workflow-usage.md` to scaffold a
+temporary run and follow the generated `.workflow/agent-handoff.md`.
+
+Users do not need to provide runner paths or harness commands when the intent is
+clear; the repository instructions are responsible for routing the agent.
+
 The vault now separates runtime user / agent knowledge from development context:
 
 - `user/` contains the canonical material an agent needs to reason about user funds and position management.
@@ -41,15 +53,16 @@ Standalone tokenized-security leverage is not a canonical flow. Tokenized securi
 
 | Document | Description |
 | --- | --- |
-| [Pool deposit — reference](user/references/Pool%20deposit%20-%20reference.md) | Drill material for Pool deposit: oracle types, curator diligence, risk layers, and IC decision palette. |
-| [Pool monitoring — reference](user/references/Pool%20monitoring%20-%20reference.md) | Drill material for LP action classes, oracle triggers, and agent continuity log mechanics. |
-| [Credit Account opening — reference](user/references/Credit%20Account%20opening%20-%20reference.md) | Drill material for IRM, structural risk, issuer / eligibility checks, route selection, and multicall Preview mechanics. |
-| [Credit Account management — reference](user/references/Credit%20Account%20management%20-%20reference.md) | Drill material for CA action classes, emergency mode, HF attribution, oracle triggers, and agent continuity. |
+| [Mechanics index](user/references/mechanics/) | Stable product mechanics that are neither router pages nor executable workflows. Covers oracle / liquidity risk, token and curator risk, allocation and action palettes, Credit Account risk controls, and agent continuity logs. |
+| [Oracle analysis — reference workflow](user/references/workflows/oracle-analysis/) | End-agent executable oracle workflow: recursive feed graph, Gearbox-specific price-feed parsing, source-primitive audits, Steakhouse-style market / fundamental / NAV / hardcoded tradeoffs, and side-specific protocol-fit memo. |
+| [Asset investment diligence — reference workflow](user/references/workflows/asset-investment-diligence/) | End-agent executable diligence workflow for token / PT opportunities: stage graph, worker contracts, subagent prompts, context controls, and verification. |
 
 ## Development context
 
 | Path | Description |
 | --- | --- |
 | [Data requirements and to-dos](dev/implementation/Data%20requirements%20and%20to-dos.md) | Backend / MCP data architecture: deterministic read methods, core entities, source/freshness envelopes, traceability from product flows, implementation gaps, and build order. |
+| [Workflow entrypoint runner](dev/implementation/workflow-entrypoint/run-workflow-usage.md) | Supported Analyze → Propose runner command, generated run-root shape, validation semantics, and agent handoff rules. |
+| [Workflow harness](dev/implementation/workflow-harness/) | Deterministic validators, fixtures, quality gates, safe-parallelization metadata, and demo run records for asset diligence / oracle Analyze → Propose workflows. |
 | [UI primitives](dev/ui-primitives/) | Word-based component drafts. These follow the canonical flow docs; they do not define product logic independently. |
 | [Foundation planning archive](dev/planning/foundation/) | Historical planning and merge artifacts. These may mention old folders, fixed benchmark tables, or standalone tokenized-security leverage; they are not current canonical docs. |

@@ -1,0 +1,26 @@
+{
+  "search_space": "Synthetic public docs and explorer fixture for sample protocol routes.",
+  "queries": [
+    {
+      "method": "web_search",
+      "query": "site:docs.example.invalid sample token protocol route",
+      "result_count": 0
+    },
+    {
+      "method": "web_search",
+      "query": "site:docs.example.invalid sample market adapter",
+      "result_count": 0
+    },
+    {
+      "method": "explorer_contract_search",
+      "query": "sample-token route",
+      "result_count": 0
+    }
+  ],
+  "sources_checked": [
+    "docs.example.invalid",
+    "explorer.example.invalid"
+  ],
+  "result": "investigated_no_result",
+  "sufficiency": "sufficient for the declared fixture search space; insufficient for private or unpublished sources"
+}

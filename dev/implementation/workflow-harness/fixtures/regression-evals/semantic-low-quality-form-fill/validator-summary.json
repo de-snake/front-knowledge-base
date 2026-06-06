@@ -1,0 +1,11 @@
+{
+  "schema_version": "workflow-harness-report-v1",
+  "status": "pass",
+  "finding_counts": {
+    "P0": 0,
+    "P1": 0,
+    "P2": 0,
+    "total": 0
+  },
+  "findings": []
+}

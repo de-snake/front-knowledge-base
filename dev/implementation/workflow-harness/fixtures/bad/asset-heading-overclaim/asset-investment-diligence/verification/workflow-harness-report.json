@@ -1,0 +1,32 @@
+{
+  "checks": [
+    {
+      "id": "fixture.synthetic_child_report",
+      "message": "synthetic child report for combined workflow fixture",
+      "path": ".",
+      "result": "pass",
+      "severity": "P1"
+    }
+  ],
+  "exit_code": 2,
+  "findings": [
+    {
+      "fix_hint": "Fixture intentionally carries this child finding for parent import coverage.",
+      "id": "asset.final_verification.no_heading_only_overclaim",
+      "message": "asset final verification overclaims a heading-only S6 check",
+      "path": ".",
+      "severity": "P0"
+    }
+  ],
+  "run_root": "asset-investment-diligence",
+  "schema_version": "workflow-harness-report-v1",
+  "status": "fail",
+  "summary": {
+    "p0": 1,
+    "p1": 0,
+    "p2": 0,
+    "status": "fail",
+    "total_findings": 1
+  },
+  "workflow": "asset-investment-diligence-v1"
+}

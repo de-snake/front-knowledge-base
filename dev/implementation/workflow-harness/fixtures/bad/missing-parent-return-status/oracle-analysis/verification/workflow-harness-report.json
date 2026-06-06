@@ -1,0 +1,24 @@
+{
+  "checks": [
+    {
+      "id": "fixture.synthetic_child_report",
+      "message": "synthetic child report for combined workflow fixture",
+      "path": ".",
+      "result": "pass",
+      "severity": "P1"
+    }
+  ],
+  "exit_code": 0,
+  "findings": [],
+  "run_root": "oracle-analysis",
+  "schema_version": "workflow-harness-report-v1",
+  "status": "pass",
+  "summary": {
+    "p0": 0,
+    "p1": 0,
+    "p2": 0,
+    "status": "pass",
+    "total_findings": 0
+  },
+  "workflow": "oracle-analysis-v1"
+}

@@ -1,0 +1,133 @@
+{
+  "workflow_id": "oracle-analysis-v1",
+  "version": "1.0.0",
+  "purpose": "Parse a lending-market oracle setup as a dependency graph, classify every node by oracle type, audit source primitives, and produce a protocol-fit verdict for Pool or Credit Account analysis.",
+  "workflow_dir": "user/references/workflows/oracle-analysis",
+  "artifact_root": "[run_artifact_root]",
+  "artifact_layout": {
+    "layout_reference": "user/references/workflows/oracle-analysis/output-structure.md",
+    "run_manifest": "run-manifest.json",
+    "run_index": "index.md",
+    "token_scope_dir": "tokens/<token-scope-slug>",
+    "pt_scope_dir": "pt-markets/<pt-scope-slug>",
+    "final_verification": "verification/final-oracle-analysis-verification.md",
+    "return_contract": "Return run_artifact_root, run-manifest.json, index.md, per-scope directories, and final verification path. Do not return raw evidence dumps."
+  },
+  "global_rules": {
+    "recursive_graph_required": true,
+    "top_level_label_insufficient": true,
+    "numbers_not_labels": true,
+    "evidence_before_conclusion": true,
+    "source_primitive_required_for_every_leaf": true,
+    "stress_tradeoff_required": true,
+    "protocol_parameter_context_required": true,
+    "position_side_required": true,
+    "conclusion_must_be_side_specific": true,
+    "no_universal_safe_bad_verdict": true,
+    "gearbox_pfs_guide_reference": "user/references/workflows/oracle-analysis/gearbox-price-feed-parsing.md",
+    "parent_context_policy": "Parent reads stage summaries and final oracle memo first. Parent expands raw RPC/explorer/source evidence only to audit a disputed node, price, bound, timestamp, or formula.",
+    "subagent_output_policy": "Subagents write artifacts to disk and return only artifact paths, node counts, key prices, blockers, and validation status."
+  },
+  "stages": [
+    {
+      "id": "S0_scope_and_acceptance",
+      "title": "Scope and acceptance policy",
+      "role": "Define the market, asset, protocol, user thesis, accepted oracle methodologies, and analysis questions.",
+      "depends_on": [],
+      "parallelization": {"parallelizable": false, "unit": "run"},
+      "delegate_to_subagent": false,
+      "inputs": ["asset_scope", "protocol_scope", "market_or_credit_manager", "position_side", "token_role", "position_size_optional", "user_or_mandate_policy_optional"],
+      "outputs": ["run-manifest.json", "index.md", "<scope_artifact_dir>/scope.json", "<scope_artifact_dir>/oracle/scope.md"],
+      "handoff_summary_fields": ["scope_id", "asset", "protocol", "position_side", "token_role", "feed_addresses", "accepted_methodologies", "unknown_policy_fields"],
+      "validation": ["asset and protocol named", "chain named", "position side named or explicitly null", "token role named or explicitly null", "at least one feed discovery path named", "unknown policy fields retained as null"]
+    },
+    {
+      "id": "S1_feed_inventory_and_graph",
+      "title": "Feed inventory and dependency graph",
+      "role": "Discover the top-level protocol feed and recursively follow child feeds until source primitives are reached.",
+      "depends_on": ["S0_scope_and_acceptance"],
+      "parallelization": {
+        "parallelizable": true,
+        "unit": "one feed tree per asset or token",
+        "recommended_max_concurrent": 3,
+        "reason": "Each oracle feed tree is scoped to one asset or token, writes under its own token-scope directory, and can be inventoried without source-primitive cross-dependencies."
+      },
+      "delegate_to_subagent": true,
+      "inputs": ["<scope_artifact_dir>/oracle/scope.md", "protocol registry or market config", "RPC/explorer access"],
+      "outputs": ["<scope_artifact_dir>/oracle/feed-graph.md", "<scope_artifact_dir>/raw/feed-probes.json"],
+      "handoff_summary_fields": ["artifact_paths", "top_level_feed", "node_count", "leaf_sources", "gearbox_feed_type_optional", "pricing_formula", "blockers"],
+      "validation": ["top-level feed identified", "every non-leaf node has at least one child or explicit no-child explanation", "leaf source primitive named", "pricing formula reconstructed", "Gearbox feed types follow gearbox-price-feed-parsing.md when protocol is Gearbox"]
+    },
+    {
+      "id": "S2_node_classification",
+      "title": "Node classification and math reconstruction",
+      "role": "Classify every graph node as market, fundamental, NAV, hardcoded, or hybrid/composite and explain its mathematical role.",
+      "depends_on": ["S1_feed_inventory_and_graph"],
+      "parallelization": {"parallelizable": false, "unit": "feed graph"},
+      "delegate_to_subagent": false,
+      "inputs": ["<scope_artifact_dir>/oracle/feed-graph.md", "<scope_artifact_dir>/raw/feed-probes.json"],
+      "outputs": ["<scope_artifact_dir>/oracle/node-classification.md"],
+      "handoff_summary_fields": ["node_types", "formula", "normalization_decimals", "bounds", "switching_or_safe_pricing_logic", "classification_uncertainties"],
+      "validation": ["every node classified", "decimals/normalization checked", "bounds and staleness recorded where exposed", "composite math expressed in human terms"]
+    },
+    {
+      "id": "S3_source_primitive_audit",
+      "title": "Source primitive audit",
+      "role": "Audit Chainlink/Pyth feeds, Curve pools, Pendle factory oracles, ERC4626 vaults, NAV/fundamental reports, and hardcoded assumptions.",
+      "depends_on": ["S2_node_classification"],
+      "parallelization": {"parallelizable": true, "unit": "one source primitive", "recommended_max_concurrent": 3},
+      "delegate_to_subagent": true,
+      "inputs": ["<scope_artifact_dir>/oracle/node-classification.md", "source primitive identifiers"],
+      "outputs": ["<scope_artifact_dir>/oracle/source-primitive-audit.md", "<scope_artifact_dir>/raw/source-evidence/"],
+      "handoff_summary_fields": ["primitive", "freshness", "depth_or_reporting_quality", "manipulation_surface", "trust_assumptions", "blockers"],
+      "validation": ["every leaf primitive covered", "freshness or report timestamp recorded", "liquidity/reporting quality captured", "trust assumptions explicit"]
+    },
+    {
+      "id": "S4_stress_tradeoff_analysis",
+      "title": "Stress and tradeoff analysis",
+      "role": "Map oracle behavior under short-term volatility, long-term depeg, liquidity loss, manipulation, stale reports, and protocol liquidation.",
+      "depends_on": ["S3_source_primitive_audit"],
+      "parallelization": {"parallelizable": false, "unit": "full oracle setup"},
+      "delegate_to_subagent": false,
+      "inputs": ["<scope_artifact_dir>/oracle/feed-graph.md", "<scope_artifact_dir>/oracle/node-classification.md", "<scope_artifact_dir>/oracle/source-primitive-audit.md", "asset liquidity and redemption facts if available"],
+      "outputs": ["<scope_artifact_dir>/oracle/stress-tradeoff-analysis.md"],
+      "handoff_summary_fields": ["borrower_effect", "lp_effect", "liquidator_effect", "curator_effect", "cascade_risk", "trap_risk", "shadow_bad_debt_risk", "liquidation_feasibility", "oracle_lag_modes", "dominant_weak_link"],
+      "validation": ["short-term volatility scenario covered", "long-term depeg scenario covered", "liquidator feasibility covered", "who bears loss identified", "side-specific borrower and LP effects are explicit"]
+    },
+    {
+      "id": "S5_protocol_fit_and_parameter_context",
+      "title": "Protocol fit and parameter context",
+      "role": "Evaluate whether the oracle design fits the protocol's LT/LLTV, safe-pricing, main/reserve, staleness, quota, and liquidation design for each relevant position side.",
+      "depends_on": ["S4_stress_tradeoff_analysis"],
+      "parallelization": {"parallelizable": false, "unit": "protocol market"},
+      "delegate_to_subagent": false,
+      "inputs": ["protocol parameters", "<scope_artifact_dir>/oracle/stress-tradeoff-analysis.md", "user_or_mandate_policy_optional"],
+      "outputs": ["<scope_artifact_dir>/oracle/protocol-fit-memo.md"],
+      "handoff_summary_fields": ["borrower_verdict", "lp_verdict", "liquidator_verdict", "curator_verdict", "parameter_implications", "max_leverage_or_lltv_context", "human_review_gates", "comparison_to_simpler_market_setup"],
+      "validation": ["LT/LLTV context included", "staleness and bounds included", "safe-pricing or liquidation logic included", "position-side verdicts are split", "comparison to simpler setup included when requested"]
+    },
+    {
+      "id": "S6_final_verification",
+      "title": "Final verification",
+      "role": "Verify graph completeness, classifications, formulas, links, and final memo quality before reporting completion.",
+      "depends_on": ["S5_protocol_fit_and_parameter_context"],
+      "parallelization": {"parallelizable": false, "unit": "full run"},
+      "delegate_to_subagent": false,
+      "inputs": ["all oracle artifacts"],
+      "outputs": ["<scope_artifact_dir>/verification/oracle-analysis-verification.md", "verification/final-oracle-analysis-verification.md", "index.md"],
+      "handoff_summary_fields": ["result", "checks", "open_blockers", "artifact_paths"],
+      "validation": ["all required files exist", "every graph leaf has a primitive audit", "no unclassified nodes", "no top-level-only conclusion", "position-side conclusions present", "Gearbox parsing reference applied when protocol is Gearbox", "terminology check passes"]
+    }
+  ],
+  "parallel_groups": [
+    {"id": "G1_feed_trees", "stages": ["S1_feed_inventory_and_graph"], "parallel_unit": "asset feed tree"},
+    {"id": "G2_source_primitives", "stages": ["S3_source_primitive_audit"], "parallel_unit": "source primitive"}
+  ],
+  "serial_groups": [
+    {"id": "scope", "stages": ["S0_scope_and_acceptance"]},
+    {"id": "classification", "stages": ["S2_node_classification"]},
+    {"id": "stress", "stages": ["S4_stress_tradeoff_analysis"]},
+    {"id": "protocol_fit", "stages": ["S5_protocol_fit_and_parameter_context"]},
+    {"id": "verification", "stages": ["S6_final_verification"]}
+  ]
+}

@@ -1,0 +1,157 @@
+{
+  "schema_version": "evidence-ledger-v1",
+  "ledger_id": "fixture-positive-and-no-result",
+  "workflow_id": "combined-analyze-propose-v1",
+  "run_root": "dev/implementation/workflow-harness/fixtures/evidence-ledger/positive-and-no-result",
+  "generated_at": "2026-06-06T00:00:00Z",
+  "facts": [
+    {
+      "fact_id": "fixture.rpc.sample_token_decimals",
+      "claim": "The synthetic sample token reports 18 decimals through a direct EVM call.",
+      "scope_id": "eth-mainnet-sample-token-11111111",
+      "stage_id": "S1_general_asset_mining",
+      "source_type": "rpc",
+      "retrieved_at": "2026-06-06T00:00:00Z",
+      "method": "eth_call",
+      "command_or_query": "cast call --chain 1 0x1111111111111111111111111111111111111111 'decimals()(uint8)' --block 123456",
+      "raw_output_path": "raw/rpc-decimals-output.txt",
+      "decoded_value": {
+        "decimals": 18
+      },
+      "status": "confirmed",
+      "freshness": {
+        "status": "point_in_time",
+        "basis": "Fixture fact is bound to Ethereum mainnet block 123456."
+      },
+      "decision_effect": {
+        "effect": "supports_decision",
+        "rationale": "Confirms the synthetic token metadata slot required by asset, oracle, and protocol-specific stages."
+      },
+      "rpc": {
+        "chain_id": 1,
+        "block_number": 123456,
+        "contract": "0x1111111111111111111111111111111111111111",
+        "signature_or_selector": "decimals()(uint8) / 0x313ce567",
+        "raw_output": "0x0000000000000000000000000000000000000000000000000000000000000012",
+        "decoder": {
+          "decoder": "cast call ABI return decode",
+          "abi_or_source": "ERC20 decimals() standard signature",
+          "decoded_at": "2026-06-06T00:00:00Z"
+        }
+      }
+    },
+    {
+      "fact_id": "fixture.http_api.sample_market_snapshot",
+      "claim": "The synthetic market API returned one candidate market for the sample scope.",
+      "scope_id": "eth-mainnet-sample-token-11111111",
+      "stage_id": "S4_protocol_adapter_market_search",
+      "source_type": "http_api",
+      "retrieved_at": "2026-06-06T00:01:00Z",
+      "method": "GET",
+      "command_or_query": "curl --silent 'https://example.invalid/api/markets?asset=sample-token&chain=ethereum'",
+      "raw_output_path": "raw/api-market-response.json",
+      "decoded_value": {
+        "markets_found": 1,
+        "market_ids": ["sample-market-alpha"]
+      },
+      "status": "confirmed",
+      "freshness": {
+        "status": "point_in_time",
+        "basis": "Fixture API snapshot is bound to the listed timestamp and response file."
+      },
+      "decision_effect": {
+        "effect": "supports_decision",
+        "rationale": "Provides a reusable positive HTTP/API fact shape for protocol-specific adapters."
+      },
+      "http_api": {
+        "url": "https://example.invalid/api/markets",
+        "request": {
+          "params": {
+            "asset": "sample-token",
+            "chain": "ethereum"
+          },
+          "body": null
+        },
+        "response_path": "raw/api-market-response.json",
+        "status_code": 200,
+        "timestamp": "2026-06-06T00:01:00Z"
+      }
+    },
+    {
+      "fact_id": "fixture.negative_search.no_docs_route",
+      "claim": "No public documentation page in the synthetic fixture search space describes a protocol-specific route for the sample scope.",
+      "scope_id": "eth-mainnet-sample-token-11111111",
+      "stage_id": "S5_protocol_fit_and_parameter_context",
+      "source_type": "negative_search",
+      "retrieved_at": "2026-06-06T00:02:00Z",
+      "method": "bounded docs and explorer search fixture",
+      "command_or_query": [
+        "site:docs.example.invalid sample token protocol route",
+        "site:docs.example.invalid sample market adapter",
+        "explorer.example.invalid contract search: sample-token route"
+      ],
+      "raw_output_path": "raw/no-result-search-log.json",
+      "decoded_value": null,
+      "status": "investigated_no_result",
+      "freshness": {
+        "status": "point_in_time",
+        "basis": "No-result proof is bound to the listed fixture search sources and query timestamp."
+      },
+      "decision_effect": {
+        "effect": "requires_review",
+        "rationale": "The absence of a route is acceptable as a no-result investigation, but cannot be promoted to execution readiness without adapter-specific confirmation.",
+        "blocks_stage": false,
+        "next_action": "Treat protocol route as absent for this fixture unless a future adapter expands the search space."
+      },
+      "negative_investigation": {
+        "search_space": {
+          "scope": "Synthetic public docs and explorer fixture for sample protocol routes.",
+          "boundaries": [
+            "docs.example.invalid fixture pages",
+            "explorer.example.invalid fixture contract search"
+          ],
+          "exclusions": [
+            "private issuer portals",
+            "non-public chats"
+          ]
+        },
+        "queries_or_methods_tried": [
+          {
+            "method": "web_search",
+            "query": "site:docs.example.invalid sample token protocol route",
+            "result_count": 0
+          },
+          {
+            "method": "web_search",
+            "query": "site:docs.example.invalid sample market adapter",
+            "result_count": 0
+          },
+          {
+            "method": "explorer_contract_search",
+            "query": "sample-token route",
+            "result_count": 0
+          }
+        ],
+        "sources_checked": [
+          {
+            "source": "synthetic docs search",
+            "path": "docs.example.invalid",
+            "result": "no matching route page"
+          },
+          {
+            "source": "synthetic explorer search",
+            "path": "explorer.example.invalid",
+            "result": "no route-like contract or adapter label"
+          }
+        ],
+        "sufficiency_assessment": {
+          "verdict": "sufficient",
+          "rationale": "Covers the declared public docs and explorer fixture surfaces for a protocol-route question; private/non-public sources are explicitly outside this fixture.",
+          "known_gaps": [
+            "Does not cover private integrations or unpublished contracts."
+          ]
+        }
+      }
+    }
+  ]
+}

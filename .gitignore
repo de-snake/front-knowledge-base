@@ -2,6 +2,12 @@
 **/.DS_Store
 .envrc
 **/.envrc
+__pycache__/
+**/__pycache__/
+*.py[cod]
+
+# Generated workflow runs and local validation outputs.
+dev/implementation/workflow-harness/tmp/
 
 # Local scratch clones / research worktrees; source snapshots are kept separately.
 dev/implementation/asset-risk-reports-mvp/.tmp-*/
