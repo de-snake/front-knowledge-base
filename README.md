@@ -1,68 +1,89 @@
-# Gearbox Product Docs Vault
+# Gearbox Product Knowledge Base
 
-This vault is the primary source for Gearbox front/product knowledge: user-facing decision flows, agent-facing reasoning rules, UI primitive inputs, and the data gaps that must be solved before implementation.
+This public repository is a clean snapshot of the current Gearbox front / agent knowledge base.
 
-Canonical loop: `Discover → Analyze → Propose → Preview → Execute → Monitor`.
+It contains:
 
-## Agent workflow routing
+- the canonical runtime knowledge an agent should use for Gearbox user flows;
+- one reproducible Analyze → Propose demo run for USDat / sUSDat collateral review;
+- the minimal Python runner and validators needed to re-check that demo locally.
 
-For fresh Gearbox collateral, asset diligence, oracle/feed analysis, Credit
-Account opening analysis, or `Analyze → Propose` research, agents should route
-the human request through the workflow harness instead of writing an ad hoc
-report. Start from the operating contract (`AGENTS.md` / `CLAUDE.md`), then use
-`dev/implementation/workflow-entrypoint/run-workflow-usage.md` to scaffold a
-temporary run and follow the generated `.workflow/agent-handoff.md`.
+It intentionally does not contain planning history, Kanban cards, fixture matrices, or internal audit notes.
 
-Users do not need to provide runner paths or harness commands when the intent is
-clear; the repository instructions are responsible for routing the agent.
+## Current status
 
-The vault now separates runtime user / agent knowledge from development context:
+Read [`STATUS.md`](STATUS.md) for the short progress summary and the demo result.
 
-- `user/` contains the canonical material an agent needs to reason about user funds and position management.
-- `dev/` contains product/design lineage, implementation gaps, UI primitive drafts, and archived planning material.
-
-Standalone tokenized-security leverage is not a canonical flow. Tokenized securities, issuer-controlled assets, redemption-window assets, and compliance-gated assets are handled as conditional branches inside Credit Account opening and Credit Account management.
-
-## User / runtime knowledge
+## Runtime knowledge
 
 ### Foundations
 
 | Document | Description |
 | --- | --- |
-| [Basic info and definitions](user/foundations/Basic%20info%20and%20definitions.md) | Defines core Gearbox concepts, yield sources, the canonical six-stage loop, and shared stage handoff rules. |
-| [Personas and audience](user/foundations/Personas%20and%20audience.md) | Defines the LP and Credit Account operator personas, loss vectors, and agent-as-reader assumptions. |
-| [Position risk and monitoring](user/foundations/Position%20risk%20and%20monitoring.md) | Explains why positions need monitoring, how asset properties affect risk, and how agents should derive or request thresholds instead of applying universal defaults. |
+| [Basic info and definitions](user/foundations/Basic%20info%20and%20definitions.md) | Shared Gearbox vocabulary, yield sources, the six-stage loop, and stage handoff rules. |
+| [Personas and audience](user/foundations/Personas%20and%20audience.md) | LP and Credit Account operator personas, loss vectors, and agent-as-reader assumptions. |
+| [Position risk and monitoring](user/foundations/Position%20risk%20and%20monitoring.md) | Monitoring logic, asset-property risk, missing-data handling, and threshold policy. |
 
-### Decision axes
+### Decision model
 
 | Document | Description |
 | --- | --- |
-| [Entry points](user/decision/Entry%20points.md) | Explains session modes, agent reader behavior, and the Preview / Execute approval boundary. |
-| [Three-layer progressive disclosure](user/decision/Three-layer%20progressive%20disclosure.md) | Defines the Glance / Analyze / Act hierarchy for screens and agent responses. |
+| [Entry points](user/decision/Entry%20points.md) | Session modes, agent reader behavior, and the Preview / Execute approval boundary. |
+| [Three-layer progressive disclosure](user/decision/Three-layer%20progressive%20disclosure.md) | Glance / Analyze / Act hierarchy for screens and agent responses. |
 
 ### Canonical flows
 
 | Document | Description |
 | --- | --- |
-| [Pool deposit](user/flows/Pool%20deposit.md) | LP entry flow from opportunity discovery through deposit execution and monitor handoff. |
-| [Pool monitoring](user/flows/Pool%20monitoring.md) | LP ownership flow: recurring checks, drift routing, action proposal, Preview, and Execute. |
-| [Credit Account opening](user/flows/Credit%20Account%20opening.md) | Credit Account entry flow from strategy discovery through leveraged-position execution and monitor handoff. Includes issuer-controlled collateral checks as a conditional branch. |
-| [Credit Account management](user/flows/Credit%20Account%20management.md) | Credit Account ownership flow: safety, yield, rule changes, operational mechanics, oracle / issuer-controlled collateral drift, emergency routing, and action execution. |
+| [Pool deposit](user/flows/Pool%20deposit.md) | LP entry flow from opportunity discovery through execution and monitor handoff. |
+| [Pool monitoring](user/flows/Pool%20monitoring.md) | LP ownership flow: recurring checks, drift routing, proposals, Preview, and Execute. |
+| [Credit Account opening](user/flows/Credit%20Account%20opening.md) | Credit Account entry flow, including issuer-controlled collateral checks as conditional branches. |
+| [Credit Account management](user/flows/Credit%20Account%20management.md) | Ownership / monitoring flow for safety, yield, governance, operations, oracle drift, issuer drift, and actions. |
 
 ### References
 
 | Document | Description |
 | --- | --- |
-| [Mechanics index](user/references/mechanics/) | Stable product mechanics that are neither router pages nor executable workflows. Covers oracle / liquidity risk, token and curator risk, allocation and action palettes, Credit Account risk controls, and agent continuity logs. |
-| [Oracle analysis — reference workflow](user/references/workflows/oracle-analysis/) | End-agent executable oracle workflow: recursive feed graph, Gearbox-specific price-feed parsing, source-primitive audits, Steakhouse-style market / fundamental / NAV / hardcoded tradeoffs, and side-specific protocol-fit memo. |
-| [Asset investment diligence — reference workflow](user/references/workflows/asset-investment-diligence/) | End-agent executable diligence workflow for token / PT opportunities: stage graph, worker contracts, subagent prompts, context controls, and verification. |
+| [Mechanics index](user/references/mechanics/) | Stable product mechanics: oracle/liquidity risk, token/curator risk, action palettes, Credit Account risk controls, and continuity logs. |
+| [Oracle analysis workflow](user/references/workflows/oracle-analysis/) | Executable oracle/feed analysis workflow and worker contracts. |
+| [Asset investment diligence workflow](user/references/workflows/asset-investment-diligence/) | Executable token / PT diligence workflow and worker contracts. |
 
-## Development context
+## Reproducible demo
 
-| Path | Description |
-| --- | --- |
-| [Data requirements and to-dos](dev/implementation/Data%20requirements%20and%20to-dos.md) | Backend / MCP data architecture: deterministic read methods, core entities, source/freshness envelopes, traceability from product flows, implementation gaps, and build order. |
-| [Workflow entrypoint runner](dev/implementation/workflow-entrypoint/run-workflow-usage.md) | Supported Analyze → Propose runner command, generated run-root shape, validation semantics, and agent handoff rules. |
-| [Workflow harness](dev/implementation/workflow-harness/) | Deterministic validators, fixtures, quality gates, safe-parallelization metadata, and demo run records for asset diligence / oracle Analyze → Propose workflows. |
-| [UI primitives](dev/ui-primitives/) | Word-based component drafts. These follow the canonical flow docs; they do not define product logic independently. |
-| [Foundation planning archive](dev/planning/foundation/) | Historical planning and merge artifacts. These may mention old folders, fixed benchmark tables, or standalone tokenized-security leverage; they are not current canonical docs. |
+The current demo package is:
+
+[`dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/`](dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/)
+
+Revalidate it from the repository root:
+
+```bash
+python3 dev/tools/run_workflow.py analyze-propose \
+  --input dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/input.json \
+  --run-root dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/run \
+  --mode validate \
+  --resume \
+  --format markdown
+```
+
+Expected result:
+
+```text
+Status: pass
+Exit code: 0
+asset: pass
+oracle: pass
+combined: pass
+```
+
+## Repository layout
+
+```text
+front-knowledge-base/
+  README.md
+  STATUS.md
+  AGENTS.md / CLAUDE.md
+  user/                               canonical runtime knowledge
+  dev/tools/                          minimal runner + validators
+  dev/implementation/workflow-entrypoint/run-workflow-usage.md
+  dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/
+```

@@ -1,0 +1,99 @@
+{
+  "schema_version": "workflow-entrypoint-input-v1",
+  "command": "analyze-propose",
+  "primary_scope": "usdat-susdat-collateral-20260606",
+  "objective": {
+    "question": "Should USDat or sUSDat be treated as acceptable Gearbox Credit Account collateral candidates on Ethereum mainnet when borrowing USDC at a 9% borrow-rate assumption?",
+    "thesis": "Discover parameters are supplied by the user. Run Analyze -> Propose only: produce asset diligence, oracle analysis, and a non-execution recommendation with unresolved gates. Do not proceed to Preview or Execute.",
+    "requested_decision": "Return whether either collateral candidate is suitable for Gearbox Credit Account opening analysis, with asset-specific and oracle-specific evidence, unresolved gates, validator status, and report paths."
+  },
+  "assets": [
+    {
+      "scope_id": "eth-mainnet-usdat",
+      "chain_id": 1,
+      "chain": "Ethereum mainnet",
+      "symbol": "USDat",
+      "token_address": "0x23238f20b894f29041f48d88ee91131c395aaa71",
+      "asset_type": "issuer_controlled_token",
+      "intended_use": "Candidate collateral exposure for Gearbox Credit Account opening analysis while borrowing USDC.",
+      "notes": [
+        "Borrow asset: USDC.",
+        "Borrow rate assumption: 9%.",
+        "Supplied Gearbox parameter context: LTV/LT 0.90.",
+        "Token role: collateral.",
+        "No position size, target leverage, hold horizon, wallet eligibility, or user HF floor supplied. Treat these as unresolved gates for execution."
+      ]
+    },
+    {
+      "scope_id": "eth-mainnet-susdat",
+      "chain_id": 1,
+      "chain": "Ethereum mainnet",
+      "symbol": "sUSDat",
+      "token_address": "0xd166337499e176bbc38a1fbd113ab144e5bd2df7",
+      "asset_type": "yield_bearing_issuer_controlled_token",
+      "intended_use": "Candidate yield-bearing collateral exposure for Gearbox Credit Account opening analysis while borrowing USDC.",
+      "notes": [
+        "Borrow asset: USDC.",
+        "Borrow rate assumption: 9%.",
+        "Supplied Gearbox parameter context: LTV/LT 0.86.",
+        "Token role: collateral.",
+        "No position size, target leverage, hold horizon, wallet eligibility, or user HF floor supplied. Treat these as unresolved gates for execution."
+      ]
+    }
+  ],
+  "oracle_scopes": [
+    {
+      "scope_id": "eth-mainnet-usdat-gearbox-oracle",
+      "asset_symbol": "USDat",
+      "chain_id": 1,
+      "chain": "Ethereum mainnet",
+      "protocol": "Gearbox",
+      "market_or_credit_manager": "not_available",
+      "feed_address": "0x54DF8bAa0F35B767fFd2124c1D4F13788251E312",
+      "position_side": "Credit Account borrower / leverage farmer",
+      "token_role": "collateral",
+      "position_size": "not_available",
+      "analysis_questions": [
+        "Does the live Gearbox feed support USDat collateral safely for borrower-side Credit Account analysis?",
+        "Which side bears loss under temporary versus persistent USDat price divergence?",
+        "What unresolved oracle, liquidity, transferability, eligibility, freeze, redemption, issuer-control, or route gates block Preview or Execute?"
+      ]
+    },
+    {
+      "scope_id": "eth-mainnet-susdat-gearbox-oracle",
+      "asset_symbol": "sUSDat",
+      "chain_id": 1,
+      "chain": "Ethereum mainnet",
+      "protocol": "Gearbox",
+      "market_or_credit_manager": "not_available",
+      "feed_address": "0xe5d7ce380349f0380d8A216A75BCd1070C0ed5b1",
+      "position_side": "Credit Account borrower / leverage farmer",
+      "token_role": "collateral",
+      "position_size": "not_available",
+      "analysis_questions": [
+        "Does the live Gearbox feed recursively account for sUSDat value and its USDat exposure instead of stopping at a top-level label?",
+        "Which source primitives drive borrower-friendly versus pool-LP-risky outcomes?",
+        "What unresolved oracle, liquidity, transferability, eligibility, freeze, redemption, issuer-control, or route gates block Preview or Execute?"
+      ]
+    }
+  ],
+  "pt_markets": [],
+  "social_scopes": [],
+  "constraints": [
+    "Chain: Ethereum mainnet.",
+    "Borrow asset: USDC.",
+    "Borrow rate assumption: 9%.",
+    "USDat LTV/LT context: 0.90.",
+    "sUSDat LTV/LT context: 0.86.",
+    "Position side: Gearbox Credit Account borrower / leverage farmer.",
+    "Token role: collateral.",
+    "No position size supplied.",
+    "No target leverage supplied.",
+    "No hold horizon supplied.",
+    "No wallet eligibility or KYC state supplied.",
+    "No user HF floor or risk policy supplied.",
+    "Analyze -> Propose only.",
+    "Do not proceed to Preview or Execute.",
+    "Do not invent missing live values."
+  ]
+}

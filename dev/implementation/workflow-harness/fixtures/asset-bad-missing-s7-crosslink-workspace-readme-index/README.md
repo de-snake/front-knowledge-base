@@ -1,3 +1,0 @@
-# Incomplete README
-
-Status: pass.

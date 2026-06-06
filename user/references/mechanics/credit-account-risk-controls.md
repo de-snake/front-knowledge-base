@@ -70,7 +70,7 @@ If the user explicitly accepts a tighter floor for a high-confidence asset (e.g.
 | **Freeze capability** | If the CM uses a compliance-gated path, the issuer/admin can freeze the user's Credit Account. When frozen: no deposits, no withdrawals, no borrowing, no repaying, no liquidation. The position is effectively suspended. |
 | **Freeze authority** | The specific address / entity that holds the freeze power. The user must identify and accept this authority before opening. |
 | **Investor reassignment risk** | The issuer / investor registry can reassign the CA to a different investor (intended for estate settlement / lost keys, but structurally the capability exists and could be misused). |
-| **Eligible-liquidator depth** | From the CA perspective: few eligible liquidators mean the user may sit in a liquidatable state longer. The feed lives in [[Data requirements and to-dos]]; interpretation depends on user / product policy, not a universal threshold. |
+| **Eligible-liquidator depth** | From the CA perspective: few eligible liquidators mean the user may sit in a liquidatable state longer. The live feed must come from the relevant product / issuer data source; interpretation depends on user / product policy, not a universal threshold. |
 | **Redemption windows + secondary-market liquidity** | When can the user actually convert the asset back to cash. Affects exit planning at Q3. |
 
 **Failure modes (cross-reference Edge cases in [[Credit Account management]]).** Issuer freeze cascade, KYC revocation mid-position, redemption-window mismatch with hold horizon.

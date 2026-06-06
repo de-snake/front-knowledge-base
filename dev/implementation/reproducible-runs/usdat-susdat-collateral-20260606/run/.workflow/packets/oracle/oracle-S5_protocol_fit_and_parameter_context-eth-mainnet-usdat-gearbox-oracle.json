@@ -1,0 +1,593 @@
+{
+  "agent": "codex",
+  "launcher": "Codex: use this packet as the complete task brief; write only to the declared run root, then return the envelope.",
+  "packet_schema": "workflow-stage-packet-v1",
+  "schema_version": "workflow-stage-packet-v1",
+  "task_payload": {
+    "artifact_dir": "tokens/eth-mainnet-usdat-gearbox-oracle",
+    "blocking_unknowns": [
+      {
+        "decision_effect": "request_more_inputs",
+        "expected_input": "Gearbox market, Credit Manager, pool, or explicit not-applicable rule",
+        "fact_id": "oracle.eth-mainnet-usdat-gearbox-oracle.market_or_credit_manager",
+        "field": "market_or_credit_manager",
+        "input_schema_key": "oracle_scopes[0].market_or_credit_manager",
+        "next_step": "Name the evaluated Gearbox market/Credit Manager/pool, or record a deterministic not_applicable rule.",
+        "propagate_to_scope_ids": [],
+        "required_by": [
+          "oracle.S0_scope_and_acceptance",
+          "oracle.S5_protocol_fit_and_parameter_context"
+        ],
+        "scope_id": "eth-mainnet-usdat-gearbox-oracle",
+        "scope_type": "oracle",
+        "source_path": ".workflow/input.normalized.json",
+        "state": "input_missing",
+        "status": "input_missing"
+      },
+      {
+        "decision_effect": "request_more_inputs",
+        "expected_input": "position size, scenario size range, or input_missing fact with requested input",
+        "fact_id": "oracle.eth-mainnet-usdat-gearbox-oracle.position_size",
+        "field": "position_size",
+        "input_schema_key": "oracle_scopes[0].position_size",
+        "next_step": "Provide a size/scenario range or preserve input_missing before route, liquidity, or liquidation conclusions.",
+        "propagate_to_scope_ids": [],
+        "required_by": [
+          "oracle.S0_scope_and_acceptance",
+          "oracle.S4_stress_tradeoff_analysis",
+          "asset.S6_quantitative_underwriting"
+        ],
+        "scope_id": "eth-mainnet-usdat-gearbox-oracle",
+        "scope_type": "oracle",
+        "source_path": ".workflow/input.normalized.json",
+        "state": "input_missing",
+        "status": "input_missing"
+      }
+    ],
+    "command": "analyze-propose",
+    "do_not": [
+      "Do not write outside the run root.",
+      "Do not invent missing addresses, prices, APRs, or oracle verdicts.",
+      "Do not claim economic suitability or execution readiness."
+    ],
+    "input_paths": [
+      "tokens/eth-mainnet-usdat-gearbox-oracle/oracle/stress-tradeoff-analysis.md"
+    ],
+    "known_inputs": {
+      "assets": [
+        {
+          "artifact_dir": "tokens/eth-mainnet-usdat",
+          "chain": "Ethereum mainnet",
+          "chain_id": 1,
+          "intended_use": "Candidate collateral exposure for Gearbox Credit Account opening analysis while borrowing USDC.",
+          "name": null,
+          "notes": [
+            "Borrow asset: USDC.",
+            "Borrow rate assumption: 9%.",
+            "Supplied Gearbox parameter context: LTV/LT 0.90.",
+            "Token role: collateral.",
+            "No position size, target leverage, hold horizon, wallet eligibility, or user HF floor supplied. Treat these as unresolved gates for execution."
+          ],
+          "scope_id": "eth-mainnet-usdat",
+          "scope_slug": "eth-mainnet-usdat",
+          "symbol": "USDat",
+          "token_address": "0x23238f20b894f29041f48d88ee91131c395aaa71"
+        },
+        {
+          "artifact_dir": "tokens/eth-mainnet-susdat",
+          "chain": "Ethereum mainnet",
+          "chain_id": 1,
+          "intended_use": "Candidate yield-bearing collateral exposure for Gearbox Credit Account opening analysis while borrowing USDC.",
+          "name": null,
+          "notes": [
+            "Borrow asset: USDC.",
+            "Borrow rate assumption: 9%.",
+            "Supplied Gearbox parameter context: LTV/LT 0.86.",
+            "Token role: collateral.",
+            "No position size, target leverage, hold horizon, wallet eligibility, or user HF floor supplied. Treat these as unresolved gates for execution."
+          ],
+          "scope_id": "eth-mainnet-susdat",
+          "scope_slug": "eth-mainnet-susdat",
+          "symbol": "sUSDat",
+          "token_address": "0xd166337499e176bbc38a1fbd113ab144e5bd2df7"
+        }
+      ],
+      "oracle_scopes": [
+        {
+          "accepted_methodologies": [
+            "recursive feed graph",
+            "source primitive audit",
+            "side-specific stress tradeoff analysis"
+          ],
+          "analysis_questions": [
+            "Does the live Gearbox feed support USDat collateral safely for borrower-side Credit Account analysis?",
+            "Which side bears loss under temporary versus persistent USDat price divergence?",
+            "What unresolved oracle, liquidity, transferability, eligibility, freeze, redemption, issuer-control, or route gates block Preview or Execute?"
+          ],
+          "artifact_dir": "tokens/eth-mainnet-usdat-gearbox-oracle",
+          "asset_symbol": "USDat",
+          "chain": "Ethereum mainnet",
+          "chain_id": 1,
+          "feed_address": "0x54DF8bAa0F35B767fFd2124c1D4F13788251E312",
+          "feed_discovery_paths": [],
+          "market_or_credit_manager": "not_available",
+          "position_side": "Credit Account borrower / leverage farmer",
+          "position_size": "not_available",
+          "protocol": "Gearbox",
+          "related_asset_scope_id": "eth-mainnet-usdat",
+          "scope_id": "eth-mainnet-usdat-gearbox-oracle",
+          "scope_slug": "eth-mainnet-usdat-gearbox-oracle",
+          "token_address": "0x23238f20b894f29041f48d88ee91131c395aaa71",
+          "token_role": "collateral"
+        },
+        {
+          "accepted_methodologies": [
+            "recursive feed graph",
+            "source primitive audit",
+            "side-specific stress tradeoff analysis"
+          ],
+          "analysis_questions": [
+            "Does the live Gearbox feed recursively account for sUSDat value and its USDat exposure instead of stopping at a top-level label?",
+            "Which source primitives drive borrower-friendly versus pool-LP-risky outcomes?",
+            "What unresolved oracle, liquidity, transferability, eligibility, freeze, redemption, issuer-control, or route gates block Preview or Execute?"
+          ],
+          "artifact_dir": "tokens/eth-mainnet-susdat-gearbox-oracle",
+          "asset_symbol": "sUSDat",
+          "chain": "Ethereum mainnet",
+          "chain_id": 1,
+          "feed_address": "0xe5d7ce380349f0380d8A216A75BCd1070C0ed5b1",
+          "feed_discovery_paths": [],
+          "market_or_credit_manager": "not_available",
+          "position_side": "Credit Account borrower / leverage farmer",
+          "position_size": "not_available",
+          "protocol": "Gearbox",
+          "related_asset_scope_id": "eth-mainnet-susdat",
+          "scope_id": "eth-mainnet-susdat-gearbox-oracle",
+          "scope_slug": "eth-mainnet-susdat-gearbox-oracle",
+          "token_address": "0xd166337499e176bbc38a1fbd113ab144e5bd2df7",
+          "token_role": "collateral"
+        }
+      ],
+      "pt_markets": [],
+      "social_scopes": []
+    },
+    "mandatory_reference_paths": [],
+    "objective": {
+      "question": "Should USDat or sUSDat be treated as acceptable Gearbox Credit Account collateral candidates on Ethereum mainnet when borrowing USDC at a 9% borrow-rate assumption?",
+      "requested_decision": "Return whether either collateral candidate is suitable for Gearbox Credit Account opening analysis, with asset-specific and oracle-specific evidence, unresolved gates, validator status, and report paths.",
+      "thesis": "Discover parameters are supplied by the user. Run Analyze -> Propose only: produce asset diligence, oracle analysis, and a non-execution recommendation with unresolved gates. Do not proceed to Preview or Execute."
+    },
+    "optional_reference_paths": [
+      "user/references/workflows/oracle-analysis/workflow.json",
+      "user/references/workflows/oracle-analysis/output-structure.md",
+      "user/references/workflows/oracle-analysis/gearbox-price-feed-parsing.md"
+    ],
+    "protocol_adapter": {
+      "adapter_id": "gearbox.oracle-market-parameter-context.v1",
+      "fact_result_states": [
+        "found",
+        "not_applicable",
+        "input_missing",
+        "not_investigated",
+        "investigated_no_result",
+        "source_unavailable",
+        "source_inconclusive",
+        "contradicted"
+      ],
+      "no_market_no_route_semantics": "A missing Gearbox market/credit manager or execution/liquidation route is valid only as state=investigated_no_result and only when the proof names the registry checked, API or contract query attempted, network/context, and a run-local evidence path. If the worker did not investigate, the state is not_investigated, never investigated_no_result.",
+      "no_result_proof_classes": [
+        "registry_checked",
+        "api_or_contract_query_attempted",
+        "network_context_named",
+        "evidence_path_present"
+      ],
+      "protocol": "Gearbox",
+      "purpose": "Require reusable Gearbox market, credit-manager, oracle, PFS, allowed-token, liquidation-threshold, and route investigation facts before an Analyze -> Propose workflow can treat a market or route as absent.",
+      "required_facts": [
+        {
+          "discovery_methods": [
+            "Check Gearbox market / Credit Manager registries for the asset and chain.",
+            "Query configured protocol APIs or contracts when a registry does not resolve the fact.",
+            "Record the chain/network and evidence artifact path for every positive or negative result."
+          ],
+          "fact_id": "gearbox.market_or_credit_manager",
+          "label": "Market or Credit Manager",
+          "negative_search_methods": [
+            "Registry lookup by token and chain.",
+            "Protocol API or on-chain contract query for supported market / Credit Manager entries."
+          ],
+          "no_result_semantics": "No market is not an omission: record investigated_no_result only after registry, API/contract, network/context, and evidence-path proof.",
+          "requires_no_result_proof": true
+        },
+        {
+          "discovery_methods": [
+            "Resolve Gearbox oracle / price feed path for the market or Credit Manager context.",
+            "Unwrap child/source primitives instead of stopping at a top-level label."
+          ],
+          "fact_id": "gearbox.oracle_feed",
+          "label": "Oracle / main feed path",
+          "negative_search_methods": [],
+          "no_result_semantics": null,
+          "requires_no_result_proof": false
+        },
+        {
+          "discovery_methods": [
+            "Check whether an alternate/reserve feed exists for the resolved oracle context."
+          ],
+          "fact_id": "gearbox.reserve_feed",
+          "label": "Reserve feed path",
+          "negative_search_methods": [],
+          "no_result_semantics": null,
+          "requires_no_result_proof": false
+        },
+        {
+          "discovery_methods": [
+            "Identify whether Gearbox applies conservative source selection or other safe-pricing rules."
+          ],
+          "fact_id": "gearbox.safe_pricing_rule",
+          "label": "Safe-pricing rule",
+          "negative_search_methods": [],
+          "no_result_semantics": null,
+          "requires_no_result_proof": false
+        },
+        {
+          "discovery_methods": [
+            "Explain borrower exit-HF sensitivity for the feed / parameter context."
+          ],
+          "fact_id": "gearbox.exit_health_factor",
+          "label": "Exit Health Factor implication",
+          "negative_search_methods": [],
+          "no_result_semantics": null,
+          "requires_no_result_proof": false
+        },
+        {
+          "discovery_methods": [
+            "Resolve LT/LTV-style protocol parameter context from the market, Credit Manager, or collateral config.",
+            "Do not infer missing LT from generic token data."
+          ],
+          "fact_id": "gearbox.liquidation_threshold",
+          "label": "Liquidation Threshold",
+          "negative_search_methods": [],
+          "no_result_semantics": null,
+          "requires_no_result_proof": false
+        },
+        {
+          "discovery_methods": [
+            "Check whether LT is static, ramping, or governed by a scheduled parameter update."
+          ],
+          "fact_id": "gearbox.liquidation_threshold_ramp",
+          "label": "Liquidation Threshold ramp",
+          "negative_search_methods": [],
+          "no_result_semantics": null,
+          "requires_no_result_proof": false
+        },
+        {
+          "discovery_methods": [
+            "If LT is known, state the implied max leverage or mark the dependency unresolved."
+          ],
+          "fact_id": "gearbox.max_leverage",
+          "label": "Max leverage implied by LT",
+          "negative_search_methods": [],
+          "no_result_semantics": null,
+          "requires_no_result_proof": false
+        },
+        {
+          "discovery_methods": [
+            "Check stale-report, bound, and timestamp handling for the feed/source context."
+          ],
+          "fact_id": "gearbox.staleness_bounds_timestamp",
+          "label": "Staleness, bounds, and timestamp controls",
+          "negative_search_methods": [],
+          "no_result_semantics": null,
+          "requires_no_result_proof": false
+        },
+        {
+          "discovery_methods": [
+            "Identify update authority, reserve path, feed swap path, and timelock/governance delay where available."
+          ],
+          "fact_id": "gearbox.feed_swap_timelock",
+          "label": "Feed swap / reserve / timelock status",
+          "negative_search_methods": [],
+          "no_result_semantics": null,
+          "requires_no_result_proof": false
+        },
+        {
+          "discovery_methods": [
+            "Check whether delayed withdrawals change the oracle or liquidation risk branch."
+          ],
+          "fact_id": "gearbox.delayed_withdrawal_branch",
+          "label": "Delayed-withdrawal branch interaction",
+          "negative_search_methods": [],
+          "no_result_semantics": null,
+          "requires_no_result_proof": false
+        },
+        {
+          "discovery_methods": [
+            "Check allowed-token / forbidden-token collateral status for the market or Credit Manager context.",
+            "Do not treat generic ERC-20 transferability as protocol allowlisting."
+          ],
+          "fact_id": "gearbox.allowed_token_status",
+          "label": "Allowed-token / forbidden-token status",
+          "negative_search_methods": [],
+          "no_result_semantics": null,
+          "requires_no_result_proof": false
+        },
+        {
+          "discovery_methods": [
+            "Check freeze, blacklist, reassignment, issuer-control, or RWA control branches where relevant."
+          ],
+          "fact_id": "gearbox.issuer_controlled_branch",
+          "label": "Issuer-controlled branch interaction",
+          "negative_search_methods": [],
+          "no_result_semantics": null,
+          "requires_no_result_proof": false
+        },
+        {
+          "discovery_methods": [
+            "Check Price Feed Store chain/token availability and add/update status for the asset context."
+          ],
+          "fact_id": "gearbox.pfs_availability",
+          "label": "PFS chain / token availability and update status",
+          "negative_search_methods": [],
+          "no_result_semantics": null,
+          "requires_no_result_proof": false
+        },
+        {
+          "discovery_methods": [
+            "Identify Instance Owner, feed-update authority, or owner-controlled update path when available."
+          ],
+          "fact_id": "gearbox.feed_update_authority",
+          "label": "Instance Owner or feed-update authority",
+          "negative_search_methods": [],
+          "no_result_semantics": null,
+          "requires_no_result_proof": false
+        },
+        {
+          "discovery_methods": [
+            "Check route/quote availability for expected liquidation, unwind, or execution path on the named network.",
+            "Preserve router/API/contract evidence for every route result."
+          ],
+          "fact_id": "gearbox.route_availability",
+          "label": "Route / quote availability",
+          "negative_search_methods": [
+            "Query route/quote APIs or contracts for the asset/network context.",
+            "Check protocol-specific route registries or allowed-router configuration when available."
+          ],
+          "no_result_semantics": "No route is valid only as investigated_no_result with route registry/API/contract, network/context, and evidence-path proof.",
+          "requires_no_result_proof": true
+        }
+      ],
+      "version": "1.0.0"
+    },
+    "required_outputs": [
+      "tokens/eth-mainnet-usdat-gearbox-oracle/oracle/protocol-fit-memo.md"
+    ],
+    "required_packet_headings": [
+      "Scope",
+      "Known inputs",
+      "Blocking unknowns",
+      "Protocol investigation adapter",
+      "Analyze-only scenario contract",
+      "Fact results to produce",
+      "Work to perform",
+      "Required outputs",
+      "Validation command",
+      "Return envelope"
+    ],
+    "return_envelope": {
+      "artifact_paths": [
+        "tokens/eth-mainnet-usdat-gearbox-oracle/oracle/protocol-fit-memo.md"
+      ],
+      "blockers": "list concrete blockers, empty if pass",
+      "blocking_fact_ids": [
+        "oracle.eth-mainnet-usdat-gearbox-oracle.market_or_credit_manager",
+        "oracle.eth-mainnet-usdat-gearbox-oracle.position_size"
+      ],
+      "fact_result_artifact_paths": [
+        "<path to fact-results.json or markdown fenced JSON>"
+      ],
+      "fact_state_summary": {
+        "contradicted": 0,
+        "input_missing": 0,
+        "investigated_no_result": 0,
+        "not_applicable": 0,
+        "not_investigated": 0,
+        "source_inconclusive": 0,
+        "source_unavailable": 0
+      },
+      "no_result_proof_paths": [
+        "<path to no-result-proofs.json when any fact is investigated_no_result>"
+      ],
+      "status": "pass|review_required|blocked",
+      "validation_status": "validator status and report path"
+    },
+    "run_root": "dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/run/oracle-analysis",
+    "scope_id": "eth-mainnet-usdat-gearbox-oracle",
+    "scope_type": "oracle",
+    "stage_contract": {
+      "allowed_unknown_states": [
+        "not_applicable",
+        "input_missing",
+        "not_investigated",
+        "investigated_no_result",
+        "source_unavailable",
+        "source_inconclusive",
+        "contradicted"
+      ],
+      "contract_schema": "workflow-stage-contract-v1",
+      "disallowed_placeholders": [
+        "unknown",
+        "not found",
+        "not_available",
+        "TBD",
+        "none",
+        "blank required fields"
+      ],
+      "fact_results_template": {
+        "blocking_fact_ids": [
+          "oracle.eth-mainnet-usdat-gearbox-oracle.market_or_credit_manager",
+          "oracle.eth-mainnet-usdat-gearbox-oracle.position_size"
+        ],
+        "fact_results": [
+          {
+            "decision_effect": "request_more_inputs",
+            "evidence_path": ".workflow/input.normalized.json",
+            "fact_id": "oracle.eth-mainnet-usdat-gearbox-oracle.market_or_credit_manager",
+            "input_schema_key": "oracle_scopes[0].market_or_credit_manager",
+            "reason": "Required input is absent or is a disallowed placeholder; do not invent it.",
+            "requested_input": "Gearbox market, Credit Manager, pool, or explicit not-applicable rule",
+            "state": "input_missing"
+          },
+          {
+            "decision_effect": "request_more_inputs",
+            "evidence_path": ".workflow/input.normalized.json",
+            "fact_id": "oracle.eth-mainnet-usdat-gearbox-oracle.position_size",
+            "input_schema_key": "oracle_scopes[0].position_size",
+            "reason": "Required input is absent or is a disallowed placeholder; do not invent it.",
+            "requested_input": "position size, scenario size range, or input_missing fact with requested input",
+            "state": "input_missing"
+          },
+          {
+            "decision_effect": "blocked",
+            "evidence_path": "<stage artifact path showing omission or explicit blocked return>",
+            "fact_id": "<required_fact_id_from_stage_contract>",
+            "missing_investigation": "<method/source/fact not attempted>",
+            "state": "not_investigated"
+          }
+        ],
+        "fact_state_summary": {
+          "contradicted": 0,
+          "input_missing": 0,
+          "investigated_no_result": 0,
+          "not_applicable": 0,
+          "not_investigated": 0,
+          "source_inconclusive": 0,
+          "source_unavailable": 0
+        },
+        "precomputed_boundary_facts": []
+      },
+      "mandatory_facts": [
+        {
+          "decision_effect_if_unresolved": "blocked",
+          "description": "stage scope, input paths, and required outputs are loaded before claims",
+          "fact_id": "oracle.S5_protocol_fit_and_parameter_context.eth-mainnet-usdat-gearbox-oracle.scope_loaded",
+          "if_missing_state": "not_investigated",
+          "minimum_evidence": [
+            ".workflow/input.normalized.json",
+            "tokens/eth-mainnet-usdat-gearbox-oracle/oracle/stress-tradeoff-analysis.md"
+          ],
+          "required": true
+        },
+        {
+          "decision_effect_if_unresolved": "blocked",
+          "description": "protocol-fit memo ties oracle facts to Gearbox parameter context",
+          "fact_id": "oracle.S5_protocol_fit_and_parameter_context.eth-mainnet-usdat-gearbox-oracle.f1_protocol-fit-memo-ties-oracle-facts-to-gearbox-p",
+          "if_missing_state": "not_investigated",
+          "minimum_evidence": [
+            "source/evidence artifact path",
+            "fact result state",
+            "decision_effect"
+          ],
+          "required": true
+        },
+        {
+          "decision_effect_if_unresolved": "blocked",
+          "description": "unresolved material facts map to review_required/request_more_inputs/blocked",
+          "fact_id": "oracle.S5_protocol_fit_and_parameter_context.eth-mainnet-usdat-gearbox-oracle.f2_unresolved-material-facts-map-to-review-required",
+          "if_missing_state": "not_investigated",
+          "minimum_evidence": [
+            "source/evidence artifact path",
+            "fact result state",
+            "decision_effect"
+          ],
+          "required": true
+        },
+        {
+          "decision_effect_if_unresolved": "blocked",
+          "description": "no Preview/Execute readiness claim without separate parent proposal gate",
+          "fact_id": "oracle.S5_protocol_fit_and_parameter_context.eth-mainnet-usdat-gearbox-oracle.f3_no-preview-execute-readiness-claim-without-separ",
+          "if_missing_state": "not_investigated",
+          "minimum_evidence": [
+            "source/evidence artifact path",
+            "fact result state",
+            "decision_effect"
+          ],
+          "required": true
+        },
+        {
+          "decision_effect_if_unresolved": "request_more_inputs",
+          "description": "input missing for eth-mainnet-usdat-gearbox-oracle.market_or_credit_manager",
+          "expected_input": "Gearbox market, Credit Manager, pool, or explicit not-applicable rule",
+          "expected_state_until_resolved": "input_missing",
+          "fact_id": "oracle.eth-mainnet-usdat-gearbox-oracle.market_or_credit_manager",
+          "input_schema_key": "oracle_scopes[0].market_or_credit_manager",
+          "minimum_evidence": [
+            ".workflow/input.normalized.json"
+          ],
+          "required": true
+        },
+        {
+          "decision_effect_if_unresolved": "request_more_inputs",
+          "description": "input missing for eth-mainnet-usdat-gearbox-oracle.position_size",
+          "expected_input": "position size, scenario size range, or input_missing fact with requested input",
+          "expected_state_until_resolved": "input_missing",
+          "fact_id": "oracle.eth-mainnet-usdat-gearbox-oracle.position_size",
+          "input_schema_key": "oracle_scopes[0].position_size",
+          "minimum_evidence": [
+            ".workflow/input.normalized.json"
+          ],
+          "required": true
+        }
+      ],
+      "minimum_source_evidence_requirements": [
+        "fact_id, state, scope_id, required_by, decision_effect",
+        "source/evidence artifact path for every known, inconclusive, unavailable, contradicted, or no-result fact",
+        "input_schema_key/requested_input for input_missing facts",
+        "applicability_rule_id/evidence_path for not_applicable facts"
+      ],
+      "no_result_proof_template": {
+        "coverage": "<chain/protocol/registry/time-window/search boundary covered>",
+        "fact_id": "<required_fact_id>",
+        "freshness_utc": "<YYYY-MM-DDTHH:MM:SSZ>",
+        "methods_tried": [
+          {
+            "artifact_path": "raw/<fact>-negative-evidence.json",
+            "method": "<tool/command/API/RPC/search method>",
+            "query_or_endpoint": "<exact query, contract call, endpoint, registry key, or document path>",
+            "result": "negative",
+            "source_class": "<authoritative_registry|contract_probe|docs_or_governance|market_source>",
+            "timestamp_utc": "<YYYY-MM-DDTHH:MM:SSZ>"
+          }
+        ],
+        "negative_evidence_path": "raw/<fact>-negative-evidence.json",
+        "proof_id": "oracle.S5_protocol_fit_and_parameter_context.<fact>.no_result.v1",
+        "residual_decision_effect": "pass|review_required|request_more_inputs|blocked",
+        "sources_checked": [
+          "<source ids/classes checked>"
+        ],
+        "state": "investigated_no_result"
+      },
+      "precomputed_boundary_facts": [],
+      "required_methods": [
+        "Load the input paths and stage scope before writing claims.",
+        "For every material claim, save or cite a source/evidence artifact path under the child run root.",
+        "If a source search finds nothing, fill no_result_proof_template; do not write bare 'not found'.",
+        "If you cannot investigate a required fact, return a fact_result with state=not_investigated and status=blocked/review_required."
+      ],
+      "state_evidence_requirements": {
+        "contradicted": "Record conflicting sources/values, timestamps, source-authority rule, reconciliation status, and decision_effect.",
+        "input_missing": "Record input_schema_key, expected input, why defaults are unsafe, requested_input, and decision_effect.",
+        "investigated_no_result": "Attach a no_result_proof with methods_tried, sources_checked, negative_evidence_path, coverage, freshness, and residual_decision_effect.",
+        "not_applicable": "Record applicability_rule_id, scope/input evidence path, reason, and decision_effect.",
+        "not_investigated": "Failure state for required facts: name the missing investigation and return blocked/review_required.",
+        "source_inconclusive": "Record sources read, insufficient/ambiguous evidence, freshness/coverage limits, follow-up, and decision_effect.",
+        "source_unavailable": "Record source identity, method, timestamp, exact error/status, retry or alternate-source notes, and decision_effect."
+      }
+    },
+    "stage_id": "S5_protocol_fit_and_parameter_context",
+    "stage_title": "Protocol fit and parameter context",
+    "validation_command": "python3 dev/tools/validate_workflow_run.py --workflow oracle-analysis --run-root dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/run/oracle-analysis --format json,markdown --report-dir dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/run/oracle-analysis/verification --write-verification",
+    "workflow_id": "oracle-analysis-v1"
+  },
+  "task_payload_sha256": "310e218936a399658c7ce2b3794b42238f40a1fafca79a35cbe831c6632bd713"
+}
