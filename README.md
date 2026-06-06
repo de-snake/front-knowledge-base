@@ -5,8 +5,9 @@ This public repository is a clean snapshot of the current Gearbox front / agent 
 It contains:
 
 - the canonical runtime knowledge an agent should use for Gearbox user flows;
-- one readable, reproducible Analyze → Propose demo run for USDat / sUSDat collateral review;
-- the minimal Python runner and validators needed to re-check that demo locally.
+- a rich, methodology-guided apyUSD investment research dossier;
+- a readable, reproducible Analyze → Propose demo run for USDat / sUSDat collateral review;
+- the minimal Python runner and validators needed to re-check the public packages locally.
 
 It intentionally does not contain planning history, Kanban cards, fixture matrices, or internal audit notes.
 
@@ -14,11 +15,12 @@ It intentionally does not contain planning history, Kanban cards, fixture matric
 
 Read [`STATUS.md`](STATUS.md) for the short progress summary.
 
-For review, send the readable demo result:
+For review, send the readable reports:
 
-[`dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/RESULT.md`](dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/RESULT.md)
+- richer investment research example: [`dev/implementation/reproducible-runs/apyusd-investment-research-20260604/RESULT.md`](dev/implementation/reproducible-runs/apyusd-investment-research-20260604/RESULT.md)
+- workflow-harness demo result: [`dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/RESULT.md`](dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/RESULT.md)
 
-Do not send the raw `run/` tree as the review surface. It is the reproduction bundle behind the report.
+Do not send the raw `run/` trees as the review surface. They are reproduction bundles behind the reports.
 
 ## Runtime knowledge
 
@@ -54,9 +56,36 @@ Do not send the raw `run/` tree as the review surface. It is the reproduction bu
 | [Oracle analysis workflow](user/references/workflows/oracle-analysis/) | Executable oracle/feed analysis workflow and worker contracts. |
 | [Asset investment diligence workflow](user/references/workflows/asset-investment-diligence/) | Executable token / PT diligence workflow and worker contracts. |
 
-## Reproducible demo
+## Reproducible packages
 
-The current demo package is:
+### apyUSD investment research dossier
+
+The richer analyst-style example is:
+
+[`dev/implementation/reproducible-runs/apyusd-investment-research-20260604/`](dev/implementation/reproducible-runs/apyusd-investment-research-20260604/)
+
+The human-readable result is:
+
+[`dev/implementation/reproducible-runs/apyusd-investment-research-20260604/RESULT.md`](dev/implementation/reproducible-runs/apyusd-investment-research-20260604/RESULT.md)
+
+This package follows the asset-specific investment research methodology directly. It is not the Analyze → Propose formatting harness.
+
+Revalidate package integrity from the repository root:
+
+```bash
+python3 dev/tools/validate_research_package.py \
+  dev/implementation/reproducible-runs/apyusd-investment-research-20260604
+```
+
+Expected result:
+
+```text
+Status: pass
+```
+
+### USDat / sUSDat workflow-harness demo
+
+The workflow-harness demo package is:
 
 [`dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/`](dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/)
 
@@ -95,5 +124,6 @@ front-knowledge-base/
   user/                               canonical runtime knowledge
   dev/tools/                          minimal runner + validators
   dev/implementation/workflow-entrypoint/run-workflow-usage.md
+  dev/implementation/reproducible-runs/apyusd-investment-research-20260604/
   dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/
 ```

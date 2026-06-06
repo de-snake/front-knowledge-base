@@ -20,16 +20,52 @@ Issuer-controlled assets, tokenized securities, redemption-window assets, and co
 
 ## What works now
 
-A deterministic Analyze → Propose runner can scaffold and validate a combined asset-diligence + oracle-analysis run.
+Two public packages are available:
 
-The public demo package includes:
+1. A richer apyUSD investment-research dossier that follows the asset-specific mining methodology directly, without the Analyze → Propose formatting harness.
+2. A deterministic Analyze → Propose runner demo that can scaffold and validate a combined asset-diligence + oracle-analysis run for USDat / sUSDat.
+
+The apyUSD package includes:
+
+- rich human report: `dev/implementation/reproducible-runs/apyusd-investment-research-20260604/RESULT.md`
+- reproduction protocol: `dev/implementation/reproducible-runs/apyusd-investment-research-20260604/REPRODUCE.md`
+- scoped input: `dev/implementation/reproducible-runs/apyusd-investment-research-20260604/input.json`
+- methodology, technical dossier, research notes, raw onchain snapshots, and verification checklist under `dev/implementation/reproducible-runs/apyusd-investment-research-20260604/run/`
+
+The USDat / sUSDat workflow-harness package includes:
 
 - readable result: `dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/RESULT.md`
 - input: `dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/input.json`
 - filled artifacts: `dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/run/`
 - reproduction instructions: `dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/README.md`
 
-## Demo result
+## apyUSD investment-research result
+
+Question:
+
+> What source-linked token context should an agent carry before treating apyUSD as a candidate Gearbox asset?
+
+Short result:
+
+apyUSD is a non-rebasing ERC-4626-style savings wrapper over apxUSD. Its investment risk is not just market price; it combines vault-share risk, issuer/backing risk, asynchronous redemption risk, secondary-liquidity risk, and upgrade / pause / deny-list control surfaces.
+
+The report does not approve the asset. It concludes that apyUSD can be used as a factual substrate for later reasoning, but live use still requires fresh checks for backing reconciliation, audit scope, receipt/redemption mechanics, route liquidity, pending admin changes, and holder / Credit Account eligibility.
+
+Full readable result:
+
+[`dev/implementation/reproducible-runs/apyusd-investment-research-20260604/RESULT.md`](dev/implementation/reproducible-runs/apyusd-investment-research-20260604/RESULT.md)
+
+Reproduction protocol:
+
+[`dev/implementation/reproducible-runs/apyusd-investment-research-20260604/REPRODUCE.md`](dev/implementation/reproducible-runs/apyusd-investment-research-20260604/REPRODUCE.md)
+
+Integrity check:
+
+```text
+Status: pass
+```
+
+## USDat / sUSDat workflow-harness result
 
 Question:
 

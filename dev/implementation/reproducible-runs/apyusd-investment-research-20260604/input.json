@@ -1,0 +1,27 @@
+{
+  "run_type": "methodology_guided_investment_research_dossier",
+  "report_date_utc": "2026-06-04",
+  "asset": {
+    "chain_id": 1,
+    "chain": "Ethereum mainnet",
+    "name": "apyx apyUSD",
+    "symbol": "apyUSD",
+    "token_address": "0x38EEb52F0771140d10c4E9A9a72349A329Fe8a6A",
+    "issuer_or_protocol_hint": "Apyx",
+    "intended_use": "unknown / candidate collateral diligence"
+  },
+  "methodology": "run/methodology.md",
+  "research_artifacts": [
+    "run/tokens/eth-mainnet-apyusd/research/onchain-admin.md",
+    "run/tokens/eth-mainnet-apyusd/research/issuer-backing-security.md",
+    "run/tokens/eth-mainnet-apyusd/research/transfer-liquidity-oracle-governance.md",
+    "run/tokens/eth-mainnet-apyusd/research/raw/onchain-admin-snapshot-2026-06-04.json",
+    "run/tokens/eth-mainnet-apyusd/research/raw/onchain-market-snapshot-2026-06-04.json"
+  ],
+  "outputs": {
+    "primary_human_report": "RESULT.md",
+    "technical_report": "run/tokens/eth-mainnet-apyusd/technical-report.md",
+    "verification": "run/tokens/eth-mainnet-apyusd/verification.md"
+  },
+  "important_boundary": "This is a research dossier and risk note, not an investment recommendation, suitability verdict, position-size recommendation, or execution instruction."
+}
