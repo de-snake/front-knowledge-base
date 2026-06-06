@@ -2396,7 +2396,7 @@ def validate_combined(ctx: ValidationContext) -> tuple[list[Finding], list[Check
     parsed = ParsedHandoff()
     if handoff_exists:
         handoff_text = handoff_path.read_text(encoding="utf-8")
-        parsed = parse_handoff(handoff_text)
+        parsed = parse_handoff(handoff_text, handoff_path)
         validate_handoff_contract(collector, parsed, handoff_text, handoff_path, child_states)
         validate_run_local_paths(collector, root, [handoff_path, *(p for p in _index_paths(root) if p.exists())])
         validate_parent_index(collector, root)
@@ -2738,9 +2738,9 @@ class ParsedHandoff:
     proposal_gate: dict[str, Any] = field(default_factory=dict)
 
 
-def parse_handoff(text: str) -> ParsedHandoff:
+def parse_handoff(text: str, handoff_path: Path | None = None) -> ParsedHandoff:
     parsed = ParsedHandoff()
-    parsed.json_payload = _extract_agentic_json(text)
+    parsed.json_payload = _extract_agentic_json(text, handoff_path)
     if parsed.json_payload is not None:
         parsed.has_structured_json = True
         raw_status = parsed.json_payload.get("stage_status", {})
@@ -2779,7 +2779,7 @@ def parse_handoff(text: str) -> ParsedHandoff:
     return parsed
 
 
-def _extract_agentic_json(text: str) -> dict[str, Any] | None:
+def _extract_agentic_json(text: str, handoff_path: Path | None = None) -> dict[str, Any] | None:
     for match in re.finditer(r"```json\s*(.*?)```", text, flags=re.DOTALL | re.IGNORECASE):
         raw = match.group(1).strip()
         try:
@@ -2788,6 +2788,15 @@ def _extract_agentic_json(text: str) -> dict[str, Any] | None:
             continue
         if isinstance(data, dict) and data.get("schema_version") == "agentic-analyze-propose-v1":
             return data
+    if handoff_path is not None:
+        sidecar = handoff_path.with_suffix(".json")
+        if sidecar.exists():
+            try:
+                data = json.loads(sidecar.read_text())
+            except (json.JSONDecodeError, OSError):
+                data = None
+            if isinstance(data, dict) and data.get("schema_version") == "agentic-analyze-propose-v1":
+                return data
     return None
 
 

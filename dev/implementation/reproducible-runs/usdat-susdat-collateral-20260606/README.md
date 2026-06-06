@@ -1,12 +1,18 @@
 # Reproducible run — USDat / sUSDat collateral Analyze → Propose
 
-This folder contains the public reproducible demo package.
+This folder contains one public demo package.
+
+For review, start with [`RESULT.md`](RESULT.md). That is the human-readable result.
+
+The `run/` subtree is the reproduction bundle behind the report. It keeps the filled analysis artifacts, source evidence, manifests, and final verification files needed to revalidate the run locally.
 
 ## Contents
 
+- `RESULT.md` — human-readable review report.
 - `input.json` — input used by the runner.
-- `run/` — filled run artifacts and validation reports.
-- `RESULT.md` — concise human-readable result.
+- `run/` — reproducibility bundle and supporting artifacts.
+- `run/agentic-flow/analyze-and-propose.md` — readable parent Analyze → Propose return.
+- `run/agentic-flow/analyze-and-propose.json` — validator sidecar for the parent return.
 
 ## Revalidate
 
@@ -31,7 +37,7 @@ oracle: pass
 combined: pass
 ```
 
-The command may refresh validation timestamp/report files inside `run/`.
+The command regenerates validation side files inside `run/`.
 
 ## Important boundary
 

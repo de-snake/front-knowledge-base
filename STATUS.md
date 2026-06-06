@@ -24,16 +24,28 @@ A deterministic Analyze → Propose runner can scaffold and validate a combined 
 
 The public demo package includes:
 
+- readable result: `dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/RESULT.md`
 - input: `dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/input.json`
-- filled run artifacts: `dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/run/`
-- result summary: `dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/RESULT.md`
-- local reproduction instructions: `dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/README.md`
+- filled artifacts: `dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/run/`
+- reproduction instructions: `dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/README.md`
 
 ## Demo result
 
 Question:
 
 > Should USDat or sUSDat be treated as acceptable Gearbox Credit Account collateral candidates on Ethereum mainnet when borrowing USDC at a 9% borrow-rate assumption?
+
+Short result:
+
+USDat is the stronger Analyze-stage candidate because the supplied Gearbox feed is market-derived from the USDat/USDC Curve pool and observed liquidity is deeper.
+
+sUSDat remains more conditional because the supplied feed uses ERC-4626 accounting over USDat while immediate recovery depends on thinner liquidity, queue processing, and issuer / STRC realization.
+
+Neither candidate is ready for Preview or Execute without additional live inputs.
+
+Full readable result:
+
+[`dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/RESULT.md`](dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/RESULT.md)
 
 Validation result:
 
@@ -56,12 +68,6 @@ Execute: blocked
 Monitor: not_started
 ```
 
-Interpretation:
-
-- USDat is the stronger Analyze-stage candidate because the supplied Gearbox feed is market-derived from the USDat/USDC Curve pool and observed liquidity is deeper.
-- sUSDat remains more conditional because the supplied feed uses ERC-4626 accounting over USDat while immediate recovery depends on thinner liquidity, queue processing, and issuer / STRC realization.
-- Neither candidate is ready for Preview or Execute without additional live inputs.
-
 ## Missing before decision-grade proposal
 
 The demo intentionally blocks Preview / Execute until these inputs exist:
@@ -77,4 +83,4 @@ The demo intentionally blocks Preview / Execute until these inputs exist:
 
 ## What this repository no longer includes
 
-The public `main` tree is now presentation-oriented. It excludes planning history, Kanban cards, fixture matrices, regression test fixtures, and internal audit notes.
+The public `main` tree is presentation-oriented. It excludes planning history, Kanban cards, fixture matrices, regression test fixtures, and internal audit notes.

@@ -5,14 +5,20 @@ This public repository is a clean snapshot of the current Gearbox front / agent 
 It contains:
 
 - the canonical runtime knowledge an agent should use for Gearbox user flows;
-- one reproducible Analyze → Propose demo run for USDat / sUSDat collateral review;
+- one readable, reproducible Analyze → Propose demo run for USDat / sUSDat collateral review;
 - the minimal Python runner and validators needed to re-check that demo locally.
 
 It intentionally does not contain planning history, Kanban cards, fixture matrices, or internal audit notes.
 
 ## Current status
 
-Read [`STATUS.md`](STATUS.md) for the short progress summary and the demo result.
+Read [`STATUS.md`](STATUS.md) for the short progress summary.
+
+For review, send the readable demo result:
+
+[`dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/RESULT.md`](dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/RESULT.md)
+
+Do not send the raw `run/` tree as the review surface. It is the reproduction bundle behind the report.
 
 ## Runtime knowledge
 
@@ -53,6 +59,10 @@ Read [`STATUS.md`](STATUS.md) for the short progress summary and the demo result
 The current demo package is:
 
 [`dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/`](dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/)
+
+The human-readable result is:
+
+[`dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/RESULT.md`](dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/RESULT.md)
 
 Revalidate it from the repository root:
 
