@@ -20,17 +20,20 @@ Issuer-controlled assets, tokenized securities, redemption-window assets, and co
 
 ## What works now
 
-Two public packages are available:
+Five public packages are available:
 
 1. A richer apyUSD investment-research dossier that follows the asset-specific mining methodology directly, without the Analyze → Propose formatting harness.
-2. A deterministic Analyze → Propose runner demo that can scaffold and validate a combined asset-diligence + oracle-analysis run for USDat / sUSDat.
+2. Matching rich research packages for apxUSD, PRIME, and deSPXA, using the old human-readable report style and support corpus.
+3. A deterministic Analyze → Propose runner demo that can scaffold and validate a combined asset-diligence + oracle-analysis run for USDat / sUSDat, now enriched with old-run X/social, PT-market, and quantitative risk/return layers.
 
-The apyUSD package includes:
+The rich investment-research packages include:
 
-- rich human report: `dev/implementation/reproducible-runs/apyusd-investment-research-20260604/RESULT.md`
-- reproduction protocol: `dev/implementation/reproducible-runs/apyusd-investment-research-20260604/REPRODUCE.md`
-- scoped input: `dev/implementation/reproducible-runs/apyusd-investment-research-20260604/input.json`
-- methodology, technical dossier, research notes, raw onchain snapshots, and verification checklist under `dev/implementation/reproducible-runs/apyusd-investment-research-20260604/run/`
+- apxUSD: `dev/implementation/reproducible-runs/apxusd-investment-research-20260604/RESULT.md`
+- apyUSD: `dev/implementation/reproducible-runs/apyusd-investment-research-20260604/RESULT.md`
+- PRIME: `dev/implementation/reproducible-runs/prime-investment-research-20260604/RESULT.md`
+- deSPXA: `dev/implementation/reproducible-runs/despxa-investment-research-20260604/RESULT.md`
+- reproduction protocol and scoped input inside each package root
+- methodology, technical dossier, research notes, raw snapshots, and applicable X/social, PT-market, and quantitative support layers under each package's `run/` subtree
 
 The USDat / sUSDat workflow-harness package includes:
 

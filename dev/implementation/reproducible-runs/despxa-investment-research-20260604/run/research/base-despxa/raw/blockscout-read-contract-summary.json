@@ -1,0 +1,146 @@
+{
+  "chain_id": "8453",
+  "token": "0x9c5C365e764829876243d0b289733B9D2b729685",
+  "vault": "0x2da40f061536c2f3a8f95f23a5f4c133d07d393a",
+  "asset_assumed_usdc": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+  "reads": {
+    "token.name": "DeFi Janus Henderson Anemoy S&P500\u00ae Fund Token",
+    "token.symbol": "deSPXA",
+    "token.decimals": 18,
+    "token.totalSupply": 4236891729691416512194,
+    "token.deploymentChainId": 8453,
+    "token.hook": "0x2a9B9C14851Baf7AD19f26607C9171CA1E7a1A61",
+    "token.vault(0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)": "0x2dA40F061536c2f3a8f95f23a5f4c133d07D393a",
+    "token.vault(0x0000000000000000000000000000000000000000)": "0x0000000000000000000000000000000000000000",
+    "vault.asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+    "vault.share": "0x9c5C365e764829876243d0b289733B9D2b729685",
+    "vault.poolId": 281474976710668,
+    "vault.scId": "\u0000\u0001\u0000\u0000\u0000\u0000\u0000\f\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0001",
+    "vault.root": "0x7Ed48C31f2fdC40d37407cBaBf0870B2b688368f",
+    "vault.baseManager": "0xF48256AbDDf96EcDDc4B3DbD23E8C1921f9761Ae",
+    "vault.asyncManager": "0xF48256AbDDf96EcDDc4B3DbD23E8C1921f9761Ae",
+    "vault.asyncRedeemManager": "0xF48256AbDDf96EcDDc4B3DbD23E8C1921f9761Ae",
+    "vault.deploymentChainId": 8453,
+    "vault.pricePerShare": 763973338,
+    "vault.priceLastUpdated": 1780401600,
+    "vault.totalAssets": 3236872318793
+  },
+  "address_info": {
+    "token": {
+      "address": "0x9c5C365e764829876243d0b289733B9D2b729685",
+      "name": "ShareToken",
+      "is_contract": true,
+      "is_verified": true,
+      "proxy_type": null,
+      "implementations": [],
+      "token": {
+        "address_hash": "0x9c5C365e764829876243d0b289733B9D2b729685",
+        "circulating_market_cap": "3190425.8632214814",
+        "decimals": "18",
+        "exchange_rate": "752.88",
+        "holders_count": "324",
+        "icon_url": "https://assets.coingecko.com/coins/images/102172741/small/Group_427319050.png?1775200266",
+        "name": "DeFi S&amp;P 500",
+        "reputation": "ok",
+        "symbol": "DESPXA",
+        "total_supply": "4236891729691416512194",
+        "type": "ERC-20",
+        "volume_24h": "1922194.5745714395"
+      },
+      "first_transaction_details": {
+        "block_number": 43448319,
+        "timestamp": "2026-03-16T18:33:05.000000Z"
+      }
+    },
+    "vault": {
+      "address": "0x2da40f061536c2f3a8f95f23a5f4c133d07d393a",
+      "name": "AsyncVault",
+      "is_contract": true,
+      "is_verified": true,
+      "proxy_type": null,
+      "implementations": [],
+      "token": null,
+      "first_transaction_details": {
+        "block_number": 43444933,
+        "timestamp": "2026-03-16T16:40:13.000000Z"
+      }
+    },
+    "hook": {
+      "address": "0x2a9B9C14851Baf7AD19f26607C9171CA1E7a1A61",
+      "name": "FreelyTransferable",
+      "is_contract": true,
+      "is_verified": true,
+      "proxy_type": null,
+      "implementations": [],
+      "token": null,
+      "first_transaction_details": null
+    },
+    "root": {
+      "address": "0x7Ed48C31f2fdC40d37407cBaBf0870B2b688368f",
+      "name": "Root",
+      "is_contract": true,
+      "is_verified": true,
+      "proxy_type": null,
+      "implementations": [],
+      "token": null,
+      "first_transaction_details": {
+        "block_number": 33294451,
+        "timestamp": "2025-07-24T17:30:49.000000Z"
+      }
+    },
+    "baseManager": {
+      "address": "0xF48256AbDDf96EcDDc4B3DbD23E8C1921f9761Ae",
+      "name": "AsyncRequestManager",
+      "is_contract": true,
+      "is_verified": true,
+      "proxy_type": null,
+      "implementations": [],
+      "token": null,
+      "first_transaction_details": null
+    },
+    "asyncManager": {
+      "address": "0xF48256AbDDf96EcDDc4B3DbD23E8C1921f9761Ae",
+      "name": "AsyncRequestManager",
+      "is_contract": true,
+      "is_verified": true,
+      "proxy_type": null,
+      "implementations": [],
+      "token": null,
+      "first_transaction_details": null
+    }
+  },
+  "ward_checks": {
+    "token": {
+      "0x0000000000000000000000000000000000000000": 0,
+      "0x050206c38f06e4710C4a37D39F75Ddc5c16a7396": 0,
+      "0x19f46D8130e610C6C0f0116EA40Fb781dEFaDE93": 0,
+      "0x2a9B9C14851Baf7AD19f26607C9171CA1E7a1A61": 0,
+      "0x2dA40F061536c2f3a8f95f23a5f4c133d07D393a": 0,
+      "0x2da40f061536c2f3a8f95f23a5f4c133d07d393a": 0,
+      "0x7Ed48C31f2fdC40d37407cBaBf0870B2b688368f": 1,
+      "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913": 0,
+      "0x9c5C365e764829876243d0b289733B9D2b729685": 0,
+      "0xA4A7Bb3831958463b3FE3E27A6a160F764341953": 0,
+      "0xF48256AbDDf96EcDDc4B3DbD23E8C1921f9761Ae": 0
+    },
+    "vault": {
+      "0x0000000000000000000000000000000000000000": 0,
+      "0x050206c38f06e4710C4a37D39F75Ddc5c16a7396": 0,
+      "0x19f46D8130e610C6C0f0116EA40Fb781dEFaDE93": 0,
+      "0x2a9B9C14851Baf7AD19f26607C9171CA1E7a1A61": 0,
+      "0x2dA40F061536c2f3a8f95f23a5f4c133d07D393a": 0,
+      "0x2da40f061536c2f3a8f95f23a5f4c133d07d393a": 0,
+      "0x7Ed48C31f2fdC40d37407cBaBf0870B2b688368f": 1,
+      "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913": 0,
+      "0x9c5C365e764829876243d0b289733B9D2b729685": 0,
+      "0xA4A7Bb3831958463b3FE3E27A6a160F764341953": 0,
+      "0xF48256AbDDf96EcDDc4B3DbD23E8C1921f9761Ae": 1
+    }
+  },
+  "permission_checks": {
+    "0x0000000000000000000000000000000000000000": false,
+    "0x62202E9837e867B68bADf9a5ffdF548274041083": false,
+    "0xD08f1fb797BfaCdeD23323178672557034c64CfA": false,
+    "0x2da40f061536c2f3a8f95f23a5f4c133d07d393a": false
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "run_type": "methodology_guided_investment_research_dossier",
+  "report_date_utc": "2026-06-04",
+  "asset": {
+    "chain_id": 1,
+    "chain": "Ethereum mainnet",
+    "name": "apyx apxUSD",
+    "symbol": "apxUSD",
+    "token_address": "0x98A878b1Cd98131B271883B390f68D2c90674665",
+    "issuer_or_protocol_hint": "Apyx",
+    "intended_use": "unknown / candidate collateral diligence"
+  },
+  "methodology": "run/methodology.md",
+  "research_artifacts": [
+    "run/research/eth-mainnet-apxusd/onchain-admin.md",
+    "run/research/eth-mainnet-apxusd/issuer-backing-security.md",
+    "run/research/eth-mainnet-apxusd/transfer-liquidity-oracle-governance.md",
+    "run/requirements-brief.md"
+  ],
+  "outputs": {
+    "primary_human_report": "RESULT.md",
+    "technical_report": "run/technical-reports/eth-mainnet-apxusd.md"
+  },
+  "important_boundary": "This is a research dossier and risk note, not an investment recommendation, suitability verdict, position-size recommendation, or execution instruction.",
+  "x_social_artifacts": [
+    "run/x-research/x-research-apxusd-points-stac-pt-2026-11-05.md"
+  ],
+  "quantitative_artifacts": [
+    "run/investment-analysis/investment-analyst-report-points-pt-risk-return.md",
+    "run/investment-analysis/quantitative-underwriting-methodology.md"
+  ],
+  "pt_market_artifacts": [
+    "run/reports/pendle-pt-eth-mainnet-apxusd-2026-11-05.md",
+    "run/technical-reports/pendle-pt-eth-mainnet-apxusd-2026-11-05.md"
+  ],
+  "required_result_snippets": [
+    "not an investment recommendation",
+    "0x98A878b1Cd98131B271883B390f68D2c90674665",
+    "PT-apxUSD",
+    "0.4671%",
+    "risk-adjusted annualized return before points: `8.89%`"
+  ]
+}

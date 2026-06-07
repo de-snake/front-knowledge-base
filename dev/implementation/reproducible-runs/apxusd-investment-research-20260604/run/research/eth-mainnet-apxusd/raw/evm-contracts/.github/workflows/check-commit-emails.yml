@@ -1,0 +1,13 @@
+name: Check Commit Emails
+
+on:
+  pull_request:
+    branches: ['*']
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  check-emails:
+    uses: apyx-labs/.github/.github/workflows/check-commit-emails.yml@main

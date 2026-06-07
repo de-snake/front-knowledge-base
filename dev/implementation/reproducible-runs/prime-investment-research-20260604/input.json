@@ -1,0 +1,34 @@
+{
+  "run_type": "methodology_guided_investment_research_dossier",
+  "report_date_utc": "2026-06-04",
+  "asset": {
+    "chain_id": 1,
+    "chain": "Ethereum mainnet",
+    "name": "Hastra PRIME",
+    "symbol": "PRIME",
+    "token_address": "0x19ebb35279A16207Ec4ba82799CC64715065F7F6",
+    "issuer_or_protocol_hint": "Hastra",
+    "intended_use": "unknown / candidate collateral diligence"
+  },
+  "methodology": "run/methodology.md",
+  "research_artifacts": [
+    "run/research/eth-mainnet-prime/issuer-backing-security.md",
+    "run/research/eth-mainnet-prime/transfer-liquidity-oracle-governance.md",
+    "run/research/hastra-prime/onchain-admin.md",
+    "run/requirements-brief.md"
+  ],
+  "outputs": {
+    "primary_human_report": "RESULT.md",
+    "technical_report": "run/technical-reports/eth-mainnet-prime.md"
+  },
+  "important_boundary": "This is a research dossier and risk note, not an investment recommendation, suitability verdict, position-size recommendation, or execution instruction.",
+  "x_social_artifacts": [],
+  "quantitative_artifacts": [],
+  "pt_market_artifacts": [],
+  "required_result_snippets": [
+    "not an investment recommendation",
+    "0x19ebb35279A16207Ec4ba82799CC64715065F7F6",
+    "No scoped old-run X/social points memo existed for PRIME",
+    "old quantitative PT/risk-return report was scoped to APYx and Saturn PT markets"
+  ]
+}

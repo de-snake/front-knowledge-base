@@ -77,8 +77,26 @@
       ]
     }
   ],
-  "pt_markets": [],
-  "social_scopes": [],
+  "pt_markets": [
+    {
+      "scope_id": "pendle-pt-eth-mainnet-usdat-2026-08-27",
+      "technical_report": "run/pt-markets/pendle-pt-eth-mainnet-usdat-2026-08-27/technical-report.md"
+    },
+    {
+      "scope_id": "pendle-pt-eth-mainnet-susdat-2026-08-27",
+      "technical_report": "run/pt-markets/pendle-pt-eth-mainnet-susdat-2026-08-27/technical-report.md"
+    }
+  ],
+  "social_scopes": [
+    {
+      "scope_id": "x-research-usdat-points-stac-pt-2026-08-27",
+      "artifact": "run/x-research/x-research-usdat-points-stac-pt-2026-08-27.md"
+    },
+    {
+      "scope_id": "x-research-susdat-points-stac-pt-2026-08-27",
+      "artifact": "run/x-research/x-research-susdat-points-stac-pt-2026-08-27.md"
+    }
+  ],
   "constraints": [
     "Chain: Ethereum mainnet.",
     "Borrow asset: USDC.",
@@ -95,5 +113,16 @@
     "Analyze -> Propose only.",
     "Do not proceed to Preview or Execute.",
     "Do not invent missing live values."
+  ],
+  "quantitative_artifacts": [
+    "run/investment-analysis/investment-analyst-report-points-pt-risk-return.md",
+    "run/investment-analysis/quantitative-underwriting-methodology.md"
+  ],
+  "required_result_snippets": [
+    "PT-USDat underwriting snapshot",
+    "1.4993%",
+    "PT-sUSDat underwriting snapshot",
+    "4.3075%",
+    "run/x-research/x-research-usdat-points-stac-pt-2026-08-27.md"
   ]
 }

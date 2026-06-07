@@ -11,6 +11,9 @@ The `run/` subtree is the reproduction bundle behind the report. It keeps the fi
 - `RESULT.md` — human-readable review report.
 - `input.json` — input used by the runner.
 - `run/` — reproducibility bundle and supporting artifacts.
+- `run/x-research/` — old-run social/points/PT expectation notes for USDat and sUSDat.
+- `run/investment-analysis/` — old-run quantitative PT risk/return report and underwriting methodology.
+- `run/pt-markets/` — old Pendle PT technical dossiers and raw Pendle snapshots.
 - `run/agentic-flow/analyze-and-propose.md` — readable parent Analyze → Propose return.
 - `run/agentic-flow/analyze-and-propose.json` — validator sidecar for the parent return.
 

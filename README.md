@@ -5,8 +5,8 @@ This public repository is a clean snapshot of the current Gearbox front / agent 
 It contains:
 
 - the canonical runtime knowledge an agent should use for Gearbox user flows;
-- a rich, methodology-guided apyUSD investment research dossier;
-- a readable, reproducible Analyze → Propose demo run for USDat / sUSDat collateral review;
+- rich, methodology-guided investment research dossiers for apxUSD, apyUSD, PRIME, and deSPXA;
+- a readable, reproducible Analyze → Propose demo run for USDat / sUSDat collateral review, enriched with old-run X/social and quantitative PT layers;
 - the minimal Python runner and validators needed to re-check the public packages locally.
 
 It intentionally does not contain planning history, Kanban cards, fixture matrices, or internal audit notes.
@@ -17,8 +17,11 @@ Read [`STATUS.md`](STATUS.md) for the short progress summary.
 
 For review, send the readable reports:
 
-- richer investment research example: [`dev/implementation/reproducible-runs/apyusd-investment-research-20260604/RESULT.md`](dev/implementation/reproducible-runs/apyusd-investment-research-20260604/RESULT.md)
-- workflow-harness demo result: [`dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/RESULT.md`](dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/RESULT.md)
+- apxUSD enriched investment research: [`dev/implementation/reproducible-runs/apxusd-investment-research-20260604/RESULT.md`](dev/implementation/reproducible-runs/apxusd-investment-research-20260604/RESULT.md)
+- apyUSD enriched investment research: [`dev/implementation/reproducible-runs/apyusd-investment-research-20260604/RESULT.md`](dev/implementation/reproducible-runs/apyusd-investment-research-20260604/RESULT.md)
+- PRIME enriched investment research: [`dev/implementation/reproducible-runs/prime-investment-research-20260604/RESULT.md`](dev/implementation/reproducible-runs/prime-investment-research-20260604/RESULT.md)
+- deSPXA enriched investment research: [`dev/implementation/reproducible-runs/despxa-investment-research-20260604/RESULT.md`](dev/implementation/reproducible-runs/despxa-investment-research-20260604/RESULT.md)
+- USDat / sUSDat enriched workflow-harness demo result: [`dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/RESULT.md`](dev/implementation/reproducible-runs/usdat-susdat-collateral-20260606/RESULT.md)
 
 Do not send the raw `run/` trees as the review surface. They are reproduction bundles behind the reports.
 

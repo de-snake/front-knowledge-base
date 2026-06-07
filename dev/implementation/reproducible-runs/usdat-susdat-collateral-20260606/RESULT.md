@@ -54,6 +54,52 @@ The main blockers are queue and realization risk. sUSDat adds digital-credit / S
 
 sUSDat remains `review_required` and should require a higher bar than USDat before any proposal can be considered.
 
+## X / social research layer
+
+The old-run X research adds the missing points/PT market narrative behind the USDat / sUSDat collateral demo. The support files are `run/x-research/x-research-usdat-points-stac-pt-2026-08-27.md` and `run/x-research/x-research-susdat-points-stac-pt-2026-08-27.md`.
+
+USDat social layer:
+
+- USDat is framed as Saturn's stable / risk-off leg, while sUSDat carries the STRC / digital-credit yield exposure.
+- PT-USDat 27 Aug 2026 was quoted around `8.95%` to `10.65%` fixed / implied APY in early-June X results, with the local Pendle API snapshot at `8.96%` implied APY.
+- Gravity Points are the points upside, but plain PT-USDat reads more like a fixed-yield route than the highest-points-density route.
+- Main diligence gap: whitelist/freeze/issuer controls, holder eligibility, reserve evidence, and live route depth still need review.
+
+sUSDat social layer:
+
+- sUSDat is framed as the yield-bearing STRC/NAV/queue-exposed Saturn leg.
+- Social return narratives combine STRC dividend / digital-credit yield, PT fixed discount, and Saturn Gravity Points.
+- The risk narrative is materially different from USDat: the key issue is whether accounting/NAV value can be realized through queues, issuer controls, and secondary liquidity during stress.
+
+## Quantitative risk / return layer
+
+The old quantitative report makes the collateral distinction sharper than the shorter demo result. The support files are `run/investment-analysis/investment-analyst-report-points-pt-risk-return.md` and `run/investment-analysis/quantitative-underwriting-methodology.md`.
+
+PT-USDat underwriting snapshot:
+
+- Horizon: `83` days to 2026-08-27 maturity.
+- Gross fixed ROI: `1.9746%`; simple gross APR: `8.68%`; compound gross APY: `8.98%`.
+- Expected-loss prior: `0.70%`; exit-cost assumption: `0.50%`.
+- Risk-adjusted ROI before points: `0.7746%`; risk-adjusted annualized return before points: `3.41%`.
+- Points ROI needed to clear a `10.00%` net annualized hurdle: `1.4993%` over 83 days.
+
+PT-sUSDat underwriting snapshot:
+
+- Horizon: `83` days to 2026-08-27 maturity.
+- Gross fixed ROI: `6.8165%`; simple gross APR: `29.98%`; compound gross APY: `33.64%`.
+- Expected-loss prior: `8.10%`; exit-cost assumption: `0.75%`.
+- Risk-adjusted ROI before points: `-2.0335%`; risk-adjusted annualized return before points: `-8.94%`.
+- Points ROI needed to clear a `10.00%` net annualized hurdle: `4.3075%` over 83 days.
+
+Quantitative conclusion: PT-USDat is the stable-price / low-return candidate and needs credible Saturn points or a lower hurdle to justify the route. PT-sUSDat has higher gross PT yield, but STRC/NAV/queue expected loss consumes the fixed-yield spread under the old priors.
+
+## PT market dossiers
+
+The public package now also preserves the old Pendle PT technical dossiers and raw Pendle snapshots:
+
+- [PT-USDat technical dossier](run/pt-markets/pendle-pt-eth-mainnet-usdat-2026-08-27/technical-report.md)
+- [PT-sUSDat technical dossier](run/pt-markets/pendle-pt-eth-mainnet-susdat-2026-08-27/technical-report.md)
+
 ## Oracle and liquidation implication
 
 For USDat, the oracle path is more LP-protective than a fixed peg because it can reflect Curve market pressure. The remaining risk is whether the market is liquid enough and whether issuer controls allow the collateral to move or redeem when needed.
@@ -97,6 +143,12 @@ For detailed review, read these files in order:
 - [sUSDat feed graph](run/oracle-analysis/tokens/eth-mainnet-susdat-gearbox-oracle/oracle/feed-graph.md)
 - [sUSDat protocol-fit memo](run/oracle-analysis/tokens/eth-mainnet-susdat-gearbox-oracle/oracle/protocol-fit-memo.md)
 - [combined Analyze → Propose return](run/agentic-flow/analyze-and-propose.md)
+- [USDat X/social research](run/x-research/x-research-usdat-points-stac-pt-2026-08-27.md)
+- [sUSDat X/social research](run/x-research/x-research-susdat-points-stac-pt-2026-08-27.md)
+- [Quantitative PT risk/return report](run/investment-analysis/investment-analyst-report-points-pt-risk-return.md)
+- [Quantitative underwriting methodology](run/investment-analysis/quantitative-underwriting-methodology.md)
+- [PT-USDat technical dossier](run/pt-markets/pendle-pt-eth-mainnet-usdat-2026-08-27/technical-report.md)
+- [PT-sUSDat technical dossier](run/pt-markets/pendle-pt-eth-mainnet-susdat-2026-08-27/technical-report.md)
 
 ## Reproduction
 

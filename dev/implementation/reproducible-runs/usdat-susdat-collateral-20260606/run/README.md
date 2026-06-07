@@ -25,3 +25,9 @@ USDat is the stronger Analyze-stage candidate. sUSDat remains higher risk becaus
 ## Gates
 
 Required next inputs: Gearbox market/Credit Manager, position size, target leverage, hold horizon, user risk policy, issuer eligibility/freeze/blacklist state, and size-specific route/liquidation quote.
+
+## Old rich-report layers
+
+- `x-research/` — USDat and sUSDat social/points/PT expectation notes.
+- `investment-analysis/` — quantitative PT risk/return report and underwriting methodology.
+- `pt-markets/` — PT-USDat and PT-sUSDat technical dossiers plus raw Pendle snapshots.

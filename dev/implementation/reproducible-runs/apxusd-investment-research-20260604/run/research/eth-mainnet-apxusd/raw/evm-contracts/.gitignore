@@ -1,0 +1,34 @@
+# Compiler files
+cache/
+out/
+abis/
+
+# Ignores development broadcast logs
+!/broadcast
+/broadcast/*
+
+# Dotenv file
+.env
+.envrc.local*
+
+# Dependencies
+/dependencies
+/node_modules
+
+# LLM backup files
+*.bak
+
+# Generated docs (natspec etc.) — but not audit reports
+docs/*
+!docs/audit
+!docs/runbooks
+book
+
+# Local deployment files
+deploy/local.json
+
+# Generated reports
+reports/*.csv
+
+# OS specific files
+.DS_Store
