@@ -21,7 +21,21 @@
   "outputs": {
     "primary_human_report": "RESULT.md",
     "technical_report": "run/tokens/eth-mainnet-apyusd/technical-report.md",
-    "verification": "run/tokens/eth-mainnet-apyusd/verification.md"
+    "verification": "run/tokens/eth-mainnet-apyusd/verification.md",
+    "x_social_layer": "run/x-research/x-research-apyusd-points-stac-pt-2026-08-27.md",
+    "quantitative_risk_return_layer": "run/investment-analysis/investment-analyst-report-points-pt-risk-return.md",
+    "pt_market_report": "run/pt-markets/pendle-pt-eth-mainnet-apyusd-2026-08-27/analyst-report.md"
   },
-  "important_boundary": "This is a research dossier and risk note, not an investment recommendation, suitability verdict, position-size recommendation, or execution instruction."
+  "important_boundary": "This is a research dossier and risk note, not an investment recommendation, suitability verdict, position-size recommendation, or execution instruction.",
+  "x_social_artifacts": [
+    "run/x-research/x-research-apyusd-points-stac-pt-2026-08-27.md"
+  ],
+  "quantitative_artifacts": [
+    "run/investment-analysis/investment-analyst-report-points-pt-risk-return.md",
+    "run/investment-analysis/quantitative-underwriting-methodology.md"
+  ],
+  "pt_market_artifacts": [
+    "run/pt-markets/pendle-pt-eth-mainnet-apyusd-2026-08-27/analyst-report.md",
+    "run/pt-markets/pendle-pt-eth-mainnet-apyusd-2026-08-27/technical-report.md"
+  ]
 }

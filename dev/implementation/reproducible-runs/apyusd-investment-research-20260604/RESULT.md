@@ -8,7 +8,7 @@ Symbol: `apyUSD`
 
 This note is an analyst-readable rewrite of the technical dossier. It is source-linked context for risk review. It is not an asset-selection recommendation. It is not an investment recommendation, suitability verdict, position-size recommendation, or execution instruction.
 
-Detailed contract evidence was preserved separately in `run/tokens/eth-mainnet-apyusd/technical-report.md`.
+Detailed contract evidence was preserved separately in `run/tokens/eth-mainnet-apyusd/technical-report.md`. This expanded public version also folds in the old-run X/social research and quantitative PT risk/return layer [S18][S19][S20].
 
 ## 1. Executive view
 
@@ -116,7 +116,54 @@ That creates a blind spot: the accounting rate can be higher than what the marke
 
 Risk implication: do not use the vault exchange rate alone as liquidation value, portfolio value, or exit value. A live analysis should compare vault accounting, apxUSD market price, final USDC route, and receipt/eligibility state.
 
-## 8. What must be checked before live use
+## 8. X / social research layer
+
+The X research pass covered apyUSD, APYx Pips / points, STRC-linked yield narratives, and Pendle PT-apyUSD 27 Aug 2026 rate discussion through 2026-06-04 [S18]. It is useful as a return-thesis and risk-narrative map, not as primary proof of reserves, eligibility, or live route quality.
+
+Main social return models:
+
+- **apyUSD dividend / exchange-rate yield:** social and issuer-facing discussion framed apyUSD as the yield-bearing wrapper over apxUSD, with target yield around 13% APY from realized STRC / preferred-share dividends. Confidence is medium for the product narrative and lower for realized exit value because reserve reconciliation, receipt mechanics, and market discounts still need live verification [S18].
+- **APYx Pips / token allocation:** posts described Season 2 as roughly 6% of token supply, with Season 1 plus Season 2 around 11% early-user allocation. Confidence is medium for the points-program narrative and low for point value because final token economics, eligibility, dilution, and vesting/liquidity terms were not fixed in the captured evidence [S18].
+- **Pendle PT-apyUSD fixed-discount return:** social rate sheets cited PT-apyUSD 27 Aug 2026 around 17.94%–18.00% implied APY. The local Pendle snapshot in the old run showed 17.60% implied APY, PT price `0.938959`, accounting asset price `0.974237`, and a 3.6211% discount to accounting asset [S18][S21][S22].
+- **Leveraged loop narrative:** some posts discussed PT plus borrowing / vault loops producing higher effective yields. Treat this as lower-confidence strategy context, not base-case PT economics, until borrow rates, liquidation path, route depth, and unwind sizing are refreshed [S18].
+
+Main social risk narratives:
+
+- **STRC / preferred-share collateral stress:** critical threads argued that STRC trading below par compresses the apxUSD / apyUSD collateral buffer and can transmit into depeg, redemption, and leveraged unwind pressure [S18].
+- **Redemption and arbitrage impairment:** social critique focused on whether below-par collateral and restricted primary access weaken the normal arbitrage path that would pull apxUSD / apyUSD back toward accounting value [S18].
+- **PT liquidity / maturity risk:** PT yield is only attractive if maturity redemption, accounting-asset value, and exit liquidity remain functional under stress [S18][S21].
+- **Points dilution / value uncertainty:** points may be part of the upside case, but the old run could not turn points into reliable base-case ROI without final APYX token economics and wallet-specific eligibility [S18][S19].
+
+Analyst implication: the social layer strengthens the case that the trade was being marketed around yield, PT discount, and points, but it also surfaces the same collateral-stress and redemption-arbitrage concerns that block treating the accounting yield as clean USD return.
+
+## 9. Quantitative risk / return layer
+
+The old quantitative layer used a USD 1,000,000 no-leverage comparison, an 83-day PT-apyUSD horizon, a 10.00% net annualized underwriting hurdle, and a 20.00% opportunistic hurdle [S19][S20]. These are analyst priors for comparison, not live sizing guidance.
+
+Base assumptions relevant to apyUSD / PT-apyUSD:
+
+- PT horizon: 83 days [S19].
+- Exit-cost assumption for PT-apyUSD: 1.00% [S19].
+- apyUSD expected-loss prior: 6.10%, driven by apxUSD stress, apyUSD wrapper receipt mechanics, exit fees / duration, and market discount [S19].
+- APYx Pips scenarios are priors, not issuer-confirmed facts; they model token value, wallet share, eligibility probability, and vesting/liquidity haircut [S19].
+
+PT-apyUSD base-case stack:
+
+- Gross fixed ROI to accounting asset: 3.7571% [S19].
+- Gross APR to accounting asset: 16.52% [S19].
+- Accounting-asset drawdown capacity before costs: only 3.6211% [S19][S21].
+- Risk-adjusted ROI before points: -3.3429% after expected-loss prior and exit cost [S19].
+- Risk-adjusted annualized return before points: -14.70% [S19].
+- Points ROI required over 83 days to clear the 10.00% net annualized hurdle: 5.6168% of capital [S19].
+- High-case APYx points scenario adds 2.5200% ROI on USD 1,000,000 capital, still below the 5.6168% points ROI required to clear the hurdle [S19].
+
+Direct apyUSD yield-token exposure also fails the old base-case risk adjustment: an 83-day 13.00% APY yield contributes 2.8182% gross yield ROI, below the 6.10% apyUSD expected-loss prior [S19].
+
+Decision trigger from the old quant report: upgrade only if apxUSD collateral stress resolves, apyUSD market discount closes, receipt / claim state is confirmed, and wallet-specific APYx points EV exceeds 5.6168% of capital over 83 days. Downgrade if apxUSD trades below accounting value or receipt / claim exits become less predictable [S19].
+
+Analyst implication: PT-apyUSD had visible gross yield and points optionality, but the risk-adjusted base case was negative before points. The position was a points / recovery trade, not a clean fixed-income-like carry trade.
+
+## 10. What must be checked before live use
 
 Before using this dossier for a live position, collateral decision, liquidation path, or execution package, refresh:
 
@@ -137,7 +184,7 @@ Practical implication: unresolved reserve, governance, and eligibility questions
 
 Methodology labels: backing, audit-scope, Safe/module, market-stress, and eligibility unknowns remain `review_required`; unresolved route, pause, deny-list, receipt, and pending-governance state is `block_automation` for execution.
 
-## 9. Evidence quality
+## 11. Evidence quality
 
 High-confidence evidence:
 
@@ -160,7 +207,7 @@ Lower-confidence or incomplete evidence:
 - user-specific jurisdiction / eligibility state;
 - Gearbox-specific oracle configuration.
 
-## 10. Source map
+## 12. Source map
 
 Each source ID below now includes the actual URL or local evidence path. Local paths are relative to this report folder unless shown as full project paths.
 
@@ -181,10 +228,19 @@ Each source ID below now includes the actual URL or local evidence path. Local p
 - **S15** — CoinGecko `apyUSD`, [www.coingecko.com/en/coins/apyusd](https://www.coingecko.com/en/coins/apyusd) and public API `/api/v3/coins/apyusd`. Source class: market_data. Accessed: 2026-06-04. Confidence: medium. Market price, market cap, volume, broader venue context.
 - **S16** — Safe Transaction Service and direct on-chain Safe-like reads for `0xf9862EfC1704aC05e687f66E5cD8c130E5663CE2`, [safe-transaction-mainnet.safe.global/api/v1/safes/0xf9862EfC1704aC05e687f66E5cD8c130E5663cE2…](https://safe-transaction-mainnet.safe.global/api/v1/safes/0xf9862EfC1704aC05e687f66E5cD8c130E5663cE2/multisig-transactions/?executed=false&limit=5). Source class: governance. Accessed: 2026-06-04. Confidence: high for threshold / owners / pending-count reads, medium for pending impact. Safe-like role holder, 3-of-6 threshold, pending unexecuted transaction caveat.
 - **S17** — Project methodology, [run/methodology.md](run/methodology.md). Source class: unknown. Accessed: 2026-06-04. Confidence: high. Source-priority rules, asset-section requirements, `missing_behavior` labels.
+- **S18** — Local X/social research artifact, [run/x-research/x-research-apyusd-points-stac-pt-2026-08-27.md](run/x-research/x-research-apyusd-points-stac-pt-2026-08-27.md). Source class: social_research. Evidence date: X search artifacts through 2026-06-04. Confidence: medium for return/risk narrative discovery; low for final points value and live market state. Captures APYx Pips, apyUSD yield framing, PT-apyUSD rate sheets, collateral-stress critiques, redemption/arbitrage critique, and PT liquidity concerns.
+- **S19** — Quantitative investment analyst report, [run/investment-analysis/investment-analyst-report-points-pt-risk-return.md](run/investment-analysis/investment-analyst-report-points-pt-risk-return.md). Source class: quantitative_analysis. Report date: 2026-06-05 MSK using source snapshots through 2026-06-04. Confidence: medium for stated old-run assumptions and calculations; stale for live allocation. Provides expected-loss priors, PT ROI, risk-adjusted ROI/APR, points scenarios, and hurdle break-even values.
+- **S20** — Quantitative underwriting methodology, [run/investment-analysis/quantitative-underwriting-methodology.md](run/investment-analysis/quantitative-underwriting-methodology.md). Source class: methodology. Confidence: medium/high as old-run method snapshot. Defines PT return math, expected-loss priors, points EV, hurdle comparison, and price-stability scoring logic.
+- **S21** — PT-apyUSD analyst report, [run/pt-markets/pendle-pt-eth-mainnet-apyusd-2026-08-27/analyst-report.md](run/pt-markets/pendle-pt-eth-mainnet-apyusd-2026-08-27/analyst-report.md). Source class: market_analysis. Evidence date: 2026-06-04 snapshot. Confidence: medium for point-in-time PT economics, stale for live price/route. Provides PT price, accounting asset price, implied APY, maturity, discount, liquidity, and risk notes.
+- **S22** — PT-apyUSD technical report, [run/pt-markets/pendle-pt-eth-mainnet-apyusd-2026-08-27/technical-report.md](run/pt-markets/pendle-pt-eth-mainnet-apyusd-2026-08-27/technical-report.md). Source class: technical_market_dossier. Evidence date: 2026-06-04 snapshot. Confidence: medium for captured Pendle metadata and API evidence, stale for live execution.
 
-## 11. Technical appendix pointer
+## 13. Technical appendix pointer
 
 For raw addresses, role identifiers, implementation slots, method names, and table-level evidence, see:
 
 - `run/tokens/eth-mainnet-apyusd/technical-report.md`
 - `run/tokens/eth-mainnet-apyusd/research/`
+- `run/x-research/x-research-apyusd-points-stac-pt-2026-08-27.md`
+- `run/investment-analysis/investment-analyst-report-points-pt-risk-return.md`
+- `run/investment-analysis/quantitative-underwriting-methodology.md`
+- `run/pt-markets/pendle-pt-eth-mainnet-apyusd-2026-08-27/`

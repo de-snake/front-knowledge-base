@@ -19,6 +19,9 @@ This apyUSD package shows the richer path: evidence first, then a readable analy
 - `run/tokens/eth-mainnet-apyusd/technical-report.md` — source-linked technical dossier.
 - `run/tokens/eth-mainnet-apyusd/research/` — stage research notes and raw onchain snapshots.
 - `run/tokens/eth-mainnet-apyusd/verification.md` — verification checklist for the dossier.
+- `run/x-research/` — old-run X/social research on APYx Pips, PT-apyUSD, collateral stress, and redemption narratives.
+- `run/investment-analysis/` — quantitative risk/return report and underwriting methodology snapshot.
+- `run/pt-markets/pendle-pt-eth-mainnet-apyusd-2026-08-27/` — PT-apyUSD analyst and technical reports behind the fixed-discount return layer.
 
 ## Revalidate package integrity
 

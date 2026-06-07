@@ -29,6 +29,11 @@ REQUIRED_FILES = [
     "run/tokens/eth-mainnet-apyusd/research/transfer-liquidity-oracle-governance.md",
     "run/tokens/eth-mainnet-apyusd/research/raw/onchain-admin-snapshot-2026-06-04.json",
     "run/tokens/eth-mainnet-apyusd/research/raw/onchain-market-snapshot-2026-06-04.json",
+    "run/x-research/x-research-apyusd-points-stac-pt-2026-08-27.md",
+    "run/investment-analysis/investment-analyst-report-points-pt-risk-return.md",
+    "run/investment-analysis/quantitative-underwriting-methodology.md",
+    "run/pt-markets/pendle-pt-eth-mainnet-apyusd-2026-08-27/analyst-report.md",
+    "run/pt-markets/pendle-pt-eth-mainnet-apyusd-2026-08-27/technical-report.md",
 ]
 
 RESULT_SECTIONS = [
@@ -40,10 +45,12 @@ RESULT_SECTIONS = [
     "## 5. Liquidity and exit risk",
     "## 6. Controls, governance, and legal restrictions",
     "## 7. Pricing / oracle risk in plain language",
-    "## 8. What must be checked before live use",
-    "## 9. Evidence quality",
-    "## 10. Source map",
-    "## 11. Technical appendix pointer",
+    "## 8. X / social research layer",
+    "## 9. Quantitative risk / return layer",
+    "## 10. What must be checked before live use",
+    "## 11. Evidence quality",
+    "## 12. Source map",
+    "## 13. Technical appendix pointer",
 ]
 
 TECHNICAL_SECTIONS = [
@@ -70,6 +77,10 @@ REQUIRED_RESULT_SNIPPETS = [
     "review_required",
     "block_automation",
     "run/tokens/eth-mainnet-apyusd/technical-report.md",
+    "run/x-research/x-research-apyusd-points-stac-pt-2026-08-27.md",
+    "PT-apyUSD",
+    "5.6168%",
+    "Risk-adjusted annualized return before points: -14.70%",
 ]
 
 REQUIRED_METHODOLOGY_SNIPPETS = [
@@ -184,7 +195,7 @@ def main(argv: list[str]) -> int:
         check_sections(result, RESULT_SECTIONS, "RESULT.md", errors)
         for snippet in REQUIRED_RESULT_SNIPPETS:
             require(snippet in result, errors, f"RESULT.md missing required snippet: {snippet!r}")
-        check_source_map(result, "## 10. Source map", "RESULT.md", errors)
+        check_source_map(result, "## 12. Source map", "RESULT.md", errors)
 
     if technical_path.exists():
         technical = read(technical_path)
