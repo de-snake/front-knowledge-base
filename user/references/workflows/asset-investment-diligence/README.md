@@ -21,6 +21,7 @@ The pipeline separates evidence collection from reasoning:
 
 - `workflow.json` — machine-readable stage graph, dependencies, parallelization, subagent policy, and output paths.
 - `stage-contracts.md` — exact input/output contract for every stage.
+- `asset-issuer-pillar-methodology.md` — granular Steakhouse-style Asset Layer / Issuer pillar research method: Social, Decentralization, Technical, control map, gates, and Gearbox path impact.
 - `parallelization-and-context.md` — what the parent agent can parallelize, what must stay serial, and how to avoid context bloat.
 - `subagent-prompts.md` — paste-ready prompts for delegated workers.
 - `runbook.md` — execution order and validation sequence.
