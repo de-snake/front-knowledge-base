@@ -2,7 +2,7 @@
 
 This file maps the completed asset-risk reports MVP diligence artifacts to the parent workflow manifest. It is a historical example from the pre-standardized flat output layout.
 
-New runs must follow `../output-structure.md`: one returned run folder, `run-manifest.json`, `index.md`, one `tokens/<token-slug>/` subfolder per analyzed token, and one `pt-markets/<pt-scope-slug>/` subfolder per analyzed PT market. Use this file for content coverage examples, not path layout.
+New runs must follow `../output-structure.md`: one returned run folder, `run-manifest.json`, `index.md`, reusable research under `research-library/assets/`, `research-library/platforms/`, and `research-library/products/`, and generated reports under `forms/` or `investment-analysis/`. Use this file for content coverage examples, not path layout.
 
 Current run scope:
 

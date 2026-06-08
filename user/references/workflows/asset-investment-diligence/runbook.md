@@ -2,6 +2,8 @@
 
 This runbook tells an agent how to execute `workflow.json` without loading all evidence into the parent context.
 
+The workflow is compositional: research is stored as reusable asset, platform, and product-delta artifacts; requested reports are form-layer outputs generated from those artifacts.
+
 ## 0. Start here
 
 Workflow directory:
@@ -19,15 +21,16 @@ Example run artifact root:
 Read in this order:
 
 1. `README.md`.
-2. `workflow.json`.
-3. `stage-contracts.md`.
-4. `parallelization-and-context.md`.
-5. `subagent-prompts.md`.
-6. `output-structure.md`.
+2. `research-composition-methodology.md`.
+3. `workflow.json`.
+4. `stage-contracts.md`.
+5. `parallelization-and-context.md`.
+6. `subagent-prompts.md`.
+7. `output-structure.md`.
 
 Do not start by reading every report under the run artifact root. Those directories are stage outputs, not parent-agent context.
 
-Every run returns one folder at `run_artifact_root`. Every analyzed token gets a `tokens/<token-slug>/` subfolder, and every PT market gets a `pt-markets/<pt-scope-slug>/` subfolder.
+Every run returns one folder at `run_artifact_root`. Canonical reusable research lives under `research-library/assets/`, `research-library/platforms/`, and `research-library/products/`. Generated reports live under `forms/` or `investment-analysis/`.
 
 ## 1. Define the run scope
 
@@ -40,51 +43,66 @@ Create a scope object before spawning workers:
   "position_size_usd": 1000000,
   "base_net_apr_hurdle": 0.10,
   "opportunistic_net_apr_hurdle": 0.20,
-  "tokens": [
+  "assets": [
     {
-      "scope_id": "eth-mainnet-apxusd",
+      "asset_slug": "ethereum-usdc-a0b86991",
       "chain_id": 1,
       "chain": "Ethereum mainnet",
-      "symbol": "apxUSD",
-      "token_address": "<address>",
+      "symbol": "USDC",
+      "token_address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
       "intended_use": "spot / collateral / PT underlying / points exposure"
     }
   ],
-  "pt_markets": [
+  "platforms": [
     {
-      "scope_id": "pendle-pt-eth-mainnet-apxusd-2026-11-05",
-      "underlying_scope_id": "eth-mainnet-apxusd",
-      "target_maturity": "2026-11-05",
-      "chain_id": 1
+      "platform_slug": "morpho-vaults",
+      "platform_family": "Morpho",
+      "mechanism": "curator-managed vaults"
     }
   ],
-  "social_scopes": [
+  "products": [
     {
-      "scope_id": "apxusd-points-stac-pt-2026-11-05",
-      "token_scope_id": "eth-mainnet-apxusd",
-      "pt_scope_id": "pendle-pt-eth-mainnet-apxusd-2026-11-05",
-      "programs": ["APYx Pips"]
+      "product_slug": "morpho-vault-usdc-abcdef12",
+      "asset_slug": "ethereum-usdc-a0b86991",
+      "platform_slug": "morpho-vaults",
+      "product_type": "vault",
+      "primary_address": "0x..."
     }
-  ]
+  ],
+  "forms": [
+    {
+      "form_slug": "gearbox-collateral-memo-usdc-morpho-2026-06-08",
+      "requested_form": "Gearbox collateral analyst memo",
+      "product_slugs": ["morpho-vault-usdc-abcdef12"]
+    }
+  ],
+  "social_scopes": []
 }
 ```
 
 If a field is unknown, keep the field and set it to `null`. Do not delete unknown fields. Downstream stages must know what is missing.
 
-Before S1, assign deterministic artifact directories and create/update `run-manifest.json` and `index.md` at the run root:
-
-- token: `tokens/<chain>-<symbol>-<address-prefix>`;
-- PT market: `pt-markets/<chain>-pt-<underlying-symbol>-<maturity>-<market-prefix>`.
-
 ## 2. Stage execution order
 
-### 2.1 General token evidence
+### 2.0 Scope decomposition and reuse plan
 
-Run S1 for each token.
+Run S0 first.
+
+Parent action:
+
+- identify asset baseline(s), platform baseline(s), product delta(s), and requested form(s);
+- decide whether existing asset/platform baselines can be reused, refreshed, or must be created;
+- write `scope-decomposition.json`, `scope-decomposition.md`, and initial `run-manifest.json`.
+
+Do not spawn general research until this layer plan exists.
+
+### 2.1 Asset baseline research
+
+Run S1 for each asset that must be created or refreshed.
 
 Parallelization:
 
-- Spawn one subagent per token.
+- Spawn one subagent per asset.
 - Batch at most three subagents at once.
 - Use the S1 prompt from `subagent-prompts.md`.
 
@@ -92,34 +110,63 @@ Parent receives:
 
 - artifact paths;
 - five strongest numeric facts;
-- top risks;
+- top asset-layer risks;
 - blocking unknowns;
+- volatile fields;
 - validation status.
 
 Parent action after S1:
 
 - Record paths in a run registry.
-- Do not read full raw research unless validation fails.
+- Do not read full raw research unless validation fails or a later stage needs audit.
 
-### 2.2 Token analyst reports
+### 2.2 Platform baseline research
 
-Run S2 for each token after that token's S1 completes.
+Run S1P for each platform that must be created or refreshed.
 
 Parallelization:
 
-- Spawn one subagent per token report.
+- Spawn one subagent per platform mechanism.
+- Batch at most three subagents at once.
+- Use the S1P prompt from `subagent-prompts.md`.
+
+Parent receives:
+
+- artifact paths;
+- top platform risks;
+- product inspection points;
+- blockers;
+- validation status.
+
+Parent action after S1P:
+
+- Record paths in a run registry.
+- Check that `product-inspection-guide.md` names where product-specific parameters live.
+
+### 2.3 Product / combination delta research
+
+Run S2 for each exact product instance.
+
+Parallelization:
+
+- Spawn one subagent per product instance.
 - Batch at most three subagents at once.
 - Use the S2 prompt from `subagent-prompts.md`.
 
+Required inputs:
+
+- asset baseline path;
+- platform baseline path;
+- exact product identifier: vault, market, PT, SY, pool, route, maturity, or primary address.
+
 Parent action after S2:
 
-- Read only each report's executive view and source map.
-- Record missing live inputs.
-- Do not rank tokens yet.
+- Record live parameters and stale-data markers.
+- Verify inherited asset/platform risks are separated from product-specific risks.
 
-### 2.3 PT market and economics reports
+### 2.4 PT market and economics product delta
 
-Run S3 for each PT market if PTs are in scope.
+Run S3 for each Pendle PT market if PTs are in scope.
 
 Parallelization:
 
@@ -130,10 +177,24 @@ Parallelization:
 Parent action after S3:
 
 - Record PT price, accounting asset price, maturity, liquidity, gross ROI/APR, and break-even drawdown.
-- Update or verify `pt-markets/index.md` under the run artifact root.
 - Do not treat PT APY as final return; expected loss and points are applied in S6.
 
-### 2.4 X/social mining
+### 2.5 Form/report generation
+
+Run S2F after relevant research artifacts exist.
+
+Parallelization:
+
+- Spawn one subagent per requested form if multiple forms are needed.
+- Use the S2F prompt from `subagent-prompts.md`.
+
+Parent action after S2F:
+
+- Read `composition-manifest.json` first.
+- Verify `facts_created_in_form_layer` is empty or explicitly blocked.
+- Verify the form cites asset/platform/product research inputs.
+
+### 2.6 X/social mining
 
 Run S4 if points, social yield, depeg narratives, or market sentiment are in scope.
 
@@ -148,7 +209,7 @@ Parent action after S4:
 - Record return models, points mechanics, risk narratives, source count, and degraded-citation count.
 - Do not ingest raw X result lists.
 
-### 2.5 X/social synthesis
+### 2.7 X/social synthesis
 
 Run S5 once after all S4 artifacts exist.
 
@@ -162,9 +223,9 @@ Parent action after S5:
 - Read `x-research/index.md` under the run artifact root as the social handoff to underwriting.
 - Note contradictions and citation degradation.
 
-### 2.6 Quantitative underwriting
+### 2.8 Quantitative underwriting
 
-Run S6 once after token, PT, and social inputs are available.
+Run S6 once after asset, platform, product, form, and social inputs are available.
 
 Serial execution:
 
@@ -173,8 +234,10 @@ Serial execution:
 
 Required inputs:
 
-- all token analyst reports;
-- all PT reports, if PTs are in scope;
+- all relevant asset baselines;
+- all relevant platform baselines;
+- all relevant product-delta artifacts;
+- form-layer analyst reports, if already generated;
 - X synthesis, if social evidence is in scope;
 - position size;
 - base and opportunistic hurdle rates.
@@ -188,9 +251,10 @@ Required outputs under the run artifact root:
 Parent action after S6:
 
 - Verify formulas and numbers.
+- Verify inherited asset risk, inherited platform risk, and product-specific risk are separate in expected-loss assumptions.
 - Read the decision summary, assumptions, risk-adjusted stack, sensitivity map, and live-input blockers.
 
-### 2.7 Final verification
+### 2.9 Final verification
 
 Run S7 after all output files exist.
 
@@ -201,13 +265,13 @@ Serial execution:
 Required checks:
 
 - `workflow.json` parses.
-- `output-structure.md` exists and per-token / per-PT folders match it.
+- `output-structure.md` exists and research-library/form folders match it.
 - Every stage has id, title, role, dependencies, parallelization, inputs, outputs, and validation fields.
 - Links from `README.md` resolve.
-- If validating the included example, artifacts mapped in `examples/asset-risk-reports-mvp-current-run-map.md` exist under `dev/implementation/asset-risk-reports-mvp`.
-- Investment-analysis reports contain quantitative fields.
+- Form-layer artifacts are not the only location of material source facts.
+- Investment-analysis reports contain quantitative fields when S6 is in scope.
 - Terminology checks pass for workflow docs.
-- Workspace validation passes:
+- Workspace validation passes where applicable:
   - `python3 scripts/workspace_sync.py --check`
   - `python3 scripts/workspace_policy_check.py --all`
 
@@ -221,15 +285,21 @@ During execution, keep a small registry in memory or a temporary JSON file:
 
 ```json
 {
-  "S1_general_asset_mining": {
-    "eth-mainnet-apxusd": {
+  "S0_scope_decomposition": {
+    "status": "pass",
+    "artifacts": ["scope-decomposition.json", "scope-decomposition.md"]
+  },
+  "S1_asset_baseline_research": {
+    "ethereum-usdc-a0b86991": {
       "status": "pass",
-      "artifact_dir": "tokens/ethereum-apxusd-1234abcd",
-      "artifacts": ["tokens/ethereum-apxusd-1234abcd/research/onchain-admin.md"]
+      "artifact_dir": "research-library/assets/ethereum-usdc-a0b86991",
+      "artifacts": ["research-library/assets/ethereum-usdc-a0b86991/asset-baseline.md"]
     }
   },
-  "S2_asset_risk_analyst_report": {},
-  "S3_pt_market_economics": {},
+  "S1P_platform_baseline_research": {},
+  "S2_product_delta_research": {},
+  "S2F_form_generation": {},
+  "S3_pt_market_economics_product_delta": {},
   "S4_x_social_mining": {},
   "S5_x_social_synthesis": {},
   "S6_quantitative_underwriting": {},
@@ -268,6 +338,7 @@ from pathlib import Path
 workflow = Path('user/references/workflows/asset-investment-diligence')
 files = [
     workflow / 'README.md',
+    workflow / 'research-composition-methodology.md',
     workflow / 'workflow.json',
     workflow / 'stage-contracts.md',
     workflow / 'parallelization-and-context.md',
@@ -287,7 +358,9 @@ PY
 A run is complete only when:
 
 - all required stage outputs exist under the run artifact root;
-- serial synthesis and underwriting outputs exist;
+- research-library asset/platform/product artifacts are separated;
+- form artifacts include composition manifests;
+- serial synthesis and underwriting outputs exist when in scope;
 - validation commands pass or unrelated failures are isolated;
 - the final user summary includes exact files created, commands run, and unresolved live-input blockers.
 
@@ -298,12 +371,10 @@ If a stage was skipped, the final summary must state why it was skipped.
 Run this harness command from the vault root after S7 writes the final verification:
 
 ```bash
-python3 dev/tools/validate_workflow_run.py \
-  --workflow asset-investment-diligence \
-  --run-root <run_artifact_root> \
-  --format json,markdown \
-  --report-dir <run_artifact_root>/verification \
-  --write-verification
+python3 dev/implementation/workflow-harness/scripts/validate_research_package.py \
+  --run-root [run_artifact_root] \
+  --workflow user/references/workflows/asset-investment-diligence/workflow.json \
+  --output-dir [run_artifact_root]/verification
 ```
 
-Completion rule: fix all P0 findings before returning the run as complete. If the report status is `review_required`, include the harness command, exit code, report path, and unresolved finding ids in the final parent-agent handoff instead of hiding them.
+If the harness is not present in the current checkout, record that as `not_available` in final verification rather than fabricating a pass.

@@ -4,106 +4,206 @@ These are paste-ready prompts for delegated workers. Replace bracketed fields be
 
 ## Shared stage-worker return contract
 
-Every stage worker must return a machine-checkable compressed handoff. Include explicit fields for `status`, `run_artifact_root`, `artifact_paths`, `verification_path`, `final_verification`, `workflow_harness_report`, `blockers`, `blocked_scopes`, `review_required_scopes`, `dominant_blockers`, `live_input_blockers`, `preview_execute_relevance`, `not_in_scope`, `null_fields`, and `commands_run` when applicable.
+Every stage worker must return a machine-checkable compressed handoff. Include explicit fields for `status`, `run_artifact_root`, `artifact_paths`, `verification_path`, `blockers`, `blocked_scopes`, `review_required_scopes`, `dominant_blockers`, `live_input_blockers`, `not_in_scope`, `null_fields`, and `commands_run` when applicable.
 
 Use explicit `null` for unknown values and `not_in_scope` for fields that do not apply. Do not omit required fields because they are inconvenient, and do not handwave final verification with phrases like "looks good" or "not verified" without a concrete verification artifact, command, or blocker.
 
-## S1 prompt — General asset mining
+Research workers write reusable evidence artifacts. Formatter workers create report shapes from those artifacts. A formatter must not create new source facts unless it also writes them back into the correct research artifact.
+
+## S0 prompt — Scope decomposition and reuse plan
 
 Goal:
 
-Collect token-level evidence for `[symbol]` on `[chain]` at `[token_address]` and write the S1 artifacts required by `user/references/workflows/asset-investment-diligence/stage-contracts.md`.
+Decompose `[user_question]` into asset baseline, platform baseline, product delta, and requested form before research starts.
 
 Context:
 
 - Run artifact root: `[run_artifact_root]`.
-- Token artifact directory: `[token_artifact_dir]`, for example `tokens/ethereum-sample-vault-token-22222222`.
-- Read `methodology.md` before writing.
-- Token scope:
+- Existing research-library root, if any: `[research_library_root]`.
+- Read `research-composition-methodology.md`, `output-structure.md`, and `stage-contracts.md`.
+- Known identifiers:
+  - asset symbol/address: `[asset_scope]`
+  - platform: `[platform_scope]`
+  - product/vault/market/PT/maturity: `[product_scope]`
+  - requested form: `[requested_form]`
+
+Instructions:
+
+1. Decide whether each layer is needed: asset, platform, product delta, form.
+2. Check whether an existing asset/platform baseline can be reused, must be refreshed, or must be created.
+3. Identify volatile fields that must be refreshed before underwriting.
+4. Write:
+   - `scope-decomposition.json`
+   - `scope-decomposition.md`
+   - update `run-manifest.json` layer plan if it exists.
+5. Return compressed handoff only:
+   - decomposition artifact paths;
+   - asset action: reuse/refresh/create;
+   - platform action: reuse/refresh/create;
+   - product action: create_or_refresh;
+   - missing identifiers;
+   - blockers.
+
+## S1 prompt — Asset baseline research
+
+Goal:
+
+Create or refresh the reusable asset baseline for `[symbol]` on `[chain]` at `[token_address]`.
+
+Context:
+
+- Run artifact root: `[run_artifact_root]`.
+- Asset artifact directory: `[asset_artifact_dir]`, for example `research-library/assets/ethereum-usdc-a0b86991`.
+- Read `research-composition-methodology.md` and `asset-issuer-pillar-methodology.md`.
+- Asset scope:
   - chain_id: `[chain_id]`
   - chain: `[chain]`
   - symbol: `[symbol]`
   - token_address: `[token_address]`
   - intended_use: `[intended_use]`
-- Output directory prefix: `[token_artifact_dir]/research/`.
 
 Instructions:
 
-1. Collect evidence for on-chain admin/proxy/roles, issuer/backing/security, transfer/liquidity/oracle/governance.
+1. Collect asset-only evidence: issuer/control plane, on-chain admin/proxy/roles, backing/NAV/reserves, mint/burn/redeem, transfer restrictions, freeze/blacklist/pause, oracle/accounting implications intrinsic to the asset, audits/incidents.
 2. Write:
-   - `[token_artifact_dir]/scope.json`
-   - `[token_artifact_dir]/research/onchain-admin.md`
-   - `[token_artifact_dir]/research/issuer-backing-security.md`
-   - `[token_artifact_dir]/research/transfer-liquidity-oracle-governance.md`
-   - `[token_artifact_dir]/technical-report.md`
-3. Include source URLs, dates, confidence, and missing-data behavior.
-4. Do not write an investment recommendation.
+   - `[asset_artifact_dir]/scope.json`
+   - `[asset_artifact_dir]/asset-baseline.md`
+   - `[asset_artifact_dir]/asset-baseline.json`
+   - `[asset_artifact_dir]/pillars/issuer.md`
+   - `[asset_artifact_dir]/sources.md`
+   - `[asset_artifact_dir]/refresh.md`
+   - `[asset_artifact_dir]/verification.md`
+3. Include source URLs, dates, confidence, no-result proofs, gates, and refresh rules.
+4. Do not include platform-specific product conclusions, curator claims, vault parameters, PT maturity facts, or investment recommendations.
 5. Return only a compressed handoff:
    - artifact paths;
    - five strongest numeric facts;
-   - top risks;
+   - top asset-layer risks;
    - blockers;
+   - volatile fields;
    - validation status.
 
 Do not return raw contract source or raw API dumps to the parent.
 
-## S2 prompt — Asset-risk analyst report
+## S1P prompt — Platform baseline research
 
 Goal:
 
-Convert S1 evidence for `[symbol]` into an analyst-readable token risk report.
+Create or refresh the reusable platform baseline for `[platform_slug]`.
 
 Context:
 
 - Run artifact root: `[run_artifact_root]`.
-- Token artifact directory: `[token_artifact_dir]`.
-- Read `requirements-brief.md`.
-- Read these S1 artifacts:
-  - `[technical_report_path]`
-  - `[research_onchain_admin_path]`
-  - `[research_issuer_backing_security_path]`
-  - `[research_transfer_liquidity_oracle_governance_path]`
-- Output report: `[token_artifact_dir]/analyst-report.md`.
-- Output verification: `[token_artifact_dir]/verification.md`.
+- Platform artifact directory: `[platform_artifact_dir]`, for example `research-library/platforms/morpho-vaults`.
+- Read `research-composition-methodology.md` and `stage-contracts.md`.
+- Platform scope:
+  - platform family: `[platform_family]`
+  - mechanism: `[platform_mechanism]`
+  - chain(s): `[chains]`
 
 Instructions:
 
-1. Write a decision-useful token-level analyst report with plain-language sections:
-   - Executive view.
-   - What the token represents.
-   - Main risk implications.
-   - Backing and NAV quality.
-   - Liquidity and exit risk.
-   - Controls, governance, and legal restrictions.
-   - Pricing/oracle risk in plain language.
-   - What must be checked before live use.
-   - Evidence quality.
-   - Source map.
-   - Technical appendix pointer.
-2. Preserve source IDs and confidence notes.
-3. Do not compare against other tokens.
-4. Do not include code fences.
-5. Do not give a recommendation or suitability verdict.
-6. Return compressed handoff only:
-   - report path;
-   - executive view;
-   - key risk implications;
-   - missing-behavior blockers;
-   - numeric facts;
-   - verification result.
+1. Collect platform-only evidence: architecture, factories/registries/routers/adapters, governance/admin/guardian powers, curator/manager/allocator model, generic liquidation/redemption/maturity/oracle mechanics, incident history, and where product-specific parameters live.
+2. Write:
+   - `[platform_artifact_dir]/scope.json`
+   - `[platform_artifact_dir]/platform-baseline.md`
+   - `[platform_artifact_dir]/platform-baseline.json`
+   - `[platform_artifact_dir]/mechanics.md`
+   - `[platform_artifact_dir]/risk-map.md`
+   - `[platform_artifact_dir]/product-inspection-guide.md`
+   - `[platform_artifact_dir]/sources.md`
+   - `[platform_artifact_dir]/refresh.md`
+   - `[platform_artifact_dir]/verification.md`
+3. Do not conclude on a specific vault, market, maturity, collateral list, live cap, or liquidity snapshot.
+4. Return only a compressed handoff:
+   - artifact paths;
+   - top platform risks;
+   - product inspection points;
+   - blockers;
+   - validation status.
 
-## S3 prompt — PT market/economics analysis
+## S2 prompt — Product / combination delta research
 
 Goal:
 
-Identify and analyze the exact Pendle PT market for `[symbol]` maturity `[maturity_date]` on `[chain]`.
+Research the exact product instance `[product_scope]` by composing `[asset_baseline_path]` and `[platform_baseline_path]`, then adding only the product-specific delta.
 
 Context:
 
 - Run artifact root: `[run_artifact_root]`.
-- PT artifact directory: `[pt_artifact_dir]`, for example `pt-markets/ethereum-pt-sample-vault-token-2026-08-27-abc12345`.
-- Underlying token report: `[underlying_report_path]`.
-- Underlying technical report: `[underlying_technical_report_path]`.
+- Product artifact directory: `[product_artifact_dir]`, for example `research-library/products/morpho-vaults/ethereum-usdc-a0b86991/morpho-vault-usdc-abcdef12`.
+- Asset baseline: `[asset_baseline_path]`.
+- Platform baseline: `[platform_baseline_path]`.
+- Product identifiers:
+  - product type: `[product_type]`
+  - primary address: `[primary_address]`
+  - market/vault/PT/SY/pool/route/maturity: `[product_identifiers]`
+
+Instructions:
+
+1. Read the asset and platform baselines first.
+2. Collect only product-specific facts: exact addresses, controller/curator/allocator/manager, oracle, caps, fees, LLTV, collateral list, queues, maturity, settlement path, liquidity, address eligibility, and live parameters.
+3. Explain which inherited asset risks and platform risks become active in this product.
+4. Write:
+   - `[product_artifact_dir]/scope.json`
+   - `[product_artifact_dir]/product-delta.md`
+   - `[product_artifact_dir]/product-delta.json`
+   - `[product_artifact_dir]/live-parameters.json`
+   - `[product_artifact_dir]/sources.md`
+   - `[product_artifact_dir]/refresh.md`
+   - `[product_artifact_dir]/verification.md`
+5. Return compressed handoff only:
+   - artifact paths;
+   - inherited artifact paths;
+   - live parameters;
+   - active inherited risks;
+   - product-specific blockers;
+   - stale/volatile fields;
+   - validation status.
+
+## S2F prompt — Form/report generation
+
+Goal:
+
+Create `[requested_form]` from existing research artifacts without inventing new source facts.
+
+Context:
+
+- Run artifact root: `[run_artifact_root]`.
+- Form artifact directory: `[form_artifact_dir]`, for example `forms/gearbox-collateral-memo-usdc-morpho-2026-06-08`.
+- Asset baseline inputs: `[asset_baseline_paths]`.
+- Platform baseline inputs: `[platform_baseline_paths]`.
+- Product-delta inputs: `[product_delta_paths]`.
+- Requirements brief: `[requirements_brief_path]`.
+
+Instructions:
+
+1. Write `[form_artifact_dir]/composition-manifest.json` before the report.
+2. Write the requested report, usually `[form_artifact_dir]/analyst-report.md`.
+3. Preserve asset/platform/product separation in the report.
+4. Cite source research artifacts by path.
+5. If you discover a new source fact while writing, record it in `facts_that_must_be_written_back` and do not mark final verification pass until it is moved to the right research artifact.
+6. Write `[form_artifact_dir]/verification.md`.
+7. Return compressed handoff only:
+   - form path;
+   - composition manifest path;
+   - inherited research inputs;
+   - facts_that_must_be_written_back;
+   - blockers;
+   - verification result.
+
+## S3 prompt — PT market/economics product delta
+
+Goal:
+
+Identify and analyze the exact Pendle PT market for `[symbol]` maturity `[maturity_date]` on `[chain]` as a product-delta artifact.
+
+Context:
+
+- Run artifact root: `[run_artifact_root]`.
+- Product artifact directory: `[product_artifact_dir]`, for example `research-library/products/pendle-pt-markets/ethereum-usdc-a0b86991/pendle-pt-usdc-2026-08-27-abc12345`.
+- Underlying asset baseline: `[asset_baseline_path]`.
+- Pendle platform baseline: `[platform_baseline_path]`.
 - PT scope:
   - underlying symbol: `[symbol]`
   - underlying token address: `[token_address]`
@@ -114,19 +214,10 @@ Context:
 Instructions:
 
 1. Identify the exact Pendle market, PT, SY, YT, maturity, accounting asset, and output asset.
-2. Fetch or read current market snapshot evidence from approved/local sources.
-3. Calculate:
-   - gross ROI to accounting asset;
-   - simple APR;
-   - compound APY;
-   - break-even accounting-asset drawdown;
-   - liquidity snapshot.
-4. Write:
-   - `[pt_artifact_dir]/scope.json`
-   - `[pt_artifact_dir]/analyst-report.md`
-   - `[pt_artifact_dir]/technical-report.md`
-   - `[pt_artifact_dir]/verification.md`
-5. Separate inherited token risk from PT-specific risk.
+2. Fetch/read current market snapshot evidence from approved/local sources.
+3. Calculate gross ROI, simple APR, compound APY, break-even accounting-asset drawdown, and liquidity.
+4. Write the product-delta files required by S2.
+5. Separate inherited asset risk, inherited Pendle platform risk, and PT-market-specific risk.
 6. Return compressed handoff only:
    - artifact paths;
    - market/PT/SY/YT addresses;
@@ -147,45 +238,21 @@ Collect X/social evidence for `[scope_name]` covering points, yield, PT return, 
 Context:
 
 - Run artifact root: `[run_artifact_root]`.
-- Underlying report: `[underlying_report_path]`.
-- PT report, if applicable: `[pt_report_path]`.
+- Research artifact paths:
+  - `[asset_baseline_paths]`
+  - `[platform_baseline_paths]`
+  - `[product_delta_paths]`
 - Output: `x-research/x-research-[scope-slug].md`.
 - Use Hermes `x_search` first.
 - X access is read-only. Do not post, like, follow, DM, or perform account actions.
 
-Required query angles:
-
-- Exact ticker and market label.
-- Issuer/project variants.
-- Points/airdrop/program names.
-- STAC/STRC/yield terms.
-- PT implied APY / fixed yield / maturity.
-- Risk terms: depeg, redemption, freeze, blacklist, queue, liquidity, criticism, stress.
-- Date-bounded recent search.
-- Discovered key handles.
-
 Instructions:
 
-1. Write sections:
-   - Scope.
-   - Executive read.
-   - Query log.
-   - Distinct return models.
-   - Distinct risk narratives.
-   - Source index.
-   - Signal vs noise.
-   - Open threads.
-2. Each material claim must have handle, date/search-window date, and status URL/ID.
-3. If a material claim lacks full citation, mark it `citation_degraded` at the claim line.
-4. Separate social speculation from local/source-artifact facts.
-5. Return compressed handoff only:
-   - artifact path;
-   - return models;
-   - risk narratives;
-   - points mechanics;
-   - source count;
-   - degraded-citation count;
-   - validation status.
+1. Search exact ticker, product label, issuer/project variants, points/program names, yield terms, PT APY/maturity terms, and risk/stress terms.
+2. Write sections: Scope, Executive read, Query log, Distinct return models, Distinct risk narratives, Source index, Signal vs noise, Open threads.
+3. Each material claim must have handle, date/search-window date, and status URL/ID; otherwise mark `citation_degraded`.
+4. Separate social speculation from research-artifact facts.
+5. Return compressed handoff only: artifact path, return models, risk narratives, points mechanics, source count, degraded-citation count, validation status.
 
 ## S5 prompt — X/social synthesis
 
@@ -196,119 +263,67 @@ Synthesize all X/social artifacts into one cross-scope social expectations overl
 Context:
 
 - Run artifact root: `[run_artifact_root]`.
-- Input artifacts:
-  - `[x_artifact_1]`
-  - `[x_artifact_2]`
-  - `[x_artifact_3]`
-  - `[x_artifact_4]`
+- Input artifacts: `[x_artifact_paths]`.
 - Output: `x-research/index.md`.
 - Verification: `verification/final-x-research-points-yield-verification.md`.
 
 Instructions:
 
 1. Synthesize return models, not raw X posts.
-2. Separate:
-   - social estimates;
-   - local/source-artifact facts;
-   - degraded citations.
-3. Cover:
-   - points uncertainty;
-   - STAC/STRC/yield uncertainty;
-   - issuer/redemption/freeze/control risk;
-   - PT liquidity/maturity/accounting risk;
-   - crowded farming/leverage/unwind risk.
+2. Separate social estimates, local/research-artifact facts, and degraded citations.
+3. Cover points uncertainty, yield uncertainty, issuer/redemption/freeze/control risk by layer, PT liquidity/maturity/accounting risk, and crowded farming/leverage/unwind risk.
 4. Identify contradictions and likely disagreement sources.
-5. Validate that all scoped artifacts are represented and no extra token/maturity is introduced.
-6. Return compressed handoff:
-   - synthesis path;
-   - main return narratives;
-   - main risk narratives;
-   - contradictions;
-   - verification result.
+5. Validate that all scoped artifacts are represented and no extra asset/product/maturity is introduced.
+6. Return compressed handoff: synthesis path, main return narratives, main risk narratives, contradictions, verification result.
 
 ## S6 prompt — Quantitative underwriting
 
 Goal:
 
-Build a decision-grade investment analyst report from token reports, PT reports, and social synthesis.
+Build a decision-grade investment analysis from asset baselines, platform baselines, product deltas, form reports, and social synthesis.
 
 Context:
 
 - Run artifact root: `[run_artifact_root]`.
-- Token directories: `[token_artifact_dirs]`.
-- PT market directories: `[pt_artifact_dirs]`.
+- Asset baseline paths: `[asset_baseline_paths]`.
+- Platform baseline paths: `[platform_baseline_paths]`.
+- Product-delta paths: `[product_delta_paths]`.
+- Form report paths, if any: `[form_report_paths]`.
+- Social synthesis, if applicable: `[x_synthesis_path]`.
 - Methodology output: `investment-analysis/quantitative-underwriting-methodology.md`.
 - Report output: `investment-analysis/investment-analyst-report-points-pt-risk-return.md`.
 - Index output: `investment-analysis/index.md`.
-- Input token reports:
-  - `[token_report_paths]`
-- Input PT reports, if applicable:
-  - `[pt_report_paths]`
-- Input social synthesis, if applicable:
-  - `[x_synthesis_path]`
 - Position size: `[position_size]`.
 - Base hurdle: `[base_hurdle]`.
 - Opportunistic hurdle: `[opportunistic_hurdle]`.
 
 Instructions:
 
-1. Define or reuse methodology for:
-   - PT ROI/APR;
-   - points EV/ROI/APR;
-   - expected loss;
-   - price-stability certainty;
-   - risk-adjusted return;
-   - break-even points ROI.
-2. Compute gross and risk-adjusted numbers for every scoped strategy.
-3. Make expected-loss priors explicit. Do not hide uncertainty in adjectives.
-4. Produce decision statuses with assumption triggers.
-5. Include required live inputs before capital allocation.
-6. Return compressed handoff:
-   - report paths;
-   - top conclusions;
-   - risk-adjusted returns;
-   - points break-evens;
-   - live-input blockers;
-   - validation result.
+1. Define or reuse methodology for PT ROI/APR, points EV/ROI/APR, expected loss, price-stability certainty, and risk-adjusted return.
+2. Separate inherited asset risk, inherited platform risk, and product-specific risk in expected-loss assumptions.
+3. Use live product parameters only if they are fresh according to product `refresh.md`.
+4. Write the methodology, report, and index outputs.
+5. Return compressed handoff: output paths, risk-adjusted returns, expected-loss priors, points break-even, price-stability scores, decision statuses, live input blockers.
 
 ## S7 prompt — Final verification
 
 Goal:
 
-Verify the completed workflow artifact set.
+Verify the complete workflow run before the parent reports completion.
 
 Context:
 
 - Run artifact root: `[run_artifact_root]`.
-- Workflow manifest: `user/references/workflows/asset-investment-diligence/workflow.json`.
+- Manifest: `run-manifest.json`.
+- Output structure spec: `user/references/workflows/asset-investment-diligence/output-structure.md`.
 - Stage contracts: `user/references/workflows/asset-investment-diligence/stage-contracts.md`.
 
 Instructions:
 
-1. Verify all declared outputs exist for the run scope.
-2. Verify `output-structure.md` layout: token outputs under `tokens/<token-slug>/`, PT outputs under `pt-markets/<pt-scope-slug>/`, and run-level `run-manifest.json`, `index.md`, and final verification.
-3. Check cross-links resolve.
-4. Check required quantitative fields exist.
-5. Check citation-degraded social claims are marked.
-6. Run workspace validation from monorepo root:
-   - `python3 scripts/workspace_sync.py --check`
-   - `python3 scripts/workspace_policy_check.py --all`
-7. Write `verification/final-investment-analysis-verification.md`.
-8. Return final compressed handoff with these exact fields:
-   - `status`: `pass`, `review_required`, or `fail`;
-   - `run_artifact_root`;
-   - `artifact_paths`;
-   - `verification_path`;
-   - `final_verification`;
-   - `workflow_harness_report`;
-   - `commands_run` with command, cwd, exit code, and output marker;
-   - `blockers` using `[]` when none remain;
-   - `blocked_scopes` using `[]` when no scope is blocked;
-   - `review_required_scopes` using `[]` when no scope requires review;
-   - `dominant_blockers` using `[]` when none remain;
-   - `live_input_blockers` using `[]` when none remain;
-   - `preview_execute_relevance` explaining whether any result is safe to carry toward Preview / Execute;
-   - `not_in_scope` for excluded scopes such as absent PT markets;
-   - `null_fields` for required fields whose value is genuinely unknown.
-
-Do not handwave final verification. If a command was not run or a verification artifact is missing, return `review_required` or `fail` with a concrete blocker rather than a verbal assurance.
+1. Verify required files exist for each asset, platform, product, form, social, underwriting, and verification scope.
+2. Verify cross-links resolve.
+3. Verify no research-layer artifact makes unsupported allocation conclusions.
+4. Verify no form-layer artifact is the only location of a material source fact.
+5. Verify volatile product fields are marked and refreshed before underwriting.
+6. Write `verification/final-investment-analysis-verification.md`.
+7. Return compressed handoff: final verification path, pass/fail status, unresolved blockers, commands/checks run.

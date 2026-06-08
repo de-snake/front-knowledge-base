@@ -1,12 +1,13 @@
 # Parallelization and context-control plan
 
-This workflow is designed so the parent agent coordinates the run while subagents do bounded work. The goal is to avoid shared context bloat and preserve reasoning quality.
+This workflow is designed so the parent agent coordinates the run while subagents do bounded work. The goal is to avoid shared context bloat, preserve reasoning quality, and prevent reusable research from being mixed into one-off report forms.
 
 ## Parent-agent responsibilities
 
 The parent agent owns:
 
 - user scope and constraints;
+- scope decomposition into asset, platform, product delta, and form layers;
 - workflow stage graph;
 - subagent task spawning;
 - artifact path registry;
@@ -19,30 +20,41 @@ The parent agent should not own:
 - raw X results;
 - full contract source;
 - full research logs;
-- per-token evidence expansion unless auditing a disputed field.
+- per-asset/platform/product evidence expansion unless auditing a disputed field.
 
 ## Subagent responsibilities
 
 A subagent owns one bounded stage unit:
 
-- one token for S1;
-- one token report for S2;
-- one PT market for S3;
-- one token/PT social lane for S4.
+- one scope decomposition for S0;
+- one asset baseline for S1;
+- one platform baseline for S1P;
+- one product/combination delta for S2;
+- one form/report generation for S2F;
+- one PT market product delta for S3;
+- one asset/platform/product social lane for S4.
 
 Subagents write artifacts to disk. They return a compressed handoff, not full notes.
 
+Research subagents write reusable facts. Formatter subagents write presentation artifacts from those facts. Do not ask a formatter to secretly become the only source of a new material fact.
+
 ## Parallelizable stages
 
-### S1 — General asset mining
+### S0 — Scope decomposition
 
-Parallel unit: one token.
+Parallel unit: usually the whole request.
+
+Run once before research unless the user submits many unrelated opportunities. S0 is cheap and should happen before spawning asset/platform/product workers.
+
+### S1 — Asset baseline research
+
+Parallel unit: one asset.
 
 Safe to parallelize because:
 
-- token evidence collection is independent;
-- each token writes to a separate `tokens/<token-slug>/` directory with its own `research/`, technical report, analyst report, and verification files;
-- cross-token comparison is not allowed in S1.
+- asset evidence collection is independent;
+- each asset writes to a separate `research-library/assets/<asset-slug>/` directory;
+- platform/product conclusions are not allowed in S1.
 
 Suggested concurrency:
 
@@ -52,7 +64,7 @@ Suggested concurrency:
 Parent handoff into each subagent:
 
 - token address, chain, symbol, intended use;
-- methodology path;
+- `research-composition-methodology.md` and relevant pillar methodology path;
 - output directory;
 - required file list.
 
@@ -60,41 +72,80 @@ Parent return expected:
 
 - artifact paths;
 - five strongest numeric facts;
-- top risks;
+- top asset-layer risks;
 - blocking unknowns;
+- volatile fields;
 - validation status.
 
-### S2 — Asset-risk analyst reports
+### S1P — Platform baseline research
 
-Parallel unit: one token.
+Parallel unit: one platform mechanism.
 
 Safe to parallelize because:
 
-- each token report is a single-candidate memo;
-- no ranking or comparison is allowed;
-- all cross-candidate reasoning is deferred to S6.
+- platform mechanics are independent across protocols;
+- each platform writes to `research-library/platforms/<platform-slug>/`;
+- product-instance conclusions are not allowed in S1P.
 
 Dependency:
 
-- S1 for that token must be complete.
+- S0 must identify the platform slug and mechanism.
 
 Suggested concurrency:
 
 - 2–3 subagents.
 
-### S3 — PT market/economics analysis
+### S2 — Product / combination delta research
+
+Parallel unit: one product instance.
+
+Safe to parallelize because:
+
+- each product has its own vault/market/PT/pool/route identity;
+- each product writes to `research-library/products/<platform-slug>/<asset-slug>/<product-slug>/`;
+- each product delta inherits asset and platform artifacts by path instead of copying them.
+
+Dependencies:
+
+- Asset baseline exists or is explicitly marked stale/review-required.
+- Platform baseline exists or is explicitly marked stale/review-required.
+
+Suggested concurrency:
+
+- 2–3 subagents.
+
+### S2F — Form/report generation
+
+Parallel unit: one requested form.
+
+Safe to parallelize because:
+
+- each form writes to `forms/<form-slug>/`;
+- form output is presentation, not canonical research storage;
+- each form declares its inputs in `composition-manifest.json`.
+
+Dependency:
+
+- Relevant asset/platform/product artifacts exist.
+
+Important:
+
+- If the form writer discovers a new material source fact, it must be written back into the correct research artifact before final verification.
+
+### S3 — PT market/economics product delta
 
 Parallel unit: one PT market.
 
 Safe to parallelize because:
 
 - each PT market has independent Pendle market identity;
-- each PT report writes to separate report, technical-report, and verification files;
-- shared Pendle docs can be cited by all agents without parent context expansion.
+- each PT product delta writes to a separate product directory;
+- shared Pendle platform baseline is inherited by path without parent context expansion.
 
-Dependency:
+Dependencies:
 
-- S2 underlying token report should exist before PT analysis.
+- Underlying asset baseline exists.
+- Pendle platform baseline exists.
 
 Suggested concurrency:
 
@@ -102,7 +153,7 @@ Suggested concurrency:
 
 ### S4 — X/social mining
 
-Parallel unit: one token/PT social scope.
+Parallel unit: one asset/platform/product social scope.
 
 Safe to parallelize because:
 
@@ -110,10 +161,9 @@ Safe to parallelize because:
 - raw social results are the largest context-bloat risk, so they should stay inside subagents;
 - parent only needs return models, risk narratives, points mechanics, and artifact path.
 
-Dependency:
+Dependencies:
 
-- S2 report exists.
-- S3 PT report exists if social scope includes a PT.
+- Relevant research artifacts exist.
 
 Suggested concurrency:
 
@@ -143,18 +193,19 @@ Context-control rule:
 
 ### S6 — Quantitative underwriting
 
-Must run serial after token/PT/social inputs exist.
+Must run serial after asset/platform/product/social inputs exist.
 
 Reason:
 
 - expected-loss priors and points scenarios must be consistent across candidates;
+- inherited asset risk, inherited platform risk, and product-specific risk must be separated;
 - risk-adjusted returns are comparative;
 - decision statuses depend on common hurdle rates and position-size assumptions.
 
 Context-control rule:
 
-- use S2/S3/S5 summary fields and direct numeric fields;
-- only read full upstream reports when a number, risk prior, or source claim needs audit.
+- use S1/S1P/S2/S3/S5 summary fields and direct numeric fields;
+- only read full upstream artifacts when a number, risk prior, or source claim needs audit.
 
 ### S7 — Final verification
 
@@ -163,19 +214,23 @@ Must run serial after all writes.
 Reason:
 
 - verification observes the final artifact set;
-- workspace and cross-link checks require stable files.
+- workspace and cross-link checks require stable files;
+- it verifies no form-layer report is the only location of a material source fact.
 
 ## Delegation map
 
 Use delegated workers for:
 
-- S1 token mining.
-- S2 token report generation.
-- S3 PT market reports.
+- S1 asset baseline research.
+- S1P platform baseline research.
+- S2 product-delta research.
+- S2F form/report generation.
+- S3 PT product-delta research.
 - S4 X/social mining.
 
 Avoid delegated workers for:
 
+- S0 if the decomposition is small enough for the parent.
 - S5 synthesis if the parent already has the scope registry.
 - S6 quantitative underwriting, unless the subagent is given all final stage summaries and returns a draft that parent verifies.
 - S7 final verification.
@@ -185,7 +240,7 @@ Avoid delegated workers for:
 For subagent prompts:
 
 - Include scope and output contract.
-- Include only the immediate predecessor artifact paths.
+- Include only immediate predecessor artifact paths.
 - Include validation requirements.
 - Do not include full prior-stage content unless the subagent cannot read local files.
 
@@ -203,7 +258,7 @@ A valid handoff contains:
 - artifact path;
 - status;
 - key numbers;
-- top risks;
+- top risks by layer;
 - blockers;
 - validation result.
 
@@ -222,7 +277,7 @@ If a subagent crashes:
 2. Check whether partial artifacts were written.
 3. Recover manually or respawn the same bounded task.
 4. Run the stage validator before marking complete.
-5. Add a recovery note to the board or verification artifact.
+5. Add a recovery note to the verification artifact.
 
 If a stage blocks on missing data:
 

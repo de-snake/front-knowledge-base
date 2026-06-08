@@ -6,6 +6,8 @@ It turns “issuer risk” from a broad checklist into a concrete research proce
 
 Reference model: Steakhouse Financial’s collateral risk framework defines the Asset layer as three pillars — Issuer, Credit Risk, and Operational Risk. The Issuer pillar asks who has ultimate control over token issuance and redemption, and evaluates that issuer through Social, Decentralization, and Technical criteria. Steakhouse sets the Issuer pillar rating as the **best** of those three criteria, because one strong control channel can justify issuer confidence. In Gearbox research, still preserve the weaker criteria as explicit red flags; do not let the best-of rule hide a freeze, redemption, governance, or upgrade risk that affects a Credit Account user.
 
+This page is a research-layer method, not a report-format method. Apply `research-composition-methodology.md` first: decide whether the issuer work belongs to an asset baseline, a platform baseline, or a product-delta artifact. A form/report writer may summarize this issuer research later, but the source facts live here.
+
 ## Output of this page
 
 A good issuer-pillar research artifact answers four questions:
@@ -15,21 +17,28 @@ A good issuer-pillar research artifact answers four questions:
 3. **Which control path can still break the trade?** Preserve weak criteria as blockers or sizing constraints even when the pillar’s best criterion is strong.
 4. **What should the next analyst trust, verify, or refuse to assume?** Return source-backed facts, unresolved gates, and the issuer-control map, not a narrative-only score.
 
-The artifact should be named:
+For a pure asset baseline, the artifact should be named:
 
 ```text
-tokens/<token-slug>/issuer-pillar-research.md
-tokens/<token-slug>/raw/issuer-pillar-research.json
+research-library/assets/<asset-slug>/pillars/issuer.md
+research-library/assets/<asset-slug>/asset-baseline.json
 ```
 
-If the token is issued through a separate platform wrapper, produce both:
+If the issuer/control surface belongs to a reusable platform rather than the asset itself, put that part under the platform baseline:
 
 ```text
-tokens/<token-slug>/issuer-pillar-research.md
-platforms/<platform-slug>/issuer-pillar-research.md
+research-library/platforms/<platform-slug>/risk-map.md
+research-library/platforms/<platform-slug>/platform-baseline.json
 ```
 
-Example: a Securitize-issued RWA has an asset issuer and a platform issuer. Do not collapse them into one “issuer” unless the same party controls both economics and transfer/redemption plumbing.
+If the issuer/control surface appears only in one asset-on-platform instance, put that part in the product delta:
+
+```text
+research-library/products/<platform-slug>/<asset-slug>/<product-slug>/product-delta.md
+research-library/products/<platform-slug>/<asset-slug>/<product-slug>/product-delta.json
+```
+
+Example: a Securitize-issued RWA may have an asset issuer and a platform transfer agent. A USDC-on-Morpho review may inherit Circle issuer risk from the USDC asset baseline and Morpho curator/control mechanics from the Morpho platform baseline, then record only the specific vault/market controller and live parameters in the product delta. Do not collapse these layers unless the same party controls both economics and transfer/redemption plumbing.
 
 ## Research stance
 
