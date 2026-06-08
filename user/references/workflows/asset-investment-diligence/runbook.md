@@ -345,7 +345,6 @@ files = [
     workflow / 'subagent-prompts.md',
     workflow / 'runbook.md',
     workflow / 'output-structure.md',
-    workflow / 'examples/asset-risk-reports-mvp-current-run-map.md',
 ]
 missing = [str(p) for p in files if not p.exists()]
 assert not missing, missing

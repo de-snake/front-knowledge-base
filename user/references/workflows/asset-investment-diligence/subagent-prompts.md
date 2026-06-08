@@ -54,7 +54,7 @@ Context:
 
 - Run artifact root: `[run_artifact_root]`.
 - Asset artifact directory: `[asset_artifact_dir]`, for example `research-library/assets/ethereum-usdc-a0b86991`.
-- Read `research-composition-methodology.md` and `asset-issuer-pillar-methodology.md`.
+- Read `research-composition-methodology.md`.
 - Asset scope:
   - chain_id: `[chain_id]`
   - chain: `[chain]`

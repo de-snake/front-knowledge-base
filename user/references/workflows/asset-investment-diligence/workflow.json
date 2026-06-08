@@ -6,8 +6,7 @@
   "artifact_root": "[run_artifact_root]",
   "example_artifact_root": "dev/implementation/asset-risk-reports-mvp",
   "methodology_references": [
-    "user/references/workflows/asset-investment-diligence/research-composition-methodology.md",
-    "user/references/workflows/asset-investment-diligence/asset-issuer-pillar-methodology.md"
+    "user/references/workflows/asset-investment-diligence/research-composition-methodology.md"
   ],
   "artifact_layout": {
     "layout_reference": "user/references/workflows/asset-investment-diligence/output-structure.md",
@@ -71,7 +70,6 @@
       "subagent_context": [
         "asset scope: chain_id, token address, symbol, intended use",
         "research-composition-methodology.md",
-        "asset-issuer-pillar-methodology.md when issuer pillar is in scope",
         "output directory for the specific asset"
       ],
       "inputs": ["asset_scope", "scope_decomposition"],

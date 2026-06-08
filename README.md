@@ -57,7 +57,7 @@ Do not send the raw `run/` trees as the review surface. They are reproduction bu
 | --- | --- |
 | [Mechanics index](user/references/mechanics/) | Stable product mechanics: oracle/liquidity risk, token/curator risk, action palettes, Credit Account risk controls, and continuity logs. |
 | [Oracle analysis workflow](user/references/workflows/oracle-analysis/) | Executable oracle/feed analysis workflow and worker contracts. |
-| [Asset investment diligence workflow](user/references/workflows/asset-investment-diligence/) | Executable token / PT diligence workflow and worker contracts. |
+| [Asset investment diligence methodology](user/references/workflows/asset-investment-diligence/) | Current asset / platform / product research composition methodology. |
 
 ## Reproducible packages
 
