@@ -2,12 +2,12 @@
 
 Every asset-investment-diligence run returns one artifact folder. The parent agent should return this folder path plus a short summary, not a set of loose report paths.
 
-The storage model separates reusable research from form/report deliverables:
+The storage model separates reusable researcher output from formatter/report deliverables:
 
 - `research-library/assets/` — asset baselines that can be reused across platforms and reports.
 - `research-library/platforms/` — platform baselines that can be reused across assets and reports.
 - `research-library/products/` — lightweight product / combination deltas for one asset on one platform instance.
-- `forms/` — requested report forms composed from the research library.
+- `forms/` — formatter outputs composed from the research library.
 - `investment-analysis/` — underwriting and decision outputs, when a capital decision is in scope.
 
 ## Canonical run folder
@@ -77,7 +77,7 @@ The storage model separates reusable research from form/report deliverables:
     final-investment-analysis-verification.md
 ```
 
-Legacy `tokens/<token-slug>/` and `pt-markets/<pt-scope-slug>/` folders may be generated for compatibility, but they are form-layer projections. The canonical reusable storage is `research-library/assets/`, `research-library/platforms/`, and `research-library/products/`.
+Legacy `tokens/<token-slug>/` and `pt-markets/<pt-scope-slug>/` folders may be generated for compatibility, but they are formatter/report projections. The canonical reusable storage is `research-library/assets/`, `research-library/platforms/`, and `research-library/products/`.
 
 ## Slug rules
 
@@ -354,4 +354,4 @@ Parent-agent return handoffs must include these paths when the harness is run, e
 
 ## Compatibility rule
 
-If older tooling still expects `tokens/<token-slug>/analyst-report.md` or `pt-markets/<pt-scope-slug>/analyst-report.md`, generate those files as form-layer views and include their source composition manifest. Do not treat legacy report folders as the canonical research store.
+If older tooling still expects `tokens/<token-slug>/analyst-report.md` or `pt-markets/<pt-scope-slug>/analyst-report.md`, generate those files as formatter views and include their source composition manifest. Do not treat legacy report folders as the canonical research store.

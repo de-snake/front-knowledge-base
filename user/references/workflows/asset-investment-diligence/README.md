@@ -10,7 +10,7 @@ The workflow now treats research as composable evidence, not as one-off reports.
 
 It transforms a token / platform / product opportunity scope into reusable research artifacts and, only after that, into a decision-grade investment analyst report.
 
-The pipeline separates reusable research matter from form matter:
+The pipeline separates reusable researcher output from formatter output:
 
 1. Scope decomposition into asset baseline, platform baseline, product delta, and requested form.
 2. Reuse or refresh asset baseline research.
@@ -28,7 +28,7 @@ The pipeline separates reusable research matter from form matter:
 - `parallelization-and-context.md` — what the parent agent can parallelize, what must stay serial, and how to avoid context bloat.
 - `subagent-prompts.md` — paste-ready prompts for delegated workers.
 - `runbook.md` — execution order and validation sequence.
-- `output-structure.md` — canonical run folder layout with reusable research-library and form-layer subfolders.
+- `output-structure.md` — canonical run folder layout with reusable research-library and formatter-output subfolders.
 - `examples/asset-risk-reports-mvp-current-run-map.md` — maps the current asset-risk reports MVP artifacts to the workflow stages.
 
 ## Core execution rule
@@ -39,7 +39,7 @@ Use this pattern:
 
 - Parent owns the scope, stage graph, and final decision.
 - Research subagents own bounded asset, platform, or product-delta research tasks.
-- Formatter/report subagents consume research artifacts; they do not create unsourced facts in the form layer.
+- Formatter subagents consume research artifacts; they do not create unsourced facts while formatting.
 - Subagents write artifacts to disk and return only:
   - artifact path;
   - verdict;
@@ -66,7 +66,7 @@ A complete investment-decision run should end with:
 - one returned `<run_artifact_root>/` folder;
 - `run-manifest.json` and `index.md` at the run root;
 - reusable research under `research-library/assets/`, `research-library/platforms/`, and `research-library/products/`;
-- form-layer deliverables under `forms/` and `investment-analysis/`;
+- formatter deliverables under `forms/` and underwriting deliverables under `investment-analysis/`;
 - composition manifests for every generated form;
 - product-delta artifacts for each exact asset-on-platform or PT instance;
 - social evidence reports under `x-research/`, if points/social are in scope;

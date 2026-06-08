@@ -6,12 +6,12 @@ It exists because an analyst should not re-research USDC every time the question
 
 ## Core rule
 
-Separate **research matter** from **form matter**.
+Separate **researcher output** from **formatter output**.
 
-- **Research matter** is source-backed evidence, entity boundaries, facts, uncertainties, gates, and refresh rules.
-- **Form matter** is the presentation applied on top: analyst memo, investment decision page, comparison table, UI-readable summary, public report, or Snapshot-style field.
+- **Researcher output** is source-backed evidence, entity boundaries, facts, uncertainties, gates, and refresh rules.
+- **Formatter output** is the presentation applied on top: analyst memo, investment decision page, comparison table, UI-readable summary, public report, or Snapshot-style field.
 
-A researcher does not write the final “nice report” first. A researcher writes reusable evidence artifacts. A formatter/report writer consumes those artifacts and creates the requested form without changing the underlying facts.
+A researcher does not write the final “nice report” first. A researcher writes reusable evidence artifacts. A formatter consumes those artifacts and creates the requested form without changing the underlying facts.
 
 ## Three reusable research layers
 
@@ -44,7 +44,7 @@ Asset baseline research covers durable facts about the asset:
 - incidents and invariant failures;
 - asset-level gates that follow the asset everywhere.
 
-It must not include platform-specific claims such as “safe on Morpho” or “good PT APY”. Those belong to product deltas or form-layer underwriting.
+It must not include platform-specific claims such as “safe on Morpho” or “good PT APY”. Those belong to product deltas or formatter-level underwriting.
 
 ### Layer 2 — Platform baseline
 
@@ -94,9 +94,9 @@ Product delta research is intentionally lightweight compared with the baselines.
 
 The product delta should be the main thing re-run when the question changes from “USDC generally” to “USDC on Morpho vault X”.
 
-## Form layer
+## Formatter layer
 
-The form layer answers: **what shape should the research take for this user or decision?**
+The formatter layer answers: **what shape should the research take for this user or decision?**
 
 Examples:
 
@@ -108,7 +108,7 @@ Examples:
 - Snapshot/GIP field;
 - Telegram short answer.
 
-The form layer may rank, summarize, simplify, or translate the research, but it must cite the research artifacts it used. It must not create new source claims without writing them back into the relevant research layer.
+The formatter layer may rank, summarize, simplify, or translate the research, but it must cite the research artifacts it used. It must not create new source claims without writing them back into the relevant research layer.
 
 ## Canonical storage model
 
@@ -213,7 +213,7 @@ scope_decomposition:
     needed: true
     existing_artifact: null
     action: "create_or_refresh"
-  form_layer:
+  formatter_layer:
     requested_form: "Gearbox collateral analyst memo"
     action: "compose_after_research"
 ```
@@ -266,9 +266,9 @@ The product delta must answer:
 - what inherited asset/platform risks become relevant in this product;
 - what product-specific gates block Gearbox holding, liquidation, unwind, or underwriting.
 
-### Step 4 — Compose the requested form
+### Step 4 — Formatter composes the requested form
 
-Only after the three research layers exist, create the requested form.
+Only after the three research layers exist, the formatter creates the requested form.
 
 The form must include a composition manifest:
 
@@ -287,7 +287,7 @@ composition_manifest:
   facts_that_must_be_written_back: []
 ```
 
-If the report writer discovers a new source fact while formatting, it must be written into the correct research layer first, then the form regenerated or patched from that source.
+If the formatter discovers a new source fact while formatting, it must be written into the correct research layer first, then the form regenerated or patched from that source.
 
 ## Researcher / formatter separation
 
@@ -372,12 +372,12 @@ The PT product delta and any later PT report must not bury USDC issuer/freezing/
 
 Before a workflow run is accepted:
 
-- [ ] Scope decomposition identifies asset, platform, product delta, and form layer.
+- [ ] Scope decomposition identifies asset, platform, product delta, and formatter layer.
 - [ ] Existing asset baseline was reused or explicitly refreshed.
 - [ ] Existing platform baseline was reused or explicitly refreshed.
 - [ ] Product delta contains only instance-specific facts plus explicit inherited risks.
 - [ ] Formatter/report artifacts cite all research inputs.
-- [ ] No form-layer report is the only place where a material source fact exists.
+- [ ] No formatter output is the only place where a material source fact exists.
 - [ ] Stale volatile fields are marked and refreshed before underwriting.
 - [ ] Asset gates, platform gates, and product gates are not collapsed into one generic “risk” bucket.
 - [ ] Gearbox hold/liquidation/redemption implications state whether they come from the asset, platform, or product delta.

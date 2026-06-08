@@ -2,7 +2,7 @@
 
 This runbook tells an agent how to execute `workflow.json` without loading all evidence into the parent context.
 
-The workflow is compositional: research is stored as reusable asset, platform, and product-delta artifacts; requested reports are form-layer outputs generated from those artifacts.
+The workflow is compositional: research is stored as reusable asset, platform, and product-delta artifacts; requested reports are formatter outputs generated from those artifacts.
 
 ## 0. Start here
 
@@ -237,7 +237,7 @@ Required inputs:
 - all relevant asset baselines;
 - all relevant platform baselines;
 - all relevant product-delta artifacts;
-- form-layer analyst reports, if already generated;
+- formatter analyst reports, if already generated;
 - X synthesis, if social evidence is in scope;
 - position size;
 - base and opportunistic hurdle rates.

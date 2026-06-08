@@ -323,7 +323,7 @@ Instructions:
 1. Verify required files exist for each asset, platform, product, form, social, underwriting, and verification scope.
 2. Verify cross-links resolve.
 3. Verify no research-layer artifact makes unsupported allocation conclusions.
-4. Verify no form-layer artifact is the only location of a material source fact.
+4. Verify no formatter artifact is the only location of a material source fact.
 5. Verify volatile product fields are marked and refreshed before underwriting.
 6. Write `verification/final-investment-analysis-verification.md`.
 7. Return compressed handoff: final verification path, pass/fail status, unresolved blockers, commands/checks run.

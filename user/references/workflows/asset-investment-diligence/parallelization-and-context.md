@@ -7,7 +7,7 @@ This workflow is designed so the parent agent coordinates the run while subagent
 The parent agent owns:
 
 - user scope and constraints;
-- scope decomposition into asset, platform, product delta, and form layers;
+- scope decomposition into asset, platform, product delta, and formatter layers;
 - workflow stage graph;
 - subagent task spawning;
 - artifact path registry;
@@ -215,7 +215,7 @@ Reason:
 
 - verification observes the final artifact set;
 - workspace and cross-link checks require stable files;
-- it verifies no form-layer report is the only location of a material source fact.
+- it verifies no formatter report is the only location of a material source fact.
 
 ## Delegation map
 

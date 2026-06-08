@@ -1,7 +1,7 @@
 {
   "workflow_id": "asset-investment-diligence-v1.1",
   "version": "1.1.0",
-  "purpose": "Transform asset/platform/product opportunity scope into reusable research artifacts and requested form-layer reports while controlling parent context size through stage artifacts and subagent handoffs.",
+  "purpose": "Transform asset/platform/product opportunity scope into reusable research artifacts and requested formatter reports while controlling parent context size through stage artifacts and subagent handoffs.",
   "workflow_dir": "user/references/workflows/asset-investment-diligence",
   "artifact_root": "[run_artifact_root]",
   "example_artifact_root": "dev/implementation/asset-risk-reports-mvp",
@@ -53,7 +53,7 @@
       "inputs": ["user_question", "known_asset_platform_product_identifiers", "existing_research_library_optional"],
       "outputs": ["scope-decomposition.json", "scope-decomposition.md", "run-manifest.json"],
       "handoff_summary_fields": ["artifact_paths", "asset_actions", "platform_actions", "product_actions", "requested_forms", "missing_identifiers", "blockers"],
-      "validation": ["asset/platform/product/form layers identified", "reuse/refresh/create action selected for each baseline", "volatile fields named", "run-manifest initialized"]
+      "validation": ["asset/platform/product/formatter layers identified", "reuse/refresh/create action selected for each baseline", "volatile fields named", "run-manifest initialized"]
     },
     {
       "id": "S1_asset_baseline_research",
@@ -283,7 +283,7 @@
       "delegate_to_subagent": false,
       "inputs": ["all_outputs"],
       "outputs": ["verification/final-investment-analysis-verification.md"],
-      "validation": ["required files exist", "cross-links resolve", "numbers present when S6 in scope", "research-layer artifacts do not contain unsupported allocation conclusions", "form-layer artifacts are not sole source of material source facts", "workspace policy check passes", "no stale blocker unreported"]
+      "validation": ["required files exist", "cross-links resolve", "numbers present when S6 in scope", "research-layer artifacts do not contain unsupported allocation conclusions", "formatter artifacts are not sole source of material source facts", "workspace policy check passes", "no stale blocker unreported"]
     }
   ],
   "parallel_groups": [

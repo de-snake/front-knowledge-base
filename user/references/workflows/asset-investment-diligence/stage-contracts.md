@@ -8,7 +8,7 @@ Every stage artifact should support this summary envelope in the parent-agent re
 
 All stage output paths in this file are relative to the chosen run artifact root, for example `dev/implementation/<run-slug>/`. The reusable workflow itself lives at `user/references/workflows/asset-investment-diligence/`.
 
-Every run must follow `output-structure.md`: one returned `<run_artifact_root>/` folder, reusable research under `research-library/assets/`, `research-library/platforms/`, and `research-library/products/`, form-layer deliverables under `forms/`, and run-level `run-manifest.json`, `index.md`, and `verification/final-investment-analysis-verification.md`.
+Every run must follow `output-structure.md`: one returned `<run_artifact_root>/` folder, reusable research under `research-library/assets/`, `research-library/platforms/`, and `research-library/products/`, formatter deliverables under `forms/`, and run-level `run-manifest.json`, `index.md`, and `verification/final-investment-analysis-verification.md`.
 
 ```json
 {
@@ -51,14 +51,14 @@ Every opportunity is decomposed before research starts:
   "asset_layer": "research-library/assets/<asset-slug>",
   "platform_layer": "research-library/platforms/<platform-slug>",
   "product_delta_layer": "research-library/products/<platform-slug>/<asset-slug>/<product-slug>",
-  "form_layer": "forms/<form-slug>"
+  "formatter_layer": "forms/<form-slug>"
 }
 ```
 
 - The asset layer answers what the asset is by itself.
 - The platform layer answers what the platform does and where to inspect product-specific risk.
 - The product delta layer answers what changes for this exact asset-on-platform instance.
-- The form layer answers how the user wants the result presented.
+- The formatter layer answers how the user wants the result presented.
 
 Do not re-research asset/platform baselines when a fresh existing artifact can be reused.
 
@@ -261,7 +261,7 @@ Required report sections:
 
 Compression rule:
 
-- The report is a form-layer artifact.
+- The report is a formatter artifact.
 - It should not create new source facts; if it does, they must be written back into the correct research layer.
 - It should not compare products except where required by the requested form.
 - Cross-token ranking belongs to S6.
@@ -286,7 +286,7 @@ Output contract:
 - `<product_artifact_dir>/product-delta.json`.
 - `<product_artifact_dir>/live-parameters.json`.
 - `<product_artifact_dir>/verification.md`.
-- Optional form-layer `pt-markets/index.md` after all PTs finish.
+- Optional formatter `pt-markets/index.md` after all PTs finish.
 
 Required facts:
 
@@ -491,7 +491,7 @@ Required checks:
 - Required sections present.
 - Quantitative fields present.
 - No research-layer artifact gives unsupported allocation conclusions.
-- No form-layer artifact is the only location of a material source fact.
+- No formatter artifact is the only location of a material source fact.
 - Workspace validation passes or unrelated failures are isolated.
 
 Parent completion rule:
